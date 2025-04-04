@@ -1,16 +1,19 @@
-import { getServerSession } from "next-auth"
-import { redirect } from "next/navigation";
+"use client";
 
+import Navbar from '@/components/layout/navbar';
+import Container from '@/components/layout/container';
+import Home from '../home/page';
 
-export default async function Dashboard() {
-    const session = await getServerSession();
-    if(!session){
-        redirect('/');
-    }
-
+const Dashboard: React.FC = (dynamicComponent) => {
+ 
     return (
         <div>
-            <h1>Dashboard</h1>
+            <Navbar />
+            <Container customClass="min-height">
+                <Home  />
+            </Container>
         </div>
     )
 }
+
+export default Dashboard;
