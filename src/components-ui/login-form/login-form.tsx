@@ -1,22 +1,34 @@
 "use client";
 
-import { signIn } from "next-auth/react";
-import React from "react";
-
-
+import { getSession, signIn } from "next-auth/react";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
+
+    const [errorMessage, setErrorMessage] = useState("");
+    const router = useRouter();
+
     async function login(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault()
+        e.preventDefault();
+        setErrorMessage("");
+
         const formData = new FormData(e.currentTarget);
-        const data = {
+        const auxdata = {
             usuario: formData.get("usuario"),
             password: formData.get("password"),
         };
-        signIn("credentials", {
-            ...data,
+        const result = await signIn("credentials", {
+            ...auxdata,
             callbackUrl: "/dashboard",
+            redirect: false,
         });
+
+        if (result?.error) {
+            setErrorMessage("OOps, algo deu errado!");
+        } else if (result?.url) {
+            router.push(result.url);
+        }
     }
 
     return (
@@ -42,6 +54,8 @@ export default function LoginForm() {
                     className=" input input-primary w-full"
                 />
                 <button className="btn btn-light w-full"> Login</button>
+
+                {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
             </form>
 
         </div>
