@@ -14,8 +14,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Direct Purchase BRASIL",
-  description: "Direct Purchase BRASIL",
+  title: "Direct BR",
+  description: "Direct BR",
+  icons: {
+    icon: "/icon_t.ico",
+  }
 };
 
 export default function RootLayout({

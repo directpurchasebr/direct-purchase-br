@@ -34,7 +34,7 @@ export default function LoginForm() {
     return (
         <div>
             <div>
-                <img src="logo.svg" alt="LogoDirect" className="w-56 h-56 mb-2 mx-auto" />
+                <img src="logo_t.png" alt="LogoDirect" className="w-56 h-56 mb-2 mx-auto" />
             </div>
 
             <form

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-
-import { Produto } from "@apimodel/produto/intefaces";
-import { produtoService } from "@app/api/server/produto-service";
+import { Produto } from "@apimodel/payload/intefaces";
+import { produtoService } from "@services/core/produto-service";
 
 export async function GET(request: NextRequest) {
     const produtos: Array<Produto> = await produtoService.listar();

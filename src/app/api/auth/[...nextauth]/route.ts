@@ -1,9 +1,9 @@
-import NextAuth from "next-auth"
+import NextAuth, { User } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
-import { routes } from "@lib/routes";
 import redis from "@/lib/redis";
 import { v4 as uuidv4 } from "uuid";
-import api from "@app/services/api-axios";
+import fetcherUtils from "@utils/fetcher-utils";
+import { apiRoutes } from "@lib/api-routers";
 
 const authOptions = {
     pages: {
@@ -34,22 +34,22 @@ const authOptions = {
             },
             async authorize(credentials, req) {
                 try {
-                    const servico = routes.auth.login;
-                    const { data } = await api.post(servico, {
+                    const usuer = await fetcherUtils<User>(apiRoutes.auth.login, 'POST', {
                         usuario: credentials?.usuario,
                         senha: credentials?.password
                     });
 
-                    if (data && data.accessToken) {
+                    if (usuer && usuer.accessToken) {
                         const sessionId = uuidv4();
-                        await redis.set(sessionId, JSON.stringify(data));
-                        data.sessionId = sessionId;
+                        await redis.set(sessionId, JSON.stringify(usuer));
+                        usuer.sessionId = sessionId;
 
                         return {
-                            ...data,
-                            sessionId
+                            ...usuer,
+                            sessionId: sessionId
                         };
                     }
+
                     return null;
                 } catch (error) {
                     console.error('Erro na autenticação:', error);

@@ -1,20 +1,23 @@
+'use client';
+
 import React from 'react'
-import LinkButton from '@/components-ui/layout/link-button'
+import LinkButton from '@components/layout/link-button'
 import { Usuario } from '@apimodel/auth/interfaces';
 
-interface PageProps {
+interface Props {
     params: {
         user: Usuario;
     };
 }
 
-export default function Home({ params }: PageProps) {
-    const { user } = params;
-
+export default function Home({ params }: Props) {
+    const { user } = params; 
+    localStorage.setItem('accessToken', user.accessToken);
+    
     return (
         <section className="w-full flex flex-col items-center justify-center p-16">
             <h1 className="text-4xl mb-2">
-                Bem-vindo, 
+                Bem-vindo,
                 <span className="text-yellow-400 px-1 bg-gray-900">
                     {user.nome}
                 </span>

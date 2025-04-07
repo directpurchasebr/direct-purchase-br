@@ -8,7 +8,7 @@ export default function Navbar() {
         <div className="flex justify-between bg-gray-900 p-4">
             <Container>
                 <Link href="/">
-                    <img src="logo.svg" alt="LogoDirect" className="w-36 h-36" />
+                    <img src="logo_img.png" alt="LogoDirect" className="w-14 h-14" />
                 </Link>
                 <ul className="flex list-none items-center">
                     <li className="mr-4">

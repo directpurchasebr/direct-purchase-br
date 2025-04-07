@@ -1,16 +1,13 @@
-//import { useEffect, useState } from "react";
-import Container from "@/components-ui/layout/container";
-import Navbar from "@/components-ui/layout/navbar";
-import TablePedido from "@/components-ui/registry/table-pedido";
-import EditableTable from "@/components-ui/registry/editable-table";
-import { produtoService } from "@app/api/server/produto-service";
+import Container from "@components/layout/container";
+import Navbar from "@components/layout/navbar";
+import TabelaPedidos from "@components/tabela-pedido/tabela-pedido";
 
 export default async function Pedido() {
     return (
         <div>
             <Navbar />
             <Container customClass="min-height">
-                <EditableTable />
+                <TabelaPedidos />
             </Container>
         </div>
     )

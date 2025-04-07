@@ -30,14 +30,14 @@
       "@apimodel/*": [
         "./src/api-model/*"
       ],
-      "@/componentsui/*": [
+      "@componentsui/*": [
         "components-ui/*"
       ],
-      "@/components/*": [
-        "components/*"
+      "@components/*": [
+        "./src/components/*"
       ],
       "@services/*": [
-        "services/*"
+        "./src/services/*"
       ],
       "@lib/*": [
         "./src/lib/*"

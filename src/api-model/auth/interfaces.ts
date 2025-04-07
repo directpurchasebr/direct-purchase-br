@@ -1,6 +1,8 @@
 export interface Usuario {
-    accessToken: string;
     nome: string;
+    email: string;
+    accessToken: string;
+    login: string;
     roles: string[];
     sessionId?: string;
 }

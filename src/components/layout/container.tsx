@@ -8,7 +8,7 @@ export default function Container(props: any) {
         : '';
 
   return (
-    <div className={`w-[1200px] flex justify-between mx-auto flex-wrap ${customClass}`}>
+    <div className={`w-full flex justify-between mx-auto flex-wrap ${customClass}`}>
       {props.children}
     </div>
   );

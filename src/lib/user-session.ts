@@ -1,4 +1,3 @@
-import { headers } from "next/headers";
 import redis from "@/lib/redis";
 import { getServerSession, Session } from "next-auth";
 import { authOptions } from "@app/api/auth/[...nextauth]/route";
