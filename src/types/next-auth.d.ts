@@ -1,4 +1,4 @@
-import { Usuario } from "@apimodel/auth/interfaces";
+import { UsuarioLogado } from "@apimodel/auth/interfaces";
 import NextAuth from "next-auth";
 
 declare module "next-auth" {
@@ -6,7 +6,7 @@ declare module "next-auth" {
     sessionId?: string;
   }
 
-  interface User extends Usuario {
+  interface User extends UsuarioLogado {
     sessionId?: string;
   }
 }

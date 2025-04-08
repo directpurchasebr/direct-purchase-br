@@ -2,9 +2,10 @@
 
 import { useState } from 'react';
 import LinhaPedido from './linha-pedido';
-import { Button } from "@/src/components/form/button";
-import CompradorSelector from './comprador-selector';
+import { Button } from "@components/views/tabela-pedido/button-tabela-pedido";
+import CompradorSelector from '../../collections/comprador-selector';
 import { useLinhasPedido } from './active-linha-pedido';
+import { Plus } from '@phosphor-icons/react';
 
 export default function TabelaPedidos() {
     const [clienteSelecionado, setClienteSelecionado] = useState<string>('');
@@ -25,7 +26,7 @@ export default function TabelaPedidos() {
             <table className="w-full table-fixed border border-gray-400 border-collapse">
                 <thead className="bg-blue-100 font-bold text-gray-700">
                     <tr>
-                        <th className="border border-gray-400 px-1 py-0.5 w-[100px]">Fornecedor</th>
+                        <th className="border border-gray-400 px-1 py-0.5 w-[120px]">Fornecedor</th>
                         <th className="border border-gray-400 px-1 py-0.5 w-[60px]">Código</th>
                         <th className="border border-gray-400 px-1 py-0.5 w-[300px]">Produto</th>
                         <th className="border border-gray-400 px-1 py-0.5 w-[60px]">Qtd</th>
@@ -48,6 +49,7 @@ export default function TabelaPedidos() {
 
             <div className="mt-4">
                 <Button onClick={addLinha} className="bg-blue-500 text-white p-2 rounded">
+                    <Plus size={16} weight="bold" />
                     Adicionar Item
                 </Button>
             </div>

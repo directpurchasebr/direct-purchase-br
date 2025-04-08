@@ -1,15 +1,21 @@
 export const apiRoutes = {
+    auth: {
+        login: "/auth/login",
+    },
     produtos: {
-        produtos: "/api/produto/listar",
-        search: (descricao: string) => `/api/produto/buscar/${descricao}`,
+        produtos: "/produto/listar",
+        search: (descricao: string) => `/produto/buscar/${descricao}`,
     },
     fornecedor: {
-        fornecedores: "/api/fornecedor/listar",
+        fornecedores: "/fornecedor/listar",
     },
     comprador: {
-        compradores: "/api/comprador/listar",
+        compradores: "/comprador/listar",
     },
-    auth: {
-        login: "/api/auth/login",
+    usuario: {
+        get: "/usuario/get",
+    },
+    perfil: {
+        listar: "/perfil/listar",
     },
 };

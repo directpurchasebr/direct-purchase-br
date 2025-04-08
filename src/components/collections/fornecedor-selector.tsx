@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { fornecedorIntService } from '@services/internal/fornecedor-int-service';
+import { internalService } from '@services/internal-service';
+import { uiStyles } from '@lib/ui-styles';
 import { Fornecedor } from '@apimodel/payload/intefaces';
 
 interface Props {
@@ -14,11 +15,7 @@ export default function FornecedorSelector({ value, onChange, initText }: Props)
     const [fornecedores, setFornecedores] = useState<Array<Fornecedor>>([]);
 
     useEffect(() => {
-        fornecedorIntService.fornecedores().then((res) => {
-            if (res) {
-                setFornecedores(res);
-            }
-        });
+        internalService.fornecedor.listar().then((res) => res && setFornecedores(res));
     }, []);
 
     const focusInputInCell = (cell: HTMLTableCellElement | null) => {
@@ -64,13 +61,13 @@ export default function FornecedorSelector({ value, onChange, initText }: Props)
     return (
         <div className="flex items-center gap-2 w-full">
             <select
-                className="w-full border border-gray-300 p-1 text-sm truncate focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className={uiStyles.collections.selectCustomTable}
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
-                onKeyDown={handleArrowNavigation}
-            >
+                onKeyDown={handleArrowNavigation}>
+
                 <option value="" disabled>{initText}</option>
-                {fornecedores.map((fornecedor) => (
+                {fornecedores?.map((fornecedor) => (
                     <option key={fornecedor.fornecedorId} value={fornecedor.nome}>
                         {fornecedor.nome}
                     </option>

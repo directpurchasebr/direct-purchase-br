@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { fornecedorIntService } from '@services/internal/fornecedor-int-service';
+import { internalService } from '@services/internal-service';
+import { uiStyles } from '@lib/ui-styles';
 import { Comprador } from '@apimodel/payload/intefaces';
-import { compradorIntService } from '@services/internal/comprador-int-service';
 
 interface Props {
     value: string;
@@ -14,7 +14,7 @@ export default function CompradorSelector({ value, onChange }: Props) {
     const [comprador, setComprador] = useState<Array<Comprador>>([]);
 
     useEffect(() => {
-        compradorIntService.compradores().then((res) => {
+        internalService.comprador.listar().then((res) => {
             if (res) {
                 setComprador(res);
             }
@@ -22,13 +22,13 @@ export default function CompradorSelector({ value, onChange }: Props) {
     }, []);
 
     return (
-        <div>
+        <div className="w-full">
             <select
-                className="flex-1 border border-gray-300 p-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className={uiStyles.forms.select}
                 value={value}
                 onChange={(e) => onChange(e.target.value)}>
                 <option value="">Selecione um cliente</option>
-                {comprador.map((comprador) => (
+                {comprador?.map((comprador) => (
                     <option key={comprador.compradorId} value={comprador.nome}>
                         {comprador.nome}
                     </option>

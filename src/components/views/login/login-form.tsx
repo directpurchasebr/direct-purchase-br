@@ -1,13 +1,19 @@
 "use client";
 
-import { getSession, signIn } from "next-auth/react";
-import React, { useState } from "react";
+import { signIn, useSession } from "next-auth/react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
-
     const [errorMessage, setErrorMessage] = useState("");
+    const { data: session, status } = useSession();
     const router = useRouter();
+
+    useEffect(() => {
+        if (status === 'authenticated') {
+            router.push('/');
+        }
+    }, [status, router]);
 
     async function login(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -32,32 +38,30 @@ export default function LoginForm() {
     }
 
     return (
-        <div>
-            <div>
-                <img src="logo_t.png" alt="LogoDirect" className="w-56 h-56 mb-2 mx-auto" />
-            </div>
+        <div className="flex flex-col items-center" style={{ marginLeft: '425px' }}>
+            <img src="/logo_t.png" alt="LogoDirect" className="w-56 h-56 mb-2" />
 
-            <form
-                onSubmit={login}
-                className="bg-white p-12 rounded-lg w-96 max-w-full flex justify-center items-center flex-col gap-2">
-                <h2 className="font-bold text-lg xl mb-3">Faça seu Login</h2>
+            <form onSubmit={login}
+                className="bg-white p-10 rounded-lg w-96 max-w-full flex flex-col gap-4 shadow-md">
+                <h2 className="font-bold text-lg text-center">Faça seu Login</h2>
                 <input
                     name="usuario"
                     type="text"
-                    placeholder="Usuario"
-                    className=" input input-primary w-full"
+                    placeholder="Usuário"
+                    className="input input-primary w-full"
                 />
                 <input
                     name="password"
                     type="password"
                     placeholder="Senha"
-                    className=" input input-primary w-full"
+                    className="input input-primary w-full"
                 />
-                <button className="btn btn-light w-full"> Login</button>
+                <button type="submit" className="btn btn-light w-full">
+                    Login
+                </button>
 
-                {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+                {errorMessage && <p className="text-red-500 text-sm">{errorMessage}</p>}
             </form>
-
         </div>
     );
 }

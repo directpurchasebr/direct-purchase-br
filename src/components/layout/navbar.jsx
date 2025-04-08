@@ -1,41 +1,42 @@
-import Container from "./container";
+'use client';
+
 import Link from 'next/link';
-import { Settings } from 'lucide-react';
+import { useSession, signOut } from "next-auth/react";
+import Container from "./container";
+import ConfigTrigger from './config-trigger';
 
 export default function Navbar() {
 
+    const { data: session } = useSession();
     return (
-        <div className="flex justify-between bg-gray-900 p-4">
-            <Container>
-                <Link href="/">
-                    <img src="logo_img.png" alt="LogoDirect" className="w-14 h-14" />
-                </Link>
-                <ul className="flex list-none items-center">
-                    <li className="mr-4">
-                        <Link href="/dashboard" className="text-white hover:text-yellow-400">Home</Link>
-                    </li>
-                    <li className="mr-4">
-                        <Link href="/pedidos" className="text-white hover:text-yellow-400">Pedidos</Link>
-                    </li>
-                    <li className="mr-4">
-                        <Link href="/fornecedores" className="text-white hover:text-yellow-400">Fornecedores</Link>
-                    </li>
-                    <li className="mr-4">
-                        <Link href="/produtos" className="text-white hover:text-yellow-400">Produtos</Link>
-                    </li>
-                    <li className="mr-4">
-                        <Link href="/contact" className="text-white hover:text-yellow-400">Contato</Link>
-                    </li>
-                    <li className="mr-4 flex items-center relative group">
-                        <Link href="/usuario" className="text-white hover:text-yellow-400 flex items-center">
-                            <Settings className="w-6 h-6" />
-                            <span className="absolute left-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gray-800 text-white px-2 py-1 rounded">
-                                Configuração
-                            </span>
-                        </Link>
-                    </li>
-                </ul>
-            </Container>
-        </div>
-    )
+        session ? (
+            <nav className="bg-white/80 backdrop-blur-md shadow-md sticky top-0 z-50" >
+                <Container customClass="items-center">
+                    <Link href="/dashboard">
+                        <img src="logo_img.png" alt="LogoDirect" className="w-14 h-14 hover:scale-105 transition-transform" />
+                    </Link>
+
+                    <ul className="flex gap-6 items-center text-gray-700 font-medium">
+                        <li>
+                            <Link href="/dashboard" className="hover:text-yellow-500 transition-colors">Home</Link>
+                        </li>
+                        <li>
+                            <Link href="/pedidos" className="hover:text-yellow-500 transition-colors">Pedidos</Link>
+                        </li>
+                        <li>
+                            <Link href="/fornecedores" className="hover:text-yellow-500 transition-colors">Fornecedores</Link>
+                        </li>
+                        <li>
+                            <Link href="/produtos" className="hover:text-yellow-500 transition-colors">Produtos</Link>
+                        </li>
+                        <li>
+                            <Link href="/contact" className="hover:text-yellow-500 transition-colors">Contato</Link>
+                        </li>
+
+                        <ConfigTrigger />
+                    </ul>
+                </Container>
+            </nav>
+        ) : (<div></div>)
+    );
 }

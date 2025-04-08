@@ -1,12 +1,18 @@
 export const internalRoutes = {
-  produtos: {
-    produtos: "/api/produto/listar",
+  produto: {
+    listar: "/api/produto/listar",
     buscar: (descricao: string) => `/api/produto/buscar/${descricao}`,
   },
   fornecedor: {
-    fornecedores: "/api/fornecedor/listar",
+    listar: "/api/fornecedor/listar",
   },
   comprador: {
-    compradores: "/api/comprador/listar",
+    listar: "/api/comprador/listar",
+  },
+  usuario: {
+    get: "/api/usuario/get",
+  },
+  perfil: {
+    listar: "/api/perfil/listar",
   },
 };

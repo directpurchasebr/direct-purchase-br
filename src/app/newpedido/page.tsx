@@ -1,14 +1,11 @@
 import Container from "@components/layout/container";
 import Navbar from "@components/layout/navbar";
-import TabelaPedidos from "@components/tabela-pedido/tabela-pedido";
+import TabelaPedidos from "@components/views/tabela-pedido/tabela-pedido";
 
-export default async function Pedido() {
+export default async function NovoPedido() {
     return (
         <div>
-            <Navbar />
-            <Container customClass="min-height">
-                <TabelaPedidos />
-            </Container>
+            <TabelaPedidos />
         </div>
     )
 }

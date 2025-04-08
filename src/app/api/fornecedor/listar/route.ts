@@ -1,8 +1,8 @@
-import { Fornecedor } from "@apimodel/payload/intefaces";
-import { fornecedorService } from "@services/core/fornecedor-service";
 import { NextRequest, NextResponse } from "next/server";
+import { coreService } from "@services/core-service";
+import { Fornecedor } from "@apimodel/payload/intefaces";
 
 export async function GET(request: NextRequest) {
-    const fornecedores: Array<Fornecedor> = await fornecedorService.listar();
+    const fornecedores: Array<Fornecedor> = await coreService.fornecedor.listar();
     return NextResponse.json(fornecedores);
 }

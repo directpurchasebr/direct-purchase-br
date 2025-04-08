@@ -1,3 +1,21 @@
+export interface Usuario {
+    nome: string;
+    email: string;
+    login: string;
+    indEstoque: boolean;
+    dataNascimento: string;
+    perfil: Perfil;
+    fornecedores: Array<Fornecedor>;
+    compradores: Array<Comprador>;
+    senha?: string;
+}
+
+export interface Perfil {
+    perfilId: number;
+    descricao: string;
+}
+
+
 export interface Produto {
     codigo: string;
     descricao: string;

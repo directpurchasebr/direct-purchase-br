@@ -4,14 +4,15 @@ import redis from "@/lib/redis";
 import { v4 as uuidv4 } from "uuid";
 import fetcherUtils from "@utils/fetcher-utils";
 import { apiRoutes } from "@lib/api-routers";
+import { SessionStrategy } from 'next-auth';
 
 const authOptions = {
     pages: {
-        signIn: "/",
-        signOut: "/",
-        error: "/",
+        signIn: "/login",
+        signOut: "/login",
+        error: "/login",
     },
-    session: { strategy: "jwt" },
+    session: { strategy: 'jwt' as SessionStrategy, },
     callbacks: {
         // @ts-ignore
         async jwt({ token, user }) {

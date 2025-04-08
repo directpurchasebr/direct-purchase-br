@@ -1,7 +1,8 @@
 'use client';
 
-import { produtoIntService } from "@services/internal/produto-int-service";
 import { useState, useRef, useEffect } from "react";
+import { internalService } from "@services/internal-service";
+import { Produto } from "@apimodel/payload/intefaces";
 
 interface Props {
     value: string;
@@ -12,7 +13,7 @@ interface Props {
 
 export default function InputSearchProduto({ value, onSelect, className, classNameInput }: Props) {
 
-    const [resultados, setResultados] = useState<any[]>([]);
+    const [resultados, setResultados] = useState<Produto[]>([]);
     const [showDropdown, setShowDropdown] = useState(false);
     const [highlightIndex, setHighlightIndex] = useState(0);
 
@@ -36,7 +37,7 @@ export default function InputSearchProduto({ value, onSelect, className, classNa
                 return;
             }
 
-            produtoIntService.buscar(value).then((res) => {
+            internalService.produto.buscar(value).then((res) => {
                 if (res) {
                     setResultados(res);
                     setHighlightIndex(0);

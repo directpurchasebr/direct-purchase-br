@@ -2,10 +2,7 @@ import Link from 'next/link';
 
 export default function LinkButton(props: any) {
     return (
-        <Link 
-            className="bg-gray-900 text-white px-4 py-2 no-underline transition duration-500 hover:text-yellow-400" 
-            href={props.to}
-        >
+        <Link href={props.to} className="inline-block bg-yellow-400 text-gray-900 font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-yellow-500 transition duration-300">
             {props.text}
         </Link>
     );

@@ -1,13 +1,8 @@
 import PedidosLinha from './pedido-linha';
 import InputSearchProduto from './busca-produto-input';
-import FornecedorSelector from './fornecedor-selector';
+import FornecedorSelector from '../../collections/fornecedor-selector';
 import { LinhaTabela } from '@/types/linha-table';
-import {
-    classNameDefault,
-    classNameInputDefault,
-    classNameProduto,
-    classNameFornecedor
-} from './estilos';
+import { uiStyles } from '@lib/ui-styles';
 
 type Props = {
     linha: LinhaTabela;
@@ -24,7 +19,7 @@ export default function LinhaPedido({ linha, onChange, onChangeMulti }: Props) {
 
     return (
         <tr>
-            <td className={classNameFornecedor}>
+            <td className={uiStyles.tabelaPedido.classNameFornecedor}>
                 <FornecedorSelector
                     value={linha.fornecedor}
                     onChange={(e: any) => onChange(linha.id, 'fornecedor', e.target.value)}
@@ -38,16 +33,16 @@ export default function LinhaPedido({ linha, onChange, onChangeMulti }: Props) {
                     field: linha.codigo,
                     editavel: false,
                     event: (e: any) => onChange(linha.id, 'codigo', e.target.value),
-                    className: classNameDefault,
-                    classNameInput: classNameInputDefault,
+                    className: uiStyles.tabelaPedido.classNameDefault,
+                    classNameInput: uiStyles.tabelaPedido.classNameInputDefault,
                 }}
             />
 
-            <td className={classNameProduto}>
+            <td className={uiStyles.tabelaPedido.classNameProduto}>
                 <InputSearchProduto
                     value={linha.produto}
                     className="w-full"
-                    classNameInput={classNameInputDefault}
+                    classNameInput={uiStyles.tabelaPedido.classNameInputDefault}
                     onSelect={(produtoSelecionado: any) => {
                         onChangeMulti(linha.id, {
                             fornecedor: produtoSelecionado.fornecedor?.nome ?? '',
@@ -71,8 +66,8 @@ export default function LinhaPedido({ linha, onChange, onChangeMulti }: Props) {
                         onChange(linha.id, 'quantidade', novaQtd);
                         onChange(linha.id, 'precoTotal', novaQtd * linha.preco);
                     },
-                    className: classNameDefault,
-                    classNameInput: classNameInputDefault,
+                    className: uiStyles.tabelaPedido.classNameDefault,
+                    classNameInput: uiStyles.tabelaPedido.classNameInputDefault,
                 }}
             />
 
@@ -82,8 +77,8 @@ export default function LinhaPedido({ linha, onChange, onChangeMulti }: Props) {
                     field: linha.unidade,
                     editavel: false,
                     event: (e: any) => onChange(linha.id, 'unidade', e.target.value),
-                    className: classNameDefault,
-                    classNameInput: classNameInputDefault,
+                    className: uiStyles.tabelaPedido.classNameDefault,
+                    classNameInput: uiStyles.tabelaPedido.classNameInputDefault,
                 }}
             />
 
@@ -93,8 +88,8 @@ export default function LinhaPedido({ linha, onChange, onChangeMulti }: Props) {
                     field: formatarMoeda(linha.preco),
                     editavel: true,
                     event: (e: any) => onChange(linha.id, 'preco', Number(e.target.value)),
-                    className: classNameDefault,
-                    classNameInput: classNameInputDefault,
+                    className: uiStyles.tabelaPedido.classNameDefault,
+                    classNameInput: uiStyles.tabelaPedido.classNameInputDefault,
                 }}
             />
 
@@ -104,8 +99,8 @@ export default function LinhaPedido({ linha, onChange, onChangeMulti }: Props) {
                     field: formatarMoeda(linha.precoTotal),
                     editavel: false,
                     event: (e: any) => onChange(linha.id, 'precoTotal', Number(e.target.value)),
-                    className: classNameDefault,
-                    classNameInput: classNameInputDefault,
+                    className: uiStyles.tabelaPedido.classNameDefault,
+                    classNameInput: uiStyles.tabelaPedido.classNameInputDefault,
                 }}
             />
         </tr>

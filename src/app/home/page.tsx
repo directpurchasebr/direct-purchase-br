@@ -1,32 +1,33 @@
 'use client';
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import LinkButton from '@components/layout/link-button'
-import { Usuario } from '@apimodel/auth/interfaces';
+import { UsuarioLogado } from '@apimodel/auth/interfaces';
 
 interface Props {
     params: {
-        user: Usuario;
+        user: UsuarioLogado;
     };
 }
 
-export default function Home({ params }: Props) {
-    const { user } = params; 
-    localStorage.setItem('accessToken', user.accessToken);
-    
+export default function HomeApp({ params }: Props) {
+    const { user } = params;
+
+    useEffect(() => {
+        localStorage.setItem('accessToken', user.accessToken);
+    }, []);
+
     return (
-        <section className="w-full flex flex-col items-center justify-center p-16">
-            <h1 className="text-4xl mb-2">
-                Bem-vindo,
-                <span className="text-yellow-400 px-1 bg-gray-900">
-                    {user.nome}
-                </span>
+        <div className="flex flex-col items-center justify-center px-6 py-20 text-center translate-x-80">
+            <h1 className="text-5xl font-bold mb-4 text-gray-800">
+                Bem-vindo, {user.nome}
             </h1>
-            <p className="mb-6 text-gray-500">Crie um novo pedido agora mesmo!</p>
+            <p className="text-lg text-gray-600 mb-8">
+                Crie um novo pedido agora mesmo e agilize seu processo!
+            </p>
 
             <LinkButton to="/newpedido" text="Criar pedido" />
 
-            {/* <img src={savings} alt="Savings" className="w-[350px] my-8" /> */}
-        </section>
+        </div>
     )
 }
