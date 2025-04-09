@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
     const [errorMessage, setErrorMessage] = useState("");
+    const [deviceId, setDeviceId] = useState<string | null>(null);
+    const [deviceInfo, setDeviceJson] = useState<string | null>(null);
     const { data: session, status } = useSession();
     const router = useRouter();
 
@@ -14,6 +16,21 @@ export default function LoginForm() {
             router.push('/');
         }
     }, [status, router]);
+
+    useEffect(() => {
+        let localId = localStorage.getItem("deviceId");
+        localId = crypto.randomUUID();
+        localStorage.setItem("deviceId", localId);
+
+        const device = {
+            userAgent: navigator.userAgent,
+            platform: navigator.platform,
+            language: navigator.language,
+        };
+
+        setDeviceJson(JSON.stringify(device));
+        setDeviceId(localId);
+    }, []);
 
     async function login(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -28,6 +45,8 @@ export default function LoginForm() {
             ...auxdata,
             callbackUrl: "/dashboard",
             redirect: false,
+            deviceId,
+            deviceInfo,
         });
 
         if (result?.error) {
