@@ -1,18 +1,20 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Perfil, Usuario } from '@apimodel/payload/intefaces';
+import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import { uiStyles } from '@lib/ui-styles';
+import { Perfil, Status, Usuario } from '@apimodel/payload/intefaces';
 import CompradorDualList from '@components/collections/comprador-dual-list';
 import FornecedorDualList from '@components/collections/fornecedor-dual-list';
-import { internalService } from '@services/internal-service';
-import { uiStyles } from '@lib/ui-styles';
 import PerfilSelector from '@components/collections/perfil-selector';
+import { internalService } from '@services/internal-service';
 
 interface Props {
     user: Usuario;
 }
+
 export default function UsuarioForm({ user }: Props) {
     const [usuario, setUsuario] = useState<Usuario | null>(null);
+    const [status, setStatus] = useState<Status | null>(null);
 
     const [formData, setFormData] = useState<Usuario>({
         nome: '',
@@ -43,7 +45,7 @@ export default function UsuarioForm({ user }: Props) {
         }
     }, []);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         if (e.target instanceof HTMLInputElement) {
             const { name, value, type, checked } = e.target;
             setFormData((prev) => ({
@@ -53,10 +55,13 @@ export default function UsuarioForm({ user }: Props) {
         }
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        console.log('Dados salvos:', formData);
-        // Aqui você chamaria a API para salvar
+        internalService.usuario.salvar(formData).then((res) => {
+            if (res) {
+                setStatus(res);
+            }
+        });
     };
 
     return (
@@ -85,10 +90,14 @@ export default function UsuarioForm({ user }: Props) {
                         <label className={uiStyles.forms.label}>Perfil</label>
                         <PerfilSelector
                             value={formData.perfil.descricao}
+                            key={formData.perfil.perfilId}
                             onChange={(value) =>
                                 setFormData((prev) => ({
                                     ...prev,
-                                    perfil: { perfilId: 0, descricao: value },
+                                    perfil: {
+                                        perfilId: value.key,
+                                        descricao: value.value
+                                    },
                                 }))
                             }
                         />
@@ -147,6 +156,15 @@ export default function UsuarioForm({ user }: Props) {
                         Salvar
                     </button>
                 </div>
+
+                {status && (
+                    <div
+                        className={`mt-4 p-4 rounded-lg text-sm font-semibold ${status.status ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                            }`}
+                    >
+                        {status.mensagem}
+                    </div>
+                )}
             </form>
         </div>
     );

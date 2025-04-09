@@ -3,6 +3,7 @@ import InputSearchProduto from './busca-produto-input';
 import FornecedorSelector from '../../collections/fornecedor-selector';
 import { LinhaTabela } from '@/types/linha-table';
 import { uiStyles } from '@lib/ui-styles';
+import PedidosLinhaDinheiro from './pedidos-linha-dinheiro';
 
 type Props = {
     linha: LinhaTabela;
@@ -11,6 +12,7 @@ type Props = {
 };
 
 export default function LinhaPedido({ linha, onChange, onChangeMulti }: Props) {
+
     const formatarMoeda = (valor: number) =>
         new Intl.NumberFormat("pt-BR", {
             style: "currency",
@@ -22,7 +24,7 @@ export default function LinhaPedido({ linha, onChange, onChangeMulti }: Props) {
             <td className={uiStyles.tabelaPedido.classNameFornecedor}>
                 <FornecedorSelector
                     value={linha.fornecedor}
-                    onChange={(e: any) => onChange(linha.id, 'fornecedor', e.target.value)}
+                    onChange={(valor: string) => onChange(linha.id, 'fornecedor', valor)}
                     initText=""
                 />
             </td>
@@ -45,7 +47,7 @@ export default function LinhaPedido({ linha, onChange, onChangeMulti }: Props) {
                     classNameInput={uiStyles.tabelaPedido.classNameInputDefault}
                     onSelect={(produtoSelecionado: any) => {
                         onChangeMulti(linha.id, {
-                            fornecedor: produtoSelecionado.fornecedor?.nome ?? '',
+                            fornecedor: linha.fornecedor || produtoSelecionado.fornecedor?.nome || '',
                             produto: produtoSelecionado.descricao ?? '',
                             codigo: produtoSelecionado.codigo,
                             unidade: produtoSelecionado.unidade,
@@ -82,12 +84,15 @@ export default function LinhaPedido({ linha, onChange, onChangeMulti }: Props) {
                 }}
             />
 
-            <PedidosLinha
+            <PedidosLinhaDinheiro
                 params={{
-                    typeField: 'text',
-                    field: formatarMoeda(linha.preco),
+                    field: linha.preco,
                     editavel: true,
-                    event: (e: any) => onChange(linha.id, 'preco', Number(e.target.value)),
+                    event: (e: any) => {
+                        const novoPreco = e.target.value;
+                        onChange(linha.id, 'preco', novoPreco);
+                        onChange(linha.id, 'precoTotal', novoPreco * linha.quantidade);
+                    },
                     className: uiStyles.tabelaPedido.classNameDefault,
                     classNameInput: uiStyles.tabelaPedido.classNameInputDefault,
                 }}

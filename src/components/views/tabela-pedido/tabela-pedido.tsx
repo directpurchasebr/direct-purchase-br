@@ -47,12 +47,27 @@ export default function TabelaPedidos() {
                 </tbody>
             </table>
 
-            <div className="mt-4">
+            <div className="mt-1">
                 <Button onClick={addLinha} className="bg-blue-500 text-white p-2 rounded">
                     <Plus size={16} weight="bold" />
                     Adicionar Item
                 </Button>
             </div>
+
+            <div className="mt-4 flex flex-col items-center gap-4">
+                <button
+                    
+                    onClick={() => {
+                        // Função de envio aqui
+                        console.log('Salvar pedido');
+                    }}
+
+                    className="w-full max-w-60 bg-red-600 hover:bg-red-700 text-white text-base font-semibold px-6 py-4 rounded-lg shadow transition"
+                >
+                    Salvar Pedido
+                </button>
+            </div>
+
         </div>
     );
 }

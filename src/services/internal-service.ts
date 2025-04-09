@@ -1,16 +1,32 @@
 
-import { Comprador, Fornecedor, Perfil, Produto, Usuario } from "@apimodel/payload/intefaces";
+import { Comprador, Fornecedor, Perfil, Produto, Status, Usuario } from "@apimodel/payload/intefaces";
 import { internalRoutes } from "@lib/internal-routes";
 
-async function fetchInternal<T>(route: string): Promise<T | undefined> {
-    try {
-        const res = await fetch(route);
-        if (!res.ok) throw new Error("Erro ao buscar dados");
-        const data = await res.json();
-        return data as T;
-    } catch (e) {
-        console.error("Erro na requisição interna:", e);
+async function fetchInternal<T>(
+    route: string,
+    method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
+    body?: any
+): Promise<T | undefined> {
+
+    const options: RequestInit = {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    };
+
+    if (body) {
+        options.body = JSON.stringify(body);
     }
+
+    const response = await fetch(route, options);
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Erro ao processar a requisição.');
+    }
+
+    const data = await response.json();
+    return data as T;
 }
 
 export const internalService = {
@@ -34,6 +50,10 @@ export const internalService = {
     },
 
     usuario: {
+        salvar: async (body: Usuario) => {
+            return await fetchInternal<Status>(internalRoutes.usuario.salvar, 'POST', body);
+        },
+
         get: async () => {
             return await fetchInternal<Usuario>(internalRoutes.usuario.get);
         }

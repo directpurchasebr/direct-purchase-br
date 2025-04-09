@@ -1,3 +1,10 @@
+export interface Status {
+    status: boolean;
+    mensagem: string;
+    erro: string;
+    body: any;
+}
+
 export interface Usuario {
     nome: string;
     email: string;

@@ -38,8 +38,8 @@ export default function LoginForm() {
     }
 
     return (
-        <div className="flex flex-col items-center" style={{ marginLeft: '425px' }}>
-            <img src="/logo_t.png" alt="LogoDirect" className="w-56 h-56 mb-2" />
+        <div className="flex flex-col items-center" style={{ marginLeft: '435px' }}>
+            <img src="/logoem_t.png" alt="LogoDirect" className="w-56 h-56 mb-4" />
 
             <form onSubmit={login}
                 className="bg-white p-10 rounded-lg w-96 max-w-full flex flex-col gap-4 shadow-md">
@@ -56,11 +56,16 @@ export default function LoginForm() {
                     placeholder="Senha"
                     className="input input-primary w-full"
                 />
-                <button type="submit" className="btn btn-light w-full">
+                {errorMessage && (
+                    <p className="text-red-500 text-sm">{errorMessage}</p>
+                )}
+
+                <button
+                    type="submit"
+                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold py-3 rounded-lg shadow-md hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 ease-in-out"
+                >
                     Login
                 </button>
-
-                {errorMessage && <p className="text-red-500 text-sm">{errorMessage}</p>}
             </form>
         </div>
     );

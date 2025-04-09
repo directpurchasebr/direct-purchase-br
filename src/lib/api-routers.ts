@@ -13,6 +13,7 @@ export const apiRoutes = {
         compradores: "/comprador/listar",
     },
     usuario: {
+        salvar: "/usuario/salvar",
         get: "/usuario/get",
     },
     perfil: {

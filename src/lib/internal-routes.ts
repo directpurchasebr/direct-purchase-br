@@ -10,6 +10,7 @@ export const internalRoutes = {
     listar: "/api/comprador/listar",
   },
   usuario: {
+    salvar: "/api/usuario/salvar",
     get: "/api/usuario/get",
   },
   perfil: {

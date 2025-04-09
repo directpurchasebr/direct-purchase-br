@@ -1,4 +1,4 @@
-import { getUserFromSession } from '@lib/user-session';
+import { getUserFromSession } from '@utils/session-utils';
 import HomeApp from '../home/page';
 
 export default async function Dashboard() {

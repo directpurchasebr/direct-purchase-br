@@ -1,9 +1,17 @@
+'use client';
+
 import Link from 'next/link'
 import { Gear } from '@phosphor-icons/react';
 import { SignOut } from '@phosphor-icons/react';
-import { signOut } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
+import { User } from 'next-auth';
 
 export default function ConfigTrigger() {
+
+    const { data: session } = useSession();
+    const user = session?.user as User;
+    const naoPodeCriarNovoUsuario: boolean = !!user?.roles?.includes('USER');
+
     return (
         <div className="relative group">
             <button className="flex items-center justify-center hover:text-yellow-500 transition-colors">
@@ -13,15 +21,21 @@ export default function ConfigTrigger() {
                 <Link href="/usuario" className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                     Conta
                 </Link>
-                <Link href="/usuario/novo" className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                    Criar Novo Usuário
-                </Link>
+
+                {!naoPodeCriarNovoUsuario && (
+                    <Link href="/usuario/novo" className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        Criar Novo Usuário
+                    </Link>
+                )}
+
                 <Link href="/pagamento" className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                     Pagamento
                 </Link>
                 <button onClick={() => signOut({ callbackUrl: "/login" })}
-                    className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+                >
                     <SignOut size={22} />
+                    <span>Sair</span>
                 </button>
 
             </div>

@@ -2,7 +2,7 @@ import '../globals.css';
 import { ReactNode } from 'react';
 
 export const metadata = {
-    title: 'Login',
+    title: 'Login | EasyMerge',
 };
 
 export default function LoginLayout({ children }: { children: ReactNode }) {

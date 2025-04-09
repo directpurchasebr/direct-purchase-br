@@ -7,7 +7,7 @@ import { Perfil } from '@apimodel/payload/intefaces';
 
 interface Props {
     value: string;
-    onChange: (value: string) => void;
+    onChange: (args: { key: number, value: string }) => void;
 }
 
 export default function PerfilSelector({ value, onChange }: Props) {
@@ -22,7 +22,12 @@ export default function PerfilSelector({ value, onChange }: Props) {
             <select
                 className={uiStyles.forms.select}
                 value={value}
-                onChange={(e) => onChange(e.target.value)}>
+                onChange={(e) => {
+                    const selectedPerfil = perfil.find((p) => p.descricao === e.target.value);
+                    if (selectedPerfil) {
+                        onChange({ key: selectedPerfil.perfilId, value: selectedPerfil.descricao });
+                    }
+                }} >
                 <option value="">Selecione um perfil</option>
                 {perfil.map((perfil) => (
                     <option key={perfil.perfilId} value={perfil.descricao}>

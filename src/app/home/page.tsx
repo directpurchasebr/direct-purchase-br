@@ -26,7 +26,7 @@ export default function HomeApp({ params }: Props) {
                 Crie um novo pedido agora mesmo e agilize seu processo!
             </p>
 
-            <LinkButton to="/newpedido" text="Criar pedido" />
+            <LinkButton to="/novopedido" text="Criar pedido" />
 
         </div>
     )

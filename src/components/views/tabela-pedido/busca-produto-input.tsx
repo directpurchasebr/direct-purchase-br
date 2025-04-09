@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, KeyboardEvent } from "react";
 import { internalService } from "@services/internal-service";
 import { Produto } from "@apimodel/payload/intefaces";
 
@@ -28,7 +28,7 @@ export default function InputSearchProduto({ value, onSelect, className, classNa
         }
     }, [highlightIndex]);
 
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
             if (showDropdown && resultados.length > 0) {
                 const selecionado = resultados[highlightIndex];

@@ -1,12 +1,13 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { coreService } from "@services/core-service";
-import { Usuario } from "@apimodel/payload/intefaces";
+import { Status, Usuario } from "@apimodel/payload/intefaces";
 
-export async function GET(request: NextRequest) {
-    const usuario: Usuario | null = await coreService.usuario.get();
-    if (!usuario) {
+export async function POST(request: NextRequest) {
+    const data = await request.json();
+    const status: Status | null | never[] = await coreService.usuario.salvar(data);
+    if (!status) {
         return NextResponse.json({ error: 'Usuário não encontrado' });
     }
-    return NextResponse.json(usuario);
+    return NextResponse.json(status);
 }

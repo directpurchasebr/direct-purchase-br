@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { KeyboardEvent, useRef } from 'react';
 
 interface Props {
     params: {
@@ -20,7 +20,7 @@ export default function PedidosLinha({ params }: Props) {
         input?.focus();
     };
 
-    const handleArrowNavigation = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleArrowNavigation = (e: KeyboardEvent<HTMLInputElement>) => {
         const current = inputRef.current;
         if (!current) return;
 
