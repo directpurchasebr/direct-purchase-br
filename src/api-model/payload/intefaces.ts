@@ -24,6 +24,7 @@ export interface Perfil {
 
 
 export interface Produto {
+    produtoId: number;
     codigo: string;
     descricao: string;
     marca: string;
@@ -43,4 +44,26 @@ export interface Comprador {
     negocioId: number;
     codigo: string;
     nome: string
+}
+
+export interface Pedido {
+    pedidoId: number;
+    codigoPedido: string;
+    comprador: Comprador;
+    produtos: Array<PedidoProduto>;
+    valorTotal: number;
+    observacao: string;
+    status: string;
+}
+
+export interface PedidoProduto {
+    pedidoProdutoId: number;
+    id: number;
+    fornecedor: Fornecedor;
+    codigo: string;
+    produto: Produto;
+    quantidade: number;
+    unidade: string;
+    preco: number;
+    precoTotal: number;
 }

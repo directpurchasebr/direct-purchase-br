@@ -1,22 +1,21 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { internalService } from '@services/internal-service';
 import { uiStyles } from '@lib/ui-styles';
-import { Fornecedor } from '@apimodel/payload/intefaces';
 
-interface Props {
-    value: string;
-    onChange: (value: string) => void;
-    initText: string;
+interface CustomSelectorProps<T> {
+    value: T;
+    onChange: (value: T) => void;
+    list: Array<T>;
+    getLabel: (item: T) => string;
+    getKey: (item: T) => string | number;
+    initText?: string;
+    className?: string;
+    enableArrowNavigation?: boolean;
 }
 
-export default function FornecedorSelector({ value, onChange, initText }: Props) {
-    const [fornecedores, setFornecedores] = useState<Array<Fornecedor>>([]);
-
-    useEffect(() => {
-        internalService.fornecedor.listar().then((res) => res && setFornecedores(res));
-    }, []);
+export default function CustomSelector<T>({ value, onChange, list, getLabel, getKey,
+    initText = 'Selecione uma opção', className = uiStyles.forms.select,
+    enableArrowNavigation = false }: CustomSelectorProps<T>) {
 
     const focusInputInCell = (cell: HTMLTableCellElement | null) => {
         const inputOrSelect = cell?.querySelector('input, select') as HTMLElement | null;
@@ -24,6 +23,7 @@ export default function FornecedorSelector({ value, onChange, initText }: Props)
     };
 
     const handleArrowNavigation = (e: React.KeyboardEvent<HTMLSelectElement>) => {
+       
         const currentCell = (e.target as HTMLElement).closest('td') as HTMLTableCellElement | null;
         const currentRow = currentCell?.parentElement as HTMLTableRowElement | null;
         if (!currentCell || !currentRow) return;
@@ -59,17 +59,20 @@ export default function FornecedorSelector({ value, onChange, initText }: Props)
     };
 
     return (
-        <div className="flex items-center gap-2 w-full">
+        <div className="w-full">
             <select
-                className={uiStyles.collections.selectCustomTable}
-                value={value}
-                onChange={(e) => onChange(e.target.value)}
-                onKeyDown={handleArrowNavigation}>
-
+                className={className}
+                value={value ? getLabel(value) : ''}
+                onChange={(e) => {
+                    const selected = list.find((item) => getLabel(item) === e.target.value);
+                    if (selected) onChange(selected);
+                }}
+                onKeyDown={enableArrowNavigation ? handleArrowNavigation : undefined}
+            >
                 <option value="" disabled>{initText}</option>
-                {fornecedores?.map((fornecedor) => (
-                    <option key={fornecedor.fornecedorId} value={fornecedor.nome}>
-                        {fornecedor.nome}
+                {list.map((item) => (
+                    <option key={getKey(item)} value={getLabel(item)}>
+                        {getLabel(item)}
                     </option>
                 ))}
             </select>

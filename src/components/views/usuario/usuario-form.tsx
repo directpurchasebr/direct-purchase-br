@@ -1,12 +1,11 @@
 'use client';
 
-import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import { Comprador, Fornecedor, Perfil, Status, Usuario } from '@apimodel/payload/intefaces';
+import CustomDualList from '@components/collections/custom-dual-list';
+import CustomSelector from '@components/collections/custom-selector';
 import { uiStyles } from '@lib/ui-styles';
-import { Perfil, Status, Usuario } from '@apimodel/payload/intefaces';
-import CompradorDualList from '@components/collections/comprador-dual-list';
-import FornecedorDualList from '@components/collections/fornecedor-dual-list';
-import PerfilSelector from '@components/collections/perfil-selector';
 import { internalService } from '@services/internal-service';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 
 interface Props {
     user: Usuario;
@@ -15,6 +14,9 @@ interface Props {
 export default function UsuarioForm({ user }: Props) {
     const [usuario, setUsuario] = useState<Usuario | null>(null);
     const [status, setStatus] = useState<Status | null>(null);
+    const [perfil, setPerfil] = useState<Array<Perfil>>([]);
+    const [compradores, setCompradores] = useState<Array<Comprador>>([]);
+    const [fornecedores, setFornecedores] = useState<Array<Fornecedor>>([]);
 
     const [formData, setFormData] = useState<Usuario>({
         nome: '',
@@ -29,6 +31,10 @@ export default function UsuarioForm({ user }: Props) {
     });
 
     useEffect(() => {
+        internalService.perfil.listar().then((res) => res && setPerfil(res));
+        internalService.comprador.listar().then((res) => res && setCompradores(res));
+        internalService.fornecedor.listar().then((res) => res && setFornecedores(res));
+
         if (user) {
             setUsuario(user);
             setFormData({
@@ -57,11 +63,7 @@ export default function UsuarioForm({ user }: Props) {
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        internalService.usuario.salvar(formData).then((res) => {
-            if (res) {
-                setStatus(res);
-            }
-        });
+        internalService.usuario.salvar(formData).then((res) => res && setStatus(res));
     };
 
     return (
@@ -88,20 +90,17 @@ export default function UsuarioForm({ user }: Props) {
 
                     <div>
                         <label className={uiStyles.forms.label}>Perfil</label>
-                        <PerfilSelector
-                            value={formData.perfil.descricao}
-                            key={formData.perfil.perfilId}
-                            onChange={(value) =>
-                                setFormData((prev) => ({
-                                    ...prev,
-                                    perfil: {
-                                        perfilId: value.key,
-                                        descricao: value.value
-                                    },
-                                }))
-                            }
+
+                        <CustomSelector<Perfil>
+                            value={formData.perfil}
+                            onChange={(value) => setFormData((prev) => ({ ...prev, perfil: value }))}
+                            list={perfil}
+                            getLabel={(p) => p.descricao}
+                            getKey={(p) => p.perfilId}
+                            initText="Selecione um perfil"
                         />
                     </div>
+
                     <div className="flex flex-col">
                         <label className={uiStyles.forms.label}>Indica Estoque</label>
                         <div className="flex items-center space-x-2">
@@ -120,16 +119,23 @@ export default function UsuarioForm({ user }: Props) {
                     <div className="col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label className={uiStyles.forms.label}>Fornecedores</label>
-                            <FornecedorDualList
+                            <CustomDualList<Fornecedor>
                                 value={formData.fornecedores}
                                 onChange={(value) => setFormData((prev) => ({ ...prev, fornecedores: value }))}
+                                list={fornecedores}
+                                getKey={(f) => f.fornecedorId}
+                                getLabel={(f) => f.nome}
                             />
+
                         </div>
                         <div>
                             <label className={uiStyles.forms.label}>Compradores</label>
-                            <CompradorDualList
+                            <CustomDualList<Comprador>
                                 value={formData.compradores}
                                 onChange={(value) => setFormData((prev) => ({ ...prev, compradores: value }))}
+                                list={compradores}
+                                getKey={(c) => c.compradorId}
+                                getLabel={(c) => c.nome}
                             />
                         </div>
                     </div>

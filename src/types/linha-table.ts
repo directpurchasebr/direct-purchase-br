@@ -1,10 +1,13 @@
+import { Fornecedor, Produto } from "@apimodel/payload/intefaces";
+
 export type LinhaTabela = {
     id: number;
-    fornecedor: string;
+    fornecedor: Fornecedor;
     codigo: string;
-    produto: string;
+    produto: Produto;
     quantidade: number;
     unidade: string;
     preco: number;
     precoTotal: number;
 };
+

@@ -1,17 +1,19 @@
-import PedidosLinha from './pedido-linha';
-import InputSearchProduto from './busca-produto-input';
-import FornecedorSelector from '../../collections/fornecedor-selector';
 import { LinhaTabela } from '@/types/linha-table';
+import { Fornecedor } from '@apimodel/payload/intefaces';
+import CustomSelector from '@components/collections/custom-selector';
 import { uiStyles } from '@lib/ui-styles';
+import InputSearchProduto from './busca-produto-input';
+import PedidosLinha from './pedido-linha';
 import PedidosLinhaDinheiro from './pedidos-linha-dinheiro';
 
 type Props = {
     linha: LinhaTabela;
     onChange: (id: number, campo: keyof LinhaTabela, valor: any) => void;
     onChangeMulti: (id: number, dados: Partial<LinhaTabela>) => void;
+    fornecedores: Array<Fornecedor>;
 };
 
-export default function LinhaPedido({ linha, onChange, onChangeMulti }: Props) {
+export default function LinhaPedido({ linha, onChange, onChangeMulti, fornecedores }: Props) {
 
     const formatarMoeda = (valor: number) =>
         new Intl.NumberFormat("pt-BR", {
@@ -22,10 +24,15 @@ export default function LinhaPedido({ linha, onChange, onChangeMulti }: Props) {
     return (
         <tr>
             <td className={uiStyles.tabelaPedido.classNameFornecedor}>
-                <FornecedorSelector
+                <CustomSelector<Fornecedor>
                     value={linha.fornecedor}
-                    onChange={(valor: string) => onChange(linha.id, 'fornecedor', valor)}
+                    onChange={(fornecedor) => onChange(linha.id, 'fornecedor', fornecedor)}
+                    list={fornecedores}
+                    getLabel={(c) => c.nome}
+                    getKey={(c) => c.fornecedorId}
                     initText=""
+                    className={uiStyles.collections.selectCustomTable}
+                    enableArrowNavigation={true}
                 />
             </td>
 
@@ -42,7 +49,7 @@ export default function LinhaPedido({ linha, onChange, onChangeMulti }: Props) {
 
             <td className={uiStyles.tabelaPedido.classNameProduto}>
                 <InputSearchProduto
-                    value={linha.produto}
+                    value={linha.produto.descricao}
                     className="w-full"
                     classNameInput={uiStyles.tabelaPedido.classNameInputDefault}
                     onSelect={(produtoSelecionado: any) => {
