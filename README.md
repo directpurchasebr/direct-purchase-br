@@ -1,37 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛍️ Direct Purchase - Frontend
 
-## Getting Started
+Frontend moderno em **Next.js** para o sistema de compras diretas. Oferece uma interface responsiva, segura e integrada com autenticação via NextAuth e backend com JWT.
 
-First, run the development server:
+## 🧰 Stack Principal
+
+- **Next.js 15**
+- **React 19**
+- **TailwindCSS** + DaisyUI
+- **TypeScript**
+- **NextAuth.js** (autenticação)
+- **Phosphor Icons**
+- **TanStack Table v8** (tabelas dinâmicas)
+- **http-proxy-middleware** (proxy para API backend)
+
+## 🔐 Autenticação
+
+- Integração com NextAuth.js
+- Uso de `useSession()` para verificação de login
+- `signOut()` redireciona para `/login`
+- Controle de visibilidade de rotas e ações com base em perfil (`roles`)
+
+## 🧭 Navegação
+
+Componentes chave:
+
+- `Navbar`: Menu principal com acesso rápido a páginas, novo pedido e configurações do usuário
+- `ConfigTrigger`: Dropdown com opções como "Conta", "Criar Novo Usuário" (somente ADMIN) e "Sair"
+- `LinkButton`: Componente reutilizável para botões de link estilizados
+- `Container`: Wrapper padrão com controle de layout flexível
+
+### 🧪 Estrutura de páginas (exemplos)
+
+| Rota | Descrição |
+|------|-----------|
+| `/login` | Tela de autenticação |
+| `/dashboard` | Painel principal pós-login |
+| `/novopedido` | Cadastro de novo pedido |
+| `/pedidos` | Listagem de pedidos |
+| `/produtos` | Listagem de produtos |
+| `/fornecedores` | Listagem de fornecedores |
+| `/usuario` | Detalhes da conta do usuário |
+| `/usuario/novo` | Cadastro de novo usuário |
+| `/pagamento` | Tela de pagamento |
+
+## 💡 Componentes Extras
+
+- `config-trigger.tsx`: dropdown personalizado com `hover`, `signOut` e checagem de role
+- `link-button.tsx`: botão estilizado com Tailwind para navegação
+- `container.tsx`: componente que aplica responsividade e alinhamento padrão
+
+## 🧑‍💻 Scripts
 
 ```bash
+# Instalar dependências
+npm install
+
+# Rodar em modo dev
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Build de produção
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+📁 Estrutura de Arquivos
+```bash
+/components
+  ├── navbar.jsx
+  ├── config-trigger.tsx
+  ├── link-button.tsx
+  ├── container.tsx
+/pages
+  ├── login.tsx
+  ├── dashboard.tsx
+  └── ...
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# direct-purchase-br
+🔗 Backend
+Este projeto consome a Direct Purchase API, que expõe endpoints seguros com JWT.
