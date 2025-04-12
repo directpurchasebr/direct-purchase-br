@@ -23,7 +23,7 @@ export default function CustomSelector<T>({ value, onChange, list, getLabel, get
     };
 
     const handleArrowNavigation = (e: React.KeyboardEvent<HTMLSelectElement>) => {
-       
+
         const currentCell = (e.target as HTMLElement).closest('td') as HTMLTableCellElement | null;
         const currentRow = currentCell?.parentElement as HTMLTableRowElement | null;
         if (!currentCell || !currentRow) return;

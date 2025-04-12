@@ -49,13 +49,13 @@ export default function LinhaPedido({ linha, onChange, onChangeMulti, fornecedor
 
             <td className={uiStyles.tabelaPedido.classNameProduto}>
                 <InputSearchProduto
-                    value={linha.produto.descricao}
+                    value={linha.produto?.descricao ?? ''}
                     className="w-full"
                     classNameInput={uiStyles.tabelaPedido.classNameInputDefault}
                     onSelect={(produtoSelecionado: any) => {
                         onChangeMulti(linha.id, {
-                            fornecedor: linha.fornecedor || produtoSelecionado.fornecedor?.nome || '',
-                            produto: produtoSelecionado.descricao ?? '',
+                            fornecedor: produtoSelecionado.fornecedor,
+                            produto: produtoSelecionado,
                             codigo: produtoSelecionado.codigo,
                             unidade: produtoSelecionado.unidade,
                             preco: produtoSelecionado.preco,

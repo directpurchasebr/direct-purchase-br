@@ -13,11 +13,16 @@ interface Props {
 
 export default function InputSearchProduto({ value, onSelect, className, classNameInput }: Props) {
 
+    const [inputValue, setInputValue] = useState(value ?? "");
     const [resultados, setResultados] = useState<Produto[]>([]);
     const [showDropdown, setShowDropdown] = useState(false);
     const [highlightIndex, setHighlightIndex] = useState(0);
 
     const itemRefs = useRef<(HTMLLIElement | null)[]>([]);
+
+    useEffect(() => {
+        setInputValue(value ?? ""); // sincroniza se valor externo mudar
+    }, [value]);
 
     useEffect(() => {
         if (itemRefs.current[highlightIndex]) {
@@ -37,7 +42,7 @@ export default function InputSearchProduto({ value, onSelect, className, classNa
                 return;
             }
 
-            internalService.produto.buscar(value).then((res) => {
+            internalService.produto.buscar(inputValue).then((res) => {
                 if (res) {
                     setResultados(res);
                     setHighlightIndex(0);
@@ -65,10 +70,8 @@ export default function InputSearchProduto({ value, onSelect, className, classNa
         <div className={className} style={{ position: "relative" }}>
             <input
                 type="text"
-                value={value ?? ""}
-                onChange={(e) => {
-                    onSelect({ descricao: e.target.value });
-                }}
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
                 onKeyDown={handleKeyDown}
                 className={classNameInput}
             />
@@ -83,6 +86,7 @@ export default function InputSearchProduto({ value, onSelect, className, classNa
                             onMouseEnter={() => setHighlightIndex(index)}
                             onClick={() => {
                                 onSelect(produto);
+                                setInputValue(produto.descricao);
                                 setShowDropdown(false);
                             }}>
                             {produto.descricao}
