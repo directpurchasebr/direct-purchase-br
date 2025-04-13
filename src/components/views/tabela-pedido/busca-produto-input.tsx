@@ -21,7 +21,7 @@ export default function InputSearchProduto({ value, onSelect, className, classNa
     const itemRefs = useRef<(HTMLLIElement | null)[]>([]);
 
     useEffect(() => {
-        setInputValue(value ?? ""); // sincroniza se valor externo mudar
+        setInputValue(value ?? "");
     }, [value]);
 
     useEffect(() => {

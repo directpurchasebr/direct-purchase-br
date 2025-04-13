@@ -53,4 +53,4 @@ const ButtonTabelaPedido = forwardRef<HTMLButtonElement, ButtonProps>(
 )
 ButtonTabelaPedido.displayName = "Button"
 
-export { ButtonTabelaPedido as Button, buttonVariants }
+export { ButtonTabelaPedido as CustomButton, buttonVariants }

@@ -2,7 +2,7 @@
 
 import { Comprador, Fornecedor, Pedido } from '@apimodel/payload/intefaces';
 import CustomSelector from '@components/collections/custom-selector';
-import { Button } from "@components/views/tabela-pedido/button-tabela-pedido";
+import { CustomButton } from "@components/layout/custom-button";
 import { Plus } from '@phosphor-icons/react';
 import { internalService } from '@services/internal-service';
 import { FormEvent, useEffect, useState } from 'react';
@@ -52,7 +52,7 @@ export default function TabelaPedidos() {
                     <label className="whitespace-nowrap font-semibold text-gray-700">Cliente:</label>
                     <CustomSelector<Comprador>
                         value={clienteSelecionado}
-                        onChange={setClienteSelecionado}
+                        onChange={(value) => value !== null && setClienteSelecionado(value)}
                         list={compradores}
                         getLabel={(c) => c.nome}
                         getKey={(c) => c.compradorId}
@@ -87,10 +87,10 @@ export default function TabelaPedidos() {
             </table>
 
             <div className="mt-1">
-                <Button onClick={addLinha} className="bg-blue-500 text-white p-2 rounded">
+                <CustomButton onClick={addLinha} className="bg-blue-500 text-white p-2 rounded">
                     <Plus size={16} weight="bold" />
                     Adicionar Item
-                </Button>
+                </CustomButton>
             </div>
 
             <div className="mt-4 flex flex-col items-center gap-4">

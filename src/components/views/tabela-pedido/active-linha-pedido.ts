@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import { LinhaTabela } from '@/types/linha-table';
+import { Fornecedor, Produto } from '@apimodel/payload/intefaces';
 
 export function useLinhasPedido() {
     const [linhas, setLinhas] = useState<LinhaTabela[]>([{
-        id: 1, fornecedor: '', codigo: '', produto: '', quantidade: 1,
+        id: 1, fornecedor: {} as Fornecedor, codigo: '', produto: {} as Produto, quantidade: 1,
         unidade: '', preco: 0, precoTotal: 0,
     }]);
 
     const addLinha = () => {
         const novaLinha: LinhaTabela = {
             id: linhas.length + 1,
-            fornecedor: '', codigo: '', produto: '',
+            fornecedor: {} as Fornecedor, codigo: '', produto: {} as Produto,
             quantidade: 1, unidade: '', preco: 0, precoTotal: 0,
         };
         setLinhas([...linhas, novaLinha]);

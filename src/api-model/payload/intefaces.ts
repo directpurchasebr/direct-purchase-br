@@ -33,17 +33,13 @@ export interface Produto {
     fornecedor: Fornecedor;
 }
 
-export interface Fornecedor {
+export interface Fornecedor extends Pessoa {
     fornecedorId: number;
-    codigo: string;
-    nome: string
+    layoutExcel: string;
 }
 
-export interface Comprador {
+export interface Comprador extends Pessoa {
     compradorId: number;
-    negocioId: number;
-    codigo: string;
-    nome: string
 }
 
 export interface Pedido {
@@ -66,4 +62,45 @@ export interface PedidoProduto {
     unidade: string;
     preco: number;
     precoTotal: number;
+}
+
+export interface Pessoa {
+    pessoaId: number;
+    negocioId: number;
+    codigo: string;
+    nome: string;
+    nomeFantasia: string;
+    cpf: string;
+    cnpj: string;
+    inscricaoEstadual: string;
+    inscricaoMunicipal: string;
+    telefone: string;
+    email: string;
+    site: string;
+    responsavel: string;
+    telefoneResponsavel: string;
+    observacoes: string;
+    enderecos: Array<PessoaEndereco>;
+    bancos: Array<PessoaBanco>;
+}
+
+export interface PessoaEndereco {
+    pessoaEnderecoId: number;
+    logradouro: string;
+    numero: string;
+    complemento: string;
+    bairro: string;
+    cidade: string;
+    estado: string;
+    cep: string;
+}
+
+export interface PessoaBanco {
+    pessoaBancoId: number;
+    banco: string;
+    agencia: string;
+    conta: string;
+    tipoConta: string;
+    titular: string;
+    cnpjTitular: string;
 }

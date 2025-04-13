@@ -3,8 +3,8 @@
 import { uiStyles } from '@lib/ui-styles';
 
 interface CustomSelectorProps<T> {
-    value: T;
-    onChange: (value: T) => void;
+    value: T | null;
+    onChange: (value: T | null) => void;
     list: Array<T>;
     getLabel: (item: T) => string;
     getKey: (item: T) => string | number;
@@ -65,11 +65,12 @@ export default function CustomSelector<T>({ value, onChange, list, getLabel, get
                 value={value ? String(getKey(value)) : ''}
                 onChange={(e) => {
                     const selected = list.find((item) => String(getKey(item)) === e.target.value);
-                    if (selected) onChange(selected);
+                    //if (selected) onChange(selected);
+                    onChange(selected ?? null);
                 }}
                 onKeyDown={enableArrowNavigation ? handleArrowNavigation : undefined}
             >
-                <option value="" disabled>{initText}</option>
+                <option value="" >{initText}</option>
                 {list.map((item) => (
                     <option key={getKey(item)} value={String(getKey(item))}>
                         {getLabel(item)}

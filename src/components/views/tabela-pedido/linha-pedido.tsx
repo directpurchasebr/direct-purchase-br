@@ -25,7 +25,7 @@ export default function LinhaPedido({ linha, onChange, onChangeMulti, fornecedor
         <tr>
             <td className={uiStyles.tabelaPedido.classNameFornecedor}>
                 <CustomSelector<Fornecedor>
-                    value={linha.fornecedor}
+                    value={linha.fornecedor ?? null}
                     onChange={(fornecedor) => onChange(linha.id, 'fornecedor', fornecedor)}
                     list={fornecedores}
                     getLabel={(c) => c.nome}
