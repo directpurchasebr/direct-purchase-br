@@ -26,7 +26,6 @@ Componentes chave:
 
 - `Navbar`: Menu principal com acesso rápido a páginas, novo pedido e configurações do usuário
 - `ConfigTrigger`: Dropdown com opções como "Conta", "Criar Novo Usuário" (somente ADMIN) e "Sair"
-- `LinkButton`: Componente reutilizável para botões de link estilizados
 - `Container`: Wrapper padrão com controle de layout flexível
 
 ### 🧪 Estrutura de páginas (exemplos)
@@ -43,12 +42,6 @@ Componentes chave:
 | `/usuario/novo` | Cadastro de novo usuário |
 | `/pagamento` | Tela de pagamento |
 
-## 💡 Componentes Extras
-
-- `config-trigger.tsx`: dropdown personalizado com `hover`, `signOut` e checagem de role
-- `link-button.tsx`: botão estilizado com Tailwind para navegação
-- `container.tsx`: componente que aplica responsividade e alinhamento padrão
-
 ## 🧑‍💻 Scripts
 
 ```bash
@@ -62,16 +55,33 @@ npm run dev
 npm run build
 ```
 
-📁 Estrutura de Arquivos
+📁 Estrutura de Arquivos Principais
 ```bash
 /components
   ├── navbar.jsx
   ├── config-trigger.tsx
-  ├── link-button.tsx
   ├── container.tsx
+/collections
+  ├── custom-dual-list.tsx
+  ├── custom-selector.tsx
+/tabela-pedido
+  ├── active-linha-pedido.ts
+  ├── busca-produto-input.tsx
+  ├── button-tabela-pedido.tsx
+  ├── linha-pedido.tsx
+  ├── pedido-linha.tsx
+  ├── pedidos-linha-dinheiro.tsx
+  ├── tabela-pedido.tsx
 /pages
-  ├── login.tsx
-  ├── dashboard.tsx
+  ├── login
+  ├── dashboard
+  ├── contato
+  ├── fornecedores
+  ├── home
+  ├── novopedido
+  ├── pedidos
+  ├── produtos
+  ├── usuario
   └── ...
 ```
 
