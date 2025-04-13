@@ -78,8 +78,9 @@ export default function TabelaPedidos() {
                         const pedido = {} as Pedido;
                         pedido.comprador = clienteSelecionado;
 
-                        pedido.produtos = linhas.map(linha => ({
-                            id: linha.id, // Adicione essa linha
+                        pedido.produtos = linhas.map((linha, index) => ({
+                            pedidoProdutoId: index + 1, // Adicione essa linha
+                            id: linha.id,
                             fornecedor: linha.fornecedor,
                             codigo: linha.codigo,
                             produto: linha.produto,

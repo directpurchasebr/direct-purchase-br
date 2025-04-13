@@ -62,16 +62,16 @@ export default function CustomSelector<T>({ value, onChange, list, getLabel, get
         <div className="w-full">
             <select
                 className={className}
-                value={value ? getLabel(value) : ''}
+                value={value ? String(getKey(value)) : ''}
                 onChange={(e) => {
-                    const selected = list.find((item) => getLabel(item) === e.target.value);
+                    const selected = list.find((item) => String(getKey(item)) === e.target.value);
                     if (selected) onChange(selected);
                 }}
                 onKeyDown={enableArrowNavigation ? handleArrowNavigation : undefined}
             >
                 <option value="" disabled>{initText}</option>
                 {list.map((item) => (
-                    <option key={getKey(item)} value={getLabel(item)}>
+                    <option key={getKey(item)} value={String(getKey(item))}>
                         {getLabel(item)}
                     </option>
                 ))}
