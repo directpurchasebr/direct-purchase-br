@@ -9,7 +9,7 @@ const authOptions = {
     pages: {
         signIn: "/login",
         signOut: "/login",
-        error: "/login",
+        error: "/error?code=404",
     },
     session: { strategy: 'jwt' as SessionStrategy, },
     callbacks: {
