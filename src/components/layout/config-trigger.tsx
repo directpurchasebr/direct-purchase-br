@@ -1,16 +1,27 @@
 'use client';
 
-import Link from 'next/link'
-import { Gear } from '@phosphor-icons/react';
-import { SignOut } from '@phosphor-icons/react';
-import { signOut, useSession } from 'next-auth/react'
+import { Status } from '@apimodel/payload/intefaces';
+import { Gear, SignOut } from '@phosphor-icons/react';
+import { internalService } from '@services/internal-service';
 import { User } from 'next-auth';
+import { signOut, useSession } from 'next-auth/react';
+import Link from 'next/link';
+import { FormEvent, useState } from 'react';
 
 export default function ConfigTrigger() {
 
     const { data: session } = useSession();
     const user = session?.user as User;
     const naoPodeCriarNovoUsuario: boolean = !!user?.roles?.includes('USER');
+
+
+    const handleLogout = async (e: FormEvent) => {
+        e.preventDefault();
+        const status = await internalService.auth.logout().then((res) => res && res) as Status;
+        if (status?.mensagem === 'OK') {
+            await signOut({ callbackUrl: "/login" });
+        }
+    };
 
     return (
         <div className="relative group">
@@ -31,7 +42,7 @@ export default function ConfigTrigger() {
                 <Link href="/pagamento" className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                     Pagamento
                 </Link>
-                <button onClick={() => signOut({ callbackUrl: "/login" })}
+                <button onClick={handleLogout}
                     className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
                 >
                     <SignOut size={22} />

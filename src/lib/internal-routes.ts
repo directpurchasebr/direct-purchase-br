@@ -1,4 +1,7 @@
 export const internalRoutes = {
+  auth: {
+    logout: "/api/auth/logout",
+  },
   produto: {
     listar: "/api/produto/listar",
     buscar: (descricao: string) => `/api/produto/buscar/${descricao}`,

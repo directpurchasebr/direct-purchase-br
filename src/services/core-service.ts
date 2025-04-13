@@ -32,6 +32,10 @@ export const coreService = {
             const data = await fetchWithToken<UsuarioLogado>(apiRoutes.auth.login, undefined, 'POST', credentials, true);
             return data ?? null;
         },
+        logout: async (token?: string) => {
+            const data = await fetchWithToken<Status>(apiRoutes.auth.logout, token);
+            return data ?? [];
+        },
     },
 
     comprador: {

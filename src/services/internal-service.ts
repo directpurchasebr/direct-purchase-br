@@ -30,6 +30,12 @@ async function fetchInternal<T>(
 }
 
 export const internalService = {
+    auth: {
+        logout: async (token?: string) => {
+            return await fetchInternal<Status>(internalRoutes.auth.logout);
+        },
+    },
+
     comprador: {
         listar: async () => {
             return await fetchInternal<Array<Comprador>>(internalRoutes.comprador.listar);
