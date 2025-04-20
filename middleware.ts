@@ -1,22 +1,19 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { withAuth } from "next-auth/middleware";
 
-export function middleware(request: NextRequest) {
-    const token = request.cookies.get('token')?.value
-
-    const isAuthPage = request.nextUrl.pathname.startsWith('/login')
-
-    if (!token && !isAuthPage) {
-        return NextResponse.redirect(new URL('/login', request.url))
-    }
-
-    if (token && isAuthPage) {
-        return NextResponse.redirect(new URL('/', request.url))
-    }
-
-    return NextResponse.next()
-}
+export default withAuth({
+    pages: {
+        signIn: '/login',
+    },
+});
 
 export const config = {
-    matcher: ['/', '/(pedidos|produtos|fornecedores|contato|usuario)', '/login'],
+    matcher: [
+        "/dashboard/:path*",
+        "/usuario/:path*",
+        "/fornecedores/:path*",
+        "/produtos/:path*",
+        "/pedidos/:path*",
+        "/contato/:path*",
+        "/novopedido/:path*",
+    ],
 }

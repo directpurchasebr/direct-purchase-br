@@ -20,11 +20,17 @@ export default function FuncionarioGridSelector() {
         setSelectedPessoa(item);
     };
 
+    const fields = [
+        { label: 'ID', value: 'fornecedorId' },
+        { label: 'Codigo', value: 'codigo' },
+        { label: 'Nome', value: 'nome' },
+    ];
+
     return (
         <div className="p-6">
             <CustomListGrid
                 items={fornecedores}
-                fields={["fornecedorId", "codigo", "nome"]}
+                fields={fields}
                 onItemClick={handleItemClick}
                 titulo="Fornecedores"
             />

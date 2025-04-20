@@ -5,6 +5,7 @@ import { useSession, signOut } from "next-auth/react";
 import Container from "./container";
 import ConfigTrigger from './config-trigger';
 import { Plus } from '@phosphor-icons/react';
+import CadastroTrigger from './cadastro-trigger';
 
 export default function Navbar() {
     const { data: session } = useSession();
@@ -33,15 +34,11 @@ export default function Navbar() {
                             <Link href="/pedidos" className="hover:text-yellow-500 transition-colors">Pedidos</Link>
                         </li>
                         <li>
-                            <Link href="/fornecedores" className="hover:text-yellow-500 transition-colors">Fornecedores</Link>
-                        </li>
-                        <li>
-                            <Link href="/produtos" className="hover:text-yellow-500 transition-colors">Produtos</Link>
-                        </li>
-                        <li>
                             <Link href="/contato" className="hover:text-yellow-500 transition-colors">Contato</Link>
                         </li>
-
+                        <li className="ml-2">
+                            <CadastroTrigger />
+                        </li>
                         <li className="ml-2">
                             <ConfigTrigger />
                         </li>

@@ -1,4 +1,5 @@
 import { Pessoa, PessoaBanco, PessoaEndereco } from '@apimodel/payload/intefaces';
+import { CustomButton } from '@components/layout/custom-button';
 import { useState } from 'react';
 
 const inputClass =
@@ -32,6 +33,41 @@ type PessoaFormProps = {
 
 export default function PessoaForm({ initialData, onClose }: PessoaFormProps) {
     const [form, setForm] = useState<Pessoa>(initialData ?? initialPessoa);
+
+    const fields = [
+        { label: 'Código', value: 'codigo' },
+        { label: 'Nome', value: 'nome' },
+        { label: 'Nome Fantasia', value: 'nomeFantasia' },
+        { label: 'CPF', value: 'cpf' },
+        { label: 'CNPJ', value: 'cnpj' },
+        { label: 'Inscrição Estadual', value: 'inscricaoEstadual' },
+        { label: 'Inscrição Municipal', value: 'inscricaoMunicipal' },
+        { label: 'Telefone', value: 'telefone' },
+        { label: 'E-mail', value: 'email' },
+        { label: 'Site', value: 'site' },
+        { label: 'Responsável', value: 'responsavel' },
+        { label: 'Telefone do Responsável', value: 'telefoneResponsavel' },
+        { label: 'Observações', value: 'observacoes' },
+    ];
+
+    const enderecoFields = [
+        { label: 'Logradouro', value: 'logradouro' },
+        { label: 'Número', value: 'numero' },
+        { label: 'Complemento', value: 'complemento' },
+        { label: 'Bairro', value: 'bairro' },
+        { label: 'Cidade', value: 'cidade' },
+        { label: 'Estado', value: 'estado' },
+        { label: 'CEP', value: 'cep' },
+    ];
+
+    const bancoFields = [
+        { label: 'Banco', value: 'banco' },
+        { label: 'Agência', value: 'agencia' },
+        { label: 'Conta', value: 'conta' },
+        { label: 'Tipo de Conta', value: 'tipoConta' },
+        { label: 'Titular', value: 'titular' },
+        { label: 'CNPJ do Titular', value: 'cnpjTitular' },
+    ];
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -74,26 +110,12 @@ export default function PessoaForm({ initialData, onClose }: PessoaFormProps) {
         <form onSubmit={handleSubmit} className="space-y-8">
             {/* Dados principais */}
             <div className="grid grid-cols-4 gap-4">
-                {[
-                    'codigo',
-                    'nome',
-                    'nomeFantasia',
-                    'cpf',
-                    'cnpj',
-                    'inscricaoEstadual',
-                    'inscricaoMunicipal',
-                    'telefone',
-                    'email',
-                    'site',
-                    'responsavel',
-                    'telefoneResponsavel',
-                    'observacoes',
-                ].map((field) => (
-                    <div key={field}>
-                        <label className={labelClass}>{field}</label>
+                {fields.map(({ label, value }) => (
+                    <div key={value}>
+                        <label className={labelClass}>{label}</label>
                         <input
-                            name={field}
-                            value={(form as any)[field] ?? ""}
+                            name={value}
+                            value={(form as any)[value] ?? ""}
                             onChange={handleChange}
                             className={inputClass}
                         />
@@ -105,23 +127,23 @@ export default function PessoaForm({ initialData, onClose }: PessoaFormProps) {
             <div>
                 <div className="flex justify-between items-center mb-2">
                     <h3 className="text-lg font-semibold">Endereços</h3>
-                    <button
-                        type="button"
+                    <CustomButton type="button"
+                        variant="outline"
                         onClick={addEndereco}
-                        className="text-blue-600 hover:underline text-sm"
-                    >
+                        className="bg-stone-600 text-white p-2 rounded w-40">
                         + Adicionar Endereço
-                    </button>
+                    </CustomButton>
                 </div>
 
                 {form.enderecos.map((endereco, idx) => (
                     <div key={idx} className="grid grid-cols-4 gap-4 mb-4">
-                        {Object.keys(endereco).map((key) => (
-                            <div key={key}>
-                                <label className={labelClass}>{key}</label>
+                        {enderecoFields.map(({ label, value }) => (
+                            <div key={value}>
+                                <label className={labelClass}>{label}</label>
                                 <input
-                                    value={(endereco as any)[key]}
-                                    onChange={(e) => handleEnderecoChange(idx, key as keyof PessoaEndereco, e.target.value)}
+                                    name={value}
+                                    value={(endereco as any)[value]}
+                                    onChange={(e) => handleEnderecoChange(idx, value as keyof PessoaEndereco, e.target.value)}
                                     className={inputClass}
                                 />
                             </div>
@@ -134,23 +156,24 @@ export default function PessoaForm({ initialData, onClose }: PessoaFormProps) {
             <div>
                 <div className="flex justify-between items-center mb-2">
                     <h3 className="text-lg font-semibold">Contas Bancárias</h3>
-                    <button
-                        type="button"
+                    <CustomButton type="button"
+                        variant="outline"
                         onClick={addBanco}
-                        className="text-blue-600 hover:underline text-sm"
-                    >
+                        className="bg-stone-600 text-white p-2 rounded w-40">
                         + Adicionar Banco
-                    </button>
+                    </CustomButton>
+
                 </div>
 
                 {form.bancos.map((banco, idx) => (
                     <div key={idx} className="grid grid-cols-4 gap-4 mb-4">
-                        {Object.keys(banco).map((key) => (
-                            <div key={key}>
-                                <label className={labelClass}>{key}</label>
+                        {bancoFields.map(({ label, value }) => (
+                            <div key={value}>
+                                <label className={labelClass}>{label}</label>
                                 <input
-                                    value={(banco as any)[key]}
-                                    onChange={(e) => handleBancoChange(idx, key as keyof PessoaBanco, e.target.value)}
+                                    name={value}
+                                    value={(banco as any)[value]}
+                                    onChange={(e) => handleBancoChange(idx, value as keyof PessoaBanco, e.target.value)}
                                     className={inputClass}
                                 />
                             </div>
@@ -162,7 +185,7 @@ export default function PessoaForm({ initialData, onClose }: PessoaFormProps) {
             <div className="flex justify-end">
                 <button
                     type="submit"
-                    className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 shadow"
+                    className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 shadow w-40"
                 >
                     Salvar
                 </button>

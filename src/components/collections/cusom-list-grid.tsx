@@ -7,7 +7,7 @@ type Item = { [key: string]: any };
 
 interface ItemListProps {
     items: Item[];
-    fields: string[];
+    fields: { label: string; value: string }[];
     onItemClick: (item: Pessoa) => void;
     titulo: string;
 }
@@ -30,9 +30,9 @@ export const CustomListGrid: FC<ItemListProps> = ({ items, fields, onItemClick, 
             </div>
 
             <div className="hidden sm:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 px-1">
-                {fields.map((field) => (
-                    <div key={field} className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
-                        {field}
+                {fields.map(({ label, value }) => (
+                    <div key={value} className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
+                        {label}
                     </div>
                 ))}
             </div>
@@ -50,9 +50,9 @@ export const CustomListGrid: FC<ItemListProps> = ({ items, fields, onItemClick, 
                         }`}
                 >
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                        {fields.map((field) => (
-                            <div key={field} className="text-gray-700 text-sm">
-                                {item[field]}
+                        {fields.map(({ label, value }) => (
+                            <div key={value} className="text-gray-700 text-sm">
+                                {item[value]}
                             </div>
                         ))}
                     </div>

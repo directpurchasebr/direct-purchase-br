@@ -26,6 +26,10 @@ const authOptions = {
             session.sessionId = token.sessionId as string;
             session.user = token.user as User;
             return session;
+        },
+        authorized({ token }: { token: any }) {
+            console.log("MIDDLEWARE TOKEN:", token); // Isso vai aparecer no terminal
+            return !!token?.sub;
         }
     },
     providers: [

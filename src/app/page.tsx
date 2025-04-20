@@ -12,9 +12,5 @@ export default async function HomePage() {
 
     return (
         <Dashboard />
-        // <div className="p-6">
-        //     <h1 className="text-2xl font-bold mb-4">Bem-vindo ao sistema!</h1>
-        //     <p className="text-gray-700">Você está logado.</p>
-        // </div>
     );
 }
