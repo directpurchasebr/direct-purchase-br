@@ -1,18 +1,18 @@
 "use client";
 
-import { Fornecedor, Pessoa } from "@apimodel/payload/intefaces";
+import { Comprador, Pessoa } from "@apimodel/payload/intefaces";
 import { CustomListGrid } from "@components/collections/custom-list-grid";
 import PessoaModal from "@components/views/pessoa/pessoal-modal";
 import { CustomButton } from "@components/layout/custom-button";
 import { internalService } from "@services/internal-service";
 import { useEffect, useState } from "react";
 
-export default function FornecedorGridSelector() {
-    const [fornecedores, setFornecedores] = useState<Array<Fornecedor>>([]);
+export default function CompradorGridSelector() {
+    const [compradores, setCompradores] = useState<Array<Comprador>>([]);
     const [selectedPessoa, setSelectedPessoa] = useState<Pessoa | undefined>(undefined);
 
     useEffect(() => {
-        internalService.fornecedor.listar().then((res) => res && setFornecedores(res));
+        internalService.comprador.listar().then((res) => res && setCompradores(res));
     }, []);
 
     const handleItemClick = (item: Pessoa) => {
@@ -21,7 +21,7 @@ export default function FornecedorGridSelector() {
     };
 
     const fields = [
-        { label: 'ID', value: 'fornecedorId' },
+        { label: 'ID', value: 'compradorId' },
         { label: 'Codigo', value: 'codigo' },
         { label: 'Nome', value: 'nome' },
     ];
@@ -29,12 +29,10 @@ export default function FornecedorGridSelector() {
     return (
         <div className="p-6">
             <CustomListGrid
-                items={fornecedores}
+                items={compradores}
                 fields={fields}
                 onItemClick={handleItemClick}
-                titulo="Fornecedores"
-                novoRota="/fornecedores/cadastrar"
-                importar="importar"
+                titulo="Compradores"
             />
 
             <PessoaModal

@@ -1,3 +1,5 @@
+"use client";
+
 import { Pessoa, PessoaBanco, PessoaEndereco } from '@apimodel/payload/intefaces';
 import { CustomButton } from '@components/layout/custom-button';
 import { useState } from 'react';
@@ -107,89 +109,91 @@ export default function PessoaForm({ initialData, onClose }: PessoaFormProps) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-8">
-            {/* Dados principais */}
-            <div className="grid grid-cols-4 gap-4">
-                {fields.map(({ label, value }) => (
-                    <div key={value}>
-                        <label className={labelClass}>{label}</label>
-                        <input
-                            name={value}
-                            value={(form as any)[value] ?? ""}
-                            onChange={handleChange}
-                            className={inputClass}
-                        />
-                    </div>
-                ))}
-            </div>
-
-            {/* Endereços */}
-            <div>
-                <div className="flex justify-between items-center mb-2">
-                    <h3 className="text-lg font-semibold">Endereços</h3>
-                    <CustomButton type="button"
-                        variant="outline"
-                        onClick={addEndereco}
-                        className="bg-stone-600 text-white p-2 rounded w-40">
-                        + Adicionar Endereço
-                    </CustomButton>
+        <div className="p-2">
+            <form onSubmit={handleSubmit} className="space-y-8">
+                {/* Dados principais */}
+                <div className="grid grid-cols-4 gap-4">
+                    {fields.map(({ label, value }) => (
+                        <div key={value}>
+                            <label className={labelClass}>{label}</label>
+                            <input
+                                name={value}
+                                value={(form as any)[value] ?? ""}
+                                onChange={handleChange}
+                                className={inputClass}
+                            />
+                        </div>
+                    ))}
                 </div>
 
-                {form.enderecos.map((endereco, idx) => (
-                    <div key={idx} className="grid grid-cols-4 gap-4 mb-4">
-                        {enderecoFields.map(({ label, value }) => (
-                            <div key={value}>
-                                <label className={labelClass}>{label}</label>
-                                <input
-                                    name={value}
-                                    value={(endereco as any)[value]}
-                                    onChange={(e) => handleEnderecoChange(idx, value as keyof PessoaEndereco, e.target.value)}
-                                    className={inputClass}
-                                />
-                            </div>
-                        ))}
+                {/* Endereços */}
+                <div>
+                    <div className="flex justify-between items-center mb-2">
+                        <h3 className="text-lg font-semibold">Endereços</h3>
+                        <CustomButton type="button"
+                            variant="outline"
+                            onClick={addEndereco}
+                            className="bg-stone-600 text-white p-2 rounded w-40">
+                            + Adicionar Endereço
+                        </CustomButton>
                     </div>
-                ))}
-            </div>
 
-            {/* Bancos */}
-            <div>
-                <div className="flex justify-between items-center mb-2">
-                    <h3 className="text-lg font-semibold">Contas Bancárias</h3>
-                    <CustomButton type="button"
-                        variant="outline"
-                        onClick={addBanco}
-                        className="bg-stone-600 text-white p-2 rounded w-40">
-                        + Adicionar Banco
-                    </CustomButton>
-
+                    {(form.enderecos || []).map((endereco, idx) => (
+                        <div key={idx} className="grid grid-cols-4 gap-4 mb-4">
+                            {enderecoFields.map(({ label, value }) => (
+                                <div key={value}>
+                                    <label className={labelClass}>{label}</label>
+                                    <input
+                                        name={value}
+                                        value={(endereco as any)[value]}
+                                        onChange={(e) => handleEnderecoChange(idx, value as keyof PessoaEndereco, e.target.value)}
+                                        className={inputClass}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    ))}
                 </div>
 
-                {form.bancos.map((banco, idx) => (
-                    <div key={idx} className="grid grid-cols-4 gap-4 mb-4">
-                        {bancoFields.map(({ label, value }) => (
-                            <div key={value}>
-                                <label className={labelClass}>{label}</label>
-                                <input
-                                    name={value}
-                                    value={(banco as any)[value]}
-                                    onChange={(e) => handleBancoChange(idx, value as keyof PessoaBanco, e.target.value)}
-                                    className={inputClass}
-                                />
-                            </div>
-                        ))}
-                    </div>
-                ))}
-            </div>
+                {/* Bancos */}
+                <div>
+                    <div className="flex justify-between items-center mb-2">
+                        <h3 className="text-lg font-semibold">Contas Bancárias</h3>
+                        <CustomButton type="button"
+                            variant="outline"
+                            onClick={addBanco}
+                            className="bg-stone-600 text-white p-2 rounded w-40">
+                            + Adicionar Banco
+                        </CustomButton>
 
-            <div className="flex justify-end">
-                <button
-                    type="submit"
-                    className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 shadow w-40"
-                >
-                    Salvar
-                </button>
-            </div>
-        </form>
+                    </div>
+
+                    {(form.bancos || []).map((banco, idx) => (
+                        <div key={idx} className="grid grid-cols-4 gap-4 mb-4">
+                            {bancoFields.map(({ label, value }) => (
+                                <div key={value}>
+                                    <label className={labelClass}>{label}</label>
+                                    <input
+                                        name={value}
+                                        value={(banco as any)[value]}
+                                        onChange={(e) => handleBancoChange(idx, value as keyof PessoaBanco, e.target.value)}
+                                        className={inputClass}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    ))}
+                </div>
+
+                <div className="flex justify-end">
+                    <button
+                        type="submit"
+                        className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 shadow w-40"
+                    >
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
     );
 }

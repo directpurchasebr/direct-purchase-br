@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Pessoa } from "@apimodel/payload/intefaces";
 import React, { FC } from "react";
 import { CustomButton } from "@components/layout/custom-button";
+import Link from "next/link";
+import { UploadDialog } from "@components/layout/upload-dialog";
 
 type Item = { [key: string]: any };
 
@@ -10,22 +12,36 @@ interface ItemListProps {
     fields: { label: string; value: string }[];
     onItemClick: (item: Pessoa) => void;
     titulo: string;
+    novoRota?: string;
+    importar?: string;
 }
 
-export const CustomListGrid: FC<ItemListProps> = ({ items, fields, onItemClick, titulo }) => {
+export const CustomListGrid: FC<ItemListProps> = ({ items, fields, onItemClick, titulo, novoRota, importar }) => {
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+    const [openUpload, setOpenUpload] = useState(false);
+
+    const handleFileUpload = (file: File) => {
+        console.log("📁 Arquivo recebido:", file)
+    }
 
     return (
         <div className="space-y-3">
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-bold">{titulo}</h2>
                 <div className="space-x-2">
-                    <CustomButton variant="outline" className="bg-cyan-900 text-white p-2 rounded w-28">
-                        Cadastrar
+                    <CustomButton asChild variant="outline" className="bg-cyan-900 text-white p-2 rounded w-28">
+                        <Link href={novoRota ?? '/'}>Cadastrar</Link>
                     </CustomButton>
-                    <CustomButton variant="outline" className="bg-amber-700 text-white p-2 rounded w-28">
-                        Importar
-                    </CustomButton>
+                    {importar ? (
+                        <>
+                            <CustomButton onClick={() => setOpenUpload(true)}
+                                variant="outline" className="bg-amber-700 text-white p-2 rounded w-28">
+                                Importar
+                            </CustomButton>
+                            <UploadDialog onFileUpload={handleFileUpload}
+                                open={openUpload} onOpenChange={setOpenUpload} />
+                        </>
+                    ) : null}
                 </div>
             </div>
 
