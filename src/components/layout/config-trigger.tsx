@@ -17,10 +17,16 @@ export default function ConfigTrigger() {
 
     const handleLogout = async (e: FormEvent) => {
         e.preventDefault();
-        const status = await internalService.auth.logout().then((res) => res && res) as Status;
-        if (status?.mensagem === 'OK') {
-            await signOut({ callbackUrl: "/login" });
+
+        try {
+            const status = await internalService.auth.logout().then((res) => res && res) as Status;
+            if (status?.mensagem === 'OK') {
+                console.log('Logout realizado com sucesso');
+            }
+        } catch (error) {
+            console.error('Erro no logout:', error);
         }
+        await signOut({ callbackUrl: "/login" });
     };
 
     return (

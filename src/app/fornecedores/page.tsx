@@ -1,15 +1,17 @@
 "use client";
 
-import { Fornecedor, Pessoa } from "@apimodel/payload/intefaces";
+import { Fornecedor, Pessoa, ProdutosExcel } from "@apimodel/payload/intefaces";
 import { CustomListGrid } from "@components/collections/custom-list-grid";
 import PessoaModal from "@components/views/pessoa/pessoal-modal";
 import { CustomButton } from "@components/layout/custom-button";
 import { internalService } from "@services/internal-service";
 import { useEffect, useState } from "react";
+import { FullScreenLoader } from "@components/utils/full-screen-loader";
 
 export default function FornecedorGridSelector() {
     const [fornecedores, setFornecedores] = useState<Array<Fornecedor>>([]);
     const [selectedPessoa, setSelectedPessoa] = useState<Pessoa | undefined>(undefined);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         internalService.fornecedor.listar().then((res) => res && setFornecedores(res));
@@ -24,10 +26,50 @@ export default function FornecedorGridSelector() {
         { label: 'ID', value: 'fornecedorId' },
         { label: 'Codigo', value: 'codigo' },
         { label: 'Nome', value: 'nome' },
+        { label: 'CNPJ', value: 'cnpj' },
     ];
+
+    const handleFileUpload = async (file: File) => {
+        setIsLoading(true)
+
+        if (!selectedPessoa) {
+            console.error("Nenhuma pessoa selecionada.");
+            setIsLoading(false)
+            return;
+        }
+
+        const fornecedor = fornecedores.find((f) => f.pessoaId === selectedPessoa.pessoaId);
+        if (!fornecedor) {
+            console.error("Fornecedor correspondente não encontrado.");
+            return;
+        }
+
+        const excel: ProdutosExcel = {
+            fornecedorId: fornecedor.fornecedorId,
+            file: file,
+        };
+
+        const formData = new FormData();
+        formData.append('fornecedorId', fornecedor.fornecedorId.toString());
+        formData.append('file', file);
+
+        console.log('Enviando arquivo:', formData);
+
+        try {
+            const response = await internalService.produto.importar(formData);
+            console.log('Resposta do upload:', response);
+        } catch (error) {
+            console.error('Erro ao enviar arquivo:', error);
+        } finally {
+            setIsLoading(false)
+        }
+    };
 
     return (
         <div className="p-6">
+
+            {isLoading && <FullScreenLoader message="Enviando arquivo..." />}
+
             <CustomListGrid
                 items={fornecedores}
                 fields={fields}
@@ -35,6 +77,7 @@ export default function FornecedorGridSelector() {
                 titulo="Fornecedores"
                 novoRota="/fornecedores/cadastrar"
                 importar="importar"
+                onFileUpload={handleFileUpload}
             />
 
             <PessoaModal

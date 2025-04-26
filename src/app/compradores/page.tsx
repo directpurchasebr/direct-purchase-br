@@ -24,6 +24,7 @@ export default function CompradorGridSelector() {
         { label: 'ID', value: 'compradorId' },
         { label: 'Codigo', value: 'codigo' },
         { label: 'Nome', value: 'nome' },
+        { label: 'CNPJ', value: 'cnpj' },
     ];
 
     return (

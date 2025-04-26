@@ -1,5 +1,5 @@
 
-import { Comprador, Fornecedor, Perfil, Produto, Status, Usuario } from "@apimodel/payload/intefaces";
+import { Comprador, Fornecedor, Perfil, Produto, ProdutosExcel, Status, Usuario } from "@apimodel/payload/intefaces";
 import { internalRoutes } from "@lib/internal-routes";
 
 async function fetchInternal<T>(
@@ -8,16 +8,14 @@ async function fetchInternal<T>(
     body?: any
 ): Promise<T | undefined> {
 
-    const options: RequestInit = {
-        method: method,
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    };
+    const isFormData = body instanceof FormData;
+    const headers: HeadersInit = isFormData ? {} : { 'Content-Type': 'application/json' };
 
-    if (body) {
-        options.body = JSON.stringify(body);
-    }
+    const options: RequestInit = {
+        method,
+        headers,
+        body: body ? (isFormData ? body : JSON.stringify(body)) : undefined,
+    };
 
     const response = await fetch(route, options);
     if (!response.ok) {
@@ -52,6 +50,10 @@ export const internalService = {
         buscar: async (desc: string) => {
             if (desc.trim().length === 0) return;
             return await fetchInternal<Array<Produto>>(internalRoutes.produto.buscar(encodeURIComponent(desc)));
+        },
+
+        importar: async (body: any) => {
+            return await fetchInternal<Status>(internalRoutes.produto.importar, 'POST', body);
         },
     },
 

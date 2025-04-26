@@ -104,3 +104,8 @@ export interface PessoaBanco {
     titular: string;
     cnpjTitular: string;
 }
+
+export interface ProdutosExcel {
+	fornecedorId: number;
+	 file: File;
+}

@@ -14,15 +14,12 @@ interface ItemListProps {
     titulo: string;
     novoRota?: string;
     importar?: string;
+    onFileUpload?: (file: File) => void;
 }
 
-export const CustomListGrid: FC<ItemListProps> = ({ items, fields, onItemClick, titulo, novoRota, importar }) => {
+export const CustomListGrid: FC<ItemListProps> = ({ items, fields, onItemClick, titulo, novoRota, importar, onFileUpload }) => {
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const [openUpload, setOpenUpload] = useState(false);
-
-    const handleFileUpload = (file: File) => {
-        console.log("📁 Arquivo recebido:", file)
-    }
 
     return (
         <div className="space-y-3">
@@ -32,20 +29,20 @@ export const CustomListGrid: FC<ItemListProps> = ({ items, fields, onItemClick, 
                     <CustomButton asChild variant="outline" className="bg-cyan-900 text-white p-2 rounded w-28">
                         <Link href={novoRota ?? '/'}>Cadastrar</Link>
                     </CustomButton>
-                    {importar ? (
+                    {importar && onFileUpload && (
                         <>
                             <CustomButton onClick={() => setOpenUpload(true)}
                                 variant="outline" className="bg-amber-700 text-white p-2 rounded w-28">
                                 Importar
                             </CustomButton>
-                            <UploadDialog onFileUpload={handleFileUpload}
+                            <UploadDialog onFileUpload={onFileUpload}
                                 open={openUpload} onOpenChange={setOpenUpload} />
                         </>
-                    ) : null}
+                    )}
                 </div>
             </div>
 
-            <div className="hidden sm:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 px-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:auto-cols-fr lg:grid-flow-col gap-4 overflow-x-auto">
                 {fields.map(({ label, value }) => (
                     <div key={value} className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
                         {label}
@@ -60,12 +57,15 @@ export const CustomListGrid: FC<ItemListProps> = ({ items, fields, onItemClick, 
                         setSelectedIndex(index);
                         onItemClick(item as Pessoa);
                     }}
-                    className={`cursor-pointer border rounded-md shadow-sm p-3 transition ${selectedIndex === index
-                        ? "bg-blue-100 border-blue-500 ring-2 ring-blue-500"
-                        : "bg-white border-gray-300 hover:ring-2 hover:ring-blue-500"
-                        }`}
-                >
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    className={`cursor-pointer border rounded-md shadow-sm p-3 transition 
+                        ${selectedIndex === index
+                            ? "bg-blue-100 border-blue-500 ring-2 ring-blue-500"
+                            : "bg-white border-gray-300 hover:ring-2 hover:ring-blue-500"
+                        }`}>
+                    <div
+                        className="grid gap-4 overflow-x-auto"
+                        style={{ gridTemplateColumns: `repeat(${fields.length}, minmax(120px, 1fr))` }}>
+
                         {fields.map(({ label, value }) => (
                             <div key={value} className="text-gray-700 text-sm">
                                 {item[value]}

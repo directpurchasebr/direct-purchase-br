@@ -6,6 +6,7 @@ export const apiRoutes = {
     produtos: {
         produtos: "/produto/listar",
         search: (descricao: string) => `/produto/buscar/${descricao}`,
+        importar: '/produto/importaProdutosExcel'
     },
     fornecedor: {
         fornecedores: "/fornecedor/listar",
