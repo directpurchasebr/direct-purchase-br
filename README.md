@@ -98,7 +98,7 @@ Este projeto depende do **Redis** 🛢️ e do **JSReport** 📊, que podem ser 
 
 2. Para rodar o Redis, utilize o seguinte comando:
 
-   ```bash
+  ```bash
    docker run --name redis -p 6379:6379 -d redis
    docker run --name jsreport -p 5488:5488 -d jsreport/jsreport
   ```
