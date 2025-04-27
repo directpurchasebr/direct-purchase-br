@@ -87,3 +87,29 @@ npm run build
 
 🔗 Backend
 Este projeto consome a Direct Purchase API, que expõe endpoints seguros com JWT.
+
+# Dependências do Projeto
+
+Este projeto depende do **Redis** 🛢️ e do **JSReport** 📊, que podem ser executados localmente através do Docker.
+
+## Rodando Redis com Docker 🛢️
+
+1. Primeiro, verifique se o Docker está instalado e em funcionamento.
+
+2. Para rodar o Redis, utilize o seguinte comando:
+
+   ```bash
+   docker run --name redis -p 6379:6379 -d redis
+   docker run --name jsreport -p 5488:5488 -d jsreport/jsreport
+  ```
+
+
+Aqui, eu adicionei o emoji 🛢️ para o Redis e 📊 para o JSReport. Esses ícones tornam a leitura mais visual e organizada.
+
+Se quiser usar imagens de ícones em vez de emojis, você pode buscar imagens de ícones e usá-las dessa forma:
+
+```markdown
+![Redis Icon](https://example.com/redis-icon.png) Redis
+
+![JSReport Icon](https://example.com/jsreport-icon.png) JSReport
+
