@@ -103,13 +103,7 @@ Este projeto depende do **Redis** 🛢️ e do **JSReport** 📊, que podem ser 
    docker run --name jsreport -p 5488:5488 -d jsreport/jsreport
   ```
 
+![🛢️](https://example.com/redis-icon.png) Redis
 
-Aqui, eu adicionei o emoji 🛢️ para o Redis e 📊 para o JSReport. Esses ícones tornam a leitura mais visual e organizada.
-
-Se quiser usar imagens de ícones em vez de emojis, você pode buscar imagens de ícones e usá-las dessa forma:
-
-```markdown
-![Redis Icon](https://example.com/redis-icon.png) Redis
-
-![JSReport Icon](https://example.com/jsreport-icon.png) JSReport
+![📊 ](https://example.com/jsreport-icon.png) JSReport
 
