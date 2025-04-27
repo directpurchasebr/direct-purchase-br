@@ -1,14 +1,16 @@
 "use client";
 
-import { Fornecedor, Pessoa, ProdutosExcel } from "@apimodel/payload/intefaces";
+import { Fornecedor, Pessoa, ProdutosExcel, Status } from "@apimodel/payload/intefaces";
 import { CustomListGrid } from "@components/collections/custom-list-grid";
 import PessoaModal from "@components/views/pessoa/pessoal-modal";
 import { CustomButton } from "@components/layout/custom-button";
 import { internalService } from "@services/internal-service";
 import { useEffect, useState } from "react";
 import { FullScreenLoader } from "@components/utils/full-screen-loader";
+import { SuccessDialog } from "@components/utils/success-dialog";
 
 export default function FornecedorGridSelector() {
+    const [status, setStatus] = useState<Status | null>(null);
     const [fornecedores, setFornecedores] = useState<Array<Fornecedor>>([]);
     const [selectedPessoa, setSelectedPessoa] = useState<Pessoa | undefined>(undefined);
     const [isLoading, setIsLoading] = useState(false);
@@ -53,16 +55,15 @@ export default function FornecedorGridSelector() {
         formData.append('fornecedorId', fornecedor.fornecedorId.toString());
         formData.append('file', file);
 
-        console.log('Enviando arquivo:', formData);
 
         try {
-            const response = await internalService.produto.importar(formData);
-            console.log('Resposta do upload:', response);
+            await internalService.produto.importar(formData).then((res) => res && setStatus(res));
         } catch (error) {
             console.error('Erro ao enviar arquivo:', error);
         } finally {
             setIsLoading(false)
         }
+
     };
 
     return (
@@ -88,6 +89,9 @@ export default function FornecedorGridSelector() {
                 }
                 initialData={selectedPessoa}
             />
+
+            {status && (<SuccessDialog message={status.mensagem} />)}
+
         </div>
     )
 }

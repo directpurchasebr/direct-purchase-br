@@ -51,7 +51,7 @@ export default function LinhaPedido({ linha, onChange, onChangeMulti, fornecedor
                 <InputSearchProduto
                     value={linha.produto?.descricao ?? ''}
                     className="w-full"
-                    classNameInput={uiStyles.tabelaPedido.classNameInputDefault}
+                    classNameInput={uiStyles.tabelaPedido.classNameInputProduto}
                     onSelect={(produtoSelecionado: any) => {
                         onChangeMulti(linha.id, {
                             fornecedor: produtoSelecionado.fornecedor,
@@ -115,6 +115,7 @@ export default function LinhaPedido({ linha, onChange, onChangeMulti, fornecedor
                     classNameInput: uiStyles.tabelaPedido.classNameInputDefault,
                 }}
             />
+            
         </tr>
     );
 }

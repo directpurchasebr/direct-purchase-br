@@ -93,7 +93,7 @@ export default function UsuarioForm({ user }: Props) {
 
                         <CustomSelector<Perfil>
                             value={formData.perfil}
-                            onChange={(value) => setFormData((prev) => ({ ...prev, perfil: value }))}
+                            onChange={(value) => setFormData((prev) => ({ ...prev, perfil: value ?? { perfilId: 0, descricao: '' } }))}
                             list={perfil}
                             getLabel={(p) => p.descricao}
                             getKey={(p) => p.perfilId}

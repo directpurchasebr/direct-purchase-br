@@ -1,0 +1,13 @@
+{
+    "server": {
+        "port": 5488
+    },
+    "store": {
+        "provider": "fs",
+        "options": {
+            "path": "./src/report/data/templates/*"
+        }
+    },
+    "templateEngine": "handlebars",
+    "recipe": "chrome-pdf"
+}

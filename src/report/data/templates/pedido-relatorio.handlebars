@@ -1,0 +1,41 @@
+<div style="font-family: Arial, sans-serif; padding: 20px;">
+
+    <h1 style="text-align: center; color: #333;">Pedido {{fornecedor}}</h1>
+
+    <p style="font-size: 16px; margin-top: 20px;">
+        <strong>Cliente:</strong> {{cliente}}
+    </p>
+
+    <table cellpadding="8" cellspacing="0"
+        style="width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px;">
+        <thead style="background-color: #f0f0f0;">
+            <tr>
+                <th style="border: 1px solid #ccc;">Fornecedor</th>
+                <th style="border: 1px solid #ccc;">Código</th>
+                <th style="border: 1px solid #ccc;">Produto</th>
+                <th style="border: 1px solid #ccc;">Quantidade</th>
+                <th style="border: 1px solid #ccc;">Unidade</th>
+                <th style="border: 1px solid #ccc;">Preço</th>
+                <th style="border: 1px solid #ccc;">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each produtos}}
+            <tr style="background-color: {{#if @odd}}#f9f9f9{{else}}#ffffff{{/if}};">
+                <td style="border: 1px solid #ddd;">{{fornecedor}}</td>
+                <td style="border: 1px solid #ddd;">{{codigo}}</td>
+                <td style="border: 1px solid #ddd;">{{descricao}}</td>
+                <td style="border: 1px solid #ddd; text-align: center;">{{quantidade}}</td>
+                <td style="border: 1px solid #ddd; text-align: center;">{{unidade}}</td>
+                <td style="border: 1px solid #ddd; text-align: right;">R$ {{preco}}</td>
+                <td style="border: 1px solid #ddd; text-align: right;">R$ {{precoTotal}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <h2 style="text-align: right; margin-top: 20px; color: #333;">
+        Total Geral: <span style="font-weight: bold;">R$ {{totalGeral}}</span>
+    </h2>
+
+</div>

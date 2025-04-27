@@ -20,4 +20,8 @@ export const internalRoutes = {
   perfil: {
     listar: "/api/perfil/listar",
   },
+  pedido: {
+    listar: "/api/pedido/listar",
+    salvar: "/api/pedido/salvar",
+  },
 };

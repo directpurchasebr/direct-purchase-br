@@ -21,4 +21,8 @@ export const apiRoutes = {
     perfil: {
         listar: "/perfil/listar",
     },
+    pedido: {
+        pedidos: "/pedido/listar",
+        salvar: "/pedido/salvar",
+    },
 };

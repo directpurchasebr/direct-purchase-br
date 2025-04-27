@@ -1,6 +1,6 @@
 
 import fetcherUtils from '@utils/fetcher-utils';
-import { Comprador, Fornecedor, Perfil, Produto, ProdutosExcel, Status, Usuario } from '@apimodel/payload/intefaces';
+import { Comprador, Fornecedor, Pedido, Perfil, Produto, Status, Usuario } from '@apimodel/payload/intefaces';
 import { getUserFromSession } from '@utils/session-utils';
 import { apiRoutes } from '@lib/api-routers';
 import { UsuarioLogado } from '@apimodel/auth/interfaces';
@@ -29,7 +29,8 @@ async function fetchWithToken<T>(
 export const coreService = {
     auth: {
         login: async (credentials: Credentials) => {
-            const data = await fetchWithToken<UsuarioLogado>(apiRoutes.auth.login, undefined, 'POST', credentials, true);
+            const data = await fetchWithToken<UsuarioLogado>(apiRoutes.auth.login, undefined,
+                'POST', credentials, true);
             return data ?? null;
         },
 
@@ -87,4 +88,12 @@ export const coreService = {
             return data ?? [];
         },
     },
+
+    pedido: {
+        salvar: async (body: Pedido, token?: string) => {
+            const data = await fetchWithToken<Status>(apiRoutes.pedido.salvar, token, 'POST', body);
+            return data ?? [];
+        },
+    },
+
 };

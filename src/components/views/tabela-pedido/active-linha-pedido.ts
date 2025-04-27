@@ -8,6 +8,17 @@ export function useLinhasPedido() {
         unidade: '', preco: 0, precoTotal: 0,
     }]);
 
+    const clearLinhas = () => setLinhas([{
+        id: 0,
+        fornecedor: {} as Fornecedor,
+        codigo: '',
+        produto: {} as Produto,
+        quantidade: 0,
+        unidade: '',
+        preco: 0,
+        precoTotal: 0,
+    }]);
+
     const addLinha = () => {
         const novaLinha: LinhaTabela = {
             id: linhas.length + 1,
@@ -25,5 +36,5 @@ export function useLinhasPedido() {
         setLinhas(prev => prev.map(l => l.id === id ? { ...l, ...dados } : l));
     };
 
-    return { linhas, addLinha, refreshLinha, refreshLinhaMulti };
+    return { linhas, addLinha, refreshLinha, refreshLinhaMulti, clearLinhas };
 }
