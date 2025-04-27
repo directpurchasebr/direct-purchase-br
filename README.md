@@ -88,7 +88,7 @@ npm run build
 🔗 Backend
 Este projeto consome a Direct Purchase API, que expõe endpoints seguros com JWT.
 
-# Dependências do Projeto - Docker 🐳
+# 🐳 Dependências do Projeto
 
 Este projeto depende do **Redis** 🛢️ e do **JSReport** 📊, que podem ser executados localmente através do Docker.
 
