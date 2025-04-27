@@ -102,8 +102,3 @@ Este projeto depende do **Redis** 🛢️ e do **JSReport** 📊, que podem ser 
    docker run --name redis -p 6379:6379 -d redis
    docker run --name jsreport -p 5488:5488 -d jsreport/jsreport
   ```
-
-![🛢️](https://example.com/redis-icon.png) Redis
-
-![📊 ](https://example.com/jsreport-icon.png) JSReport
-
