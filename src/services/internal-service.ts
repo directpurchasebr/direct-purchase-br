@@ -74,6 +74,11 @@ export const internalService = {
     },
 
     pedido: {
+        listar: async () => {
+            return await fetchInternal<Array<Pedido>>(internalRoutes.pedido.listar);
+        },
+
+
         salvar: async (body: Pedido) => {
             return await fetchInternal<Status>(internalRoutes.pedido.salvar, 'POST', body);
         },

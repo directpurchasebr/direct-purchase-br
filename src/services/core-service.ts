@@ -90,6 +90,11 @@ export const coreService = {
     },
 
     pedido: {
+        listar: async (token?: string) => {
+            const data = await fetchWithToken<Array<Pedido>>(apiRoutes.pedido.pedidos, token);
+            return data ?? [];
+        },
+        
         salvar: async (body: Pedido, token?: string) => {
             const data = await fetchWithToken<Status>(apiRoutes.pedido.salvar, token, 'POST', body);
             return data ?? [];

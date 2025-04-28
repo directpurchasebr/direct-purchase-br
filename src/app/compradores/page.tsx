@@ -33,6 +33,7 @@ export default function CompradorGridSelector() {
                 items={compradores}
                 fields={fields}
                 onItemClick={handleItemClick}
+                cadastrar={true}
                 titulo="Compradores"
             />
 

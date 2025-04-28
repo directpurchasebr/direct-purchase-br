@@ -77,7 +77,8 @@ export default function FornecedorGridSelector() {
                 onItemClick={handleItemClick}
                 titulo="Fornecedores"
                 novoRota="/fornecedores/cadastrar"
-                importar="importar"
+                importar={true}
+                cadastrar={true}
                 onFileUpload={handleFileUpload}
             />
 

@@ -1,34 +1,79 @@
 import { useState } from "react";
-import { Pessoa } from "@apimodel/payload/intefaces";
-import React, { FC } from "react";
 import { CustomButton } from "@components/layout/custom-button";
 import Link from "next/link";
 import { UploadDialog } from "@components/layout/upload-dialog";
+import React, { FC } from "react";
 
 type Item = { [key: string]: any };
 
-interface ItemListProps {
-    items: Item[];
+interface ItemListProps<T> {
+    items: T[];
     fields: { label: string; value: string }[];
-    onItemClick: (item: Pessoa) => void;
+    onItemClick: (item: T) => void;
     titulo: string;
     novoRota?: string;
-    importar?: string;
+    importar?: boolean;
+    cadastrar?: boolean;
     onFileUpload?: (file: File) => void;
+    itemsPerPage?: number;
 }
 
-export const CustomListGrid: FC<ItemListProps> = ({ items, fields, onItemClick, titulo, novoRota, importar, onFileUpload }) => {
+const getNestedValue = (obj: any, path: string) => {
+    return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+};
+
+export const CustomListGrid = <T extends Item>({
+    items,
+    fields,
+    onItemClick,
+    titulo,
+    novoRota,
+    importar,
+    cadastrar,
+    onFileUpload,
+    itemsPerPage = 8,
+}: ItemListProps<T>) => {
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const [openUpload, setOpenUpload] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const currentItems = items.slice(startIndex, endIndex);
+
+    const totalPages = Math.ceil(items.length / itemsPerPage);
+
+    const renderFieldValue = (item: T, fieldValue: string) => {
+        const value = getNestedValue(item, fieldValue);
+        return value ?? 'N/A';
+    };
+
+    const handleNextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    const handlePreviousPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
 
     return (
         <div className="space-y-3">
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-bold">{titulo}</h2>
                 <div className="space-x-2">
-                    <CustomButton asChild variant="outline" className="bg-cyan-900 text-white p-2 rounded w-28">
-                        <Link href={novoRota ?? '/'}>Cadastrar</Link>
-                    </CustomButton>
+
+                    {cadastrar && (
+                        <>
+                            <CustomButton asChild variant="outline" className="bg-cyan-900 text-white p-2 rounded w-28">
+                                <Link href={novoRota ?? '/'}>Cadastrar</Link>
+                            </CustomButton>
+
+                        </>
+                    )}
                     {importar && onFileUpload && (
                         <>
                             <CustomButton onClick={() => setOpenUpload(true)}
@@ -50,12 +95,12 @@ export const CustomListGrid: FC<ItemListProps> = ({ items, fields, onItemClick, 
                 ))}
             </div>
 
-            {items.map((item, index) => (
+            {currentItems.map((item, index) => (
                 <div
                     key={index}
                     onClick={() => {
                         setSelectedIndex(index);
-                        onItemClick(item as Pessoa);
+                        onItemClick(item);
                     }}
                     className={`cursor-pointer border rounded-md shadow-sm p-3 transition 
                         ${selectedIndex === index
@@ -68,12 +113,33 @@ export const CustomListGrid: FC<ItemListProps> = ({ items, fields, onItemClick, 
 
                         {fields.map(({ label, value }) => (
                             <div key={value} className="text-gray-700 text-sm">
-                                {item[value]}
+                                {renderFieldValue(item, value)}
                             </div>
                         ))}
                     </div>
                 </div>
             ))}
+
+            {/* Paginacao */}
+            <div className="flex justify-between items-center mt-4">
+                <CustomButton
+                    onClick={handlePreviousPage}
+                    disabled={currentPage === 1}
+                    className="bg-gray-500 text-white p-2 rounded w-28"
+                >
+                    Anterior
+                </CustomButton>
+                <span className="text-sm">
+                    Página {currentPage} de {totalPages}
+                </span>
+                <CustomButton
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}
+                    className="bg-gray-500 text-white p-2 rounded w-28"
+                >
+                    Próxima
+                </CustomButton>
+            </div>
         </div>
     );
 };
