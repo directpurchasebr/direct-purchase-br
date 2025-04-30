@@ -3,9 +3,11 @@
 import { Comprador, Pessoa } from "@apimodel/payload/intefaces";
 import { CustomListGrid } from "@components/collections/custom-list-grid";
 import PessoaModal from "@components/views/pessoa/pessoal-modal";
-import { CustomButton } from "@components/layout/custom-button";
+import { CustomButton } from "@components/utils/custom-button";
 import { internalService } from "@services/internal-service";
 import { useEffect, useState } from "react";
+import { mask } from 'remask';
+import { getNestedValue } from "@utils/functios-utils";
 
 export default function CompradorGridSelector() {
     const [compradores, setCompradores] = useState<Array<Comprador>>([]);
@@ -16,15 +18,29 @@ export default function CompradorGridSelector() {
     }, []);
 
     const handleItemClick = (item: Pessoa) => {
-        console.log('Item selecionado:', item);
         setSelectedPessoa(item);
     };
 
     const fields = [
-        { label: 'ID', value: 'compradorId' },
-        { label: 'Codigo', value: 'codigo' },
-        { label: 'Nome', value: 'nome' },
-        { label: 'CNPJ', value: 'cnpj' },
+        { label: 'ID', value: 'compradorId', width: '60px' },
+        { label: 'Código', value: 'codigo', width: '200px' },
+        { label: 'Nome', value: 'nome', width: '400px' },
+        {
+            label: 'CNPJ/CPF',
+            value: 'cnpj',
+            width: '200px',
+            render: (item: Comprador) => {
+                const cnpj = getNestedValue(item, 'cnpj');
+                const cpf = getNestedValue(item, 'cpf');
+                const rawValue = cnpj || cpf || '';
+
+                const maskedValue = cnpj
+                    ? mask(rawValue, ['99.999.999/9999-99'])
+                    : mask(rawValue, ['999.999.999-99']);
+
+                return <span className="font-bold text-green-600">{maskedValue}</span>;
+            }
+        },
     ];
 
     return (
@@ -33,8 +49,9 @@ export default function CompradorGridSelector() {
                 items={compradores}
                 fields={fields}
                 onItemClick={handleItemClick}
-                cadastrar={true}
                 titulo="Compradores"
+                rotaCadastro="/compradores/cadastrar"
+                isCadastrar={true}
             />
 
             <PessoaModal

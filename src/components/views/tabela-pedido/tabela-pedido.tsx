@@ -2,34 +2,37 @@
 
 import { Comprador, Fornecedor, Pedido, Status } from '@apimodel/payload/intefaces';
 import CustomSelector from '@components/collections/custom-selector';
-import { CustomButton } from "@components/layout/custom-button";
+import { CustomButton } from "@components/utils/custom-button";
 import { Plus } from '@phosphor-icons/react';
 import { internalService } from '@services/internal-service';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import { useLinhasPedido } from './active-linha-pedido';
 import LinhaPedido from './linha-pedido';
 import { uiStyles } from '@lib/ui-styles';
 import { FullScreenLoader } from '@components/utils/full-screen-loader';
-import { SuccessDialog } from '@components/utils/success-dialog';
-
 import { v4 as uuidv4 } from "uuid";
+import { RelatorioButton, RelatorioButtonRef } from '@components/utils/relatorio-button';
 
 export default function TabelaPedidos() {
     const [status, setStatus] = useState<Status | null>(null);
     const [clienteSelecionado, setClienteSelecionado] = useState<Comprador>({} as Comprador);
-    const { linhas, addLinha, refreshLinha, refreshLinhaMulti, clearLinhas } = useLinhasPedido();
+    const { linhas, addLinha, refreshLinha, refreshLinhaMulti } = useLinhasPedido();
     const [isLoading, setIsLoading] = useState(false);
     const [fornecedores, setFornecedores] = useState<Array<Fornecedor>>([]);
     const [compradores, setCompradores] = useState<Array<Comprador>>([]);
-
-    const [pdfUrl, setPdfUrl] = useState<string | null>(null);
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [dataRelatorio, setDataRelatorio] = useState<any>([]);
+    const relatorioRef = useRef<RelatorioButtonRef>(null);
 
     useEffect(() => {
         internalService.fornecedor.listar().then((res) => res && setFornecedores(res));
         internalService.comprador.listar().then((res) => res && setCompradores(res));
-
     }, []);
+
+    useEffect(() => {
+        if (dataRelatorio && relatorioRef.current) {
+            relatorioRef.current.gerarRelatorio();
+        }
+    }, [dataRelatorio]);
 
     const totalGeral = linhas.reduce((acc, linha) => acc + (linha.precoTotal || 0), 0);
 
@@ -85,25 +88,20 @@ export default function TabelaPedidos() {
             if (res) {
                 setStatus(res);
 
-                const pedidoData = {
+                setDataRelatorio({
                     cliente: clienteSelecionado?.nome || '',
-                    totalGeral: totalGeral,
+                    valorTotal: totalGeral,
                     codigoPedido: res.body?.codigoPedido || '',
                     produtos: linhas.map(linha => ({
-                        fornecedor: linha.fornecedor?.nome,
+                        descricaofornecedor: linha.fornecedor?.nome,
                         codigo: linha.codigo,
-                        descricao: linha.produto?.descricao,
+                        descricaoProduto: linha.produto?.descricao,
                         quantidade: linha.quantidade,
                         unidade: linha.unidade,
                         preco: linha.preco,
                         precoTotal: linha.precoTotal,
                     })),
-                };
-
-                gerarRelatorio(pedidoData);
-
-                setClienteSelecionado({} as Comprador);
-                clearLinhas();
+                });
             }
 
         } catch (error) {
@@ -111,25 +109,6 @@ export default function TabelaPedidos() {
         } finally {
             setIsLoading(false)
         }
-    };
-
-    const gerarRelatorio = async (pedidoData: any) => {
-        const res = await fetch('/api/generate-pdf', {
-            method: 'POST',
-            body: JSON.stringify({
-                templateName: "pedido-relatorio",
-                data: pedidoData
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        const blob = await res.blob();
-        const url = URL.createObjectURL(blob);
-
-        setPdfUrl(url);
-        setIsDialogOpen(true);
     };
 
     return (
@@ -201,25 +180,15 @@ export default function TabelaPedidos() {
                 </button>
             </div>
 
-            {status && (<SuccessDialog message={status.mensagem} />)}
+            {/* {status && (<SuccessDialog message={status.mensagem} />)} */}
 
-            {isDialogOpen && pdfUrl && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white p-4 rounded-lg shadow-lg w-[90%] h-[90%] relative">
-
-                        <button onClick={() => setIsDialogOpen(false)}
-                            className="absolute top-2 right-2 text-red-500 font-bold">
-                            X
-                        </button>
-
-                        <iframe
-                            src={pdfUrl}
-                            title="Preview PDF"
-                            className="w-full h-full rounded"
-                        ></iframe>
-
-                    </div>
-                </div>
+            {status && dataRelatorio && (
+                <RelatorioButton
+                    ref={relatorioRef}
+                    pedidoData={dataRelatorio}
+                    templateName="pedido-relatorio"
+                    shouldReloadOnClose={true}
+                />
             )}
 
         </div>

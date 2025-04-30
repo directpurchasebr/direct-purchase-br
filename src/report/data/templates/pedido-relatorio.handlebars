@@ -1,6 +1,6 @@
 <div style="font-family: Arial, sans-serif; padding: 20px;">
 
-    <h1 style="text-align: center; color: #333;">Pedido {{fornecedor}}</h1>
+    <h1 style="text-align: center; color: #333;">Pedido {{codigoPedido}}</h1>
 
     <p style="font-size: 16px; margin-top: 20px;">
         <strong>Cliente:</strong> {{cliente}}
@@ -22,9 +22,9 @@
         <tbody>
             {{#each produtos}}
             <tr style="background-color: {{#if @odd}}#f9f9f9{{else}}#ffffff{{/if}};">
-                <td style="border: 1px solid #ddd;">{{fornecedor}}</td>
+                <td style="border: 1px solid #ddd;">{{descricaoFornecedor}}</td>
                 <td style="border: 1px solid #ddd;">{{codigo}}</td>
-                <td style="border: 1px solid #ddd;">{{descricao}}</td>
+                <td style="border: 1px solid #ddd;">{{descricaoProduto}}</td>
                 <td style="border: 1px solid #ddd; text-align: center;">{{quantidade}}</td>
                 <td style="border: 1px solid #ddd; text-align: center;">{{unidade}}</td>
                 <td style="border: 1px solid #ddd; text-align: right;">R$ {{preco}}</td>
@@ -35,7 +35,7 @@
     </table>
 
     <h2 style="text-align: right; margin-top: 20px; color: #333;">
-        Total Geral: <span style="font-weight: bold;">R$ {{totalGeral}}</span>
+        Total Geral: <span style="font-weight: bold;">R$ {{valorTotal}}</span>
     </h2>
 
 </div>

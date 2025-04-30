@@ -55,6 +55,10 @@ export const internalService = {
         importar: async (body: any) => {
             return await fetchInternal<Status>(internalRoutes.produto.importar, 'POST', body);
         },
+
+        listar: async () => {
+            return await fetchInternal<Array<Produto>>(internalRoutes.produto.listar);
+        }
     },
 
     usuario: {

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { LinhaTabela } from '@/types/linha-table';
+import { LinhaTabela } from '@/src/types/intefaces';
 import { Fornecedor, Produto } from '@apimodel/payload/intefaces';
 
 export function useLinhasPedido() {

@@ -1,7 +1,7 @@
 "use client";
 
 import { Pessoa, PessoaBanco, PessoaEndereco } from '@apimodel/payload/intefaces';
-import { CustomButton } from '@components/layout/custom-button';
+import { CustomButton } from '@components/utils/custom-button';
 import { useState } from 'react';
 
 const inputClass =

@@ -1,41 +1,45 @@
-import { useState } from "react";
-import { CustomButton } from "@components/layout/custom-button";
+import { useRef, useState } from "react";
+import { CustomButton } from "@components/utils/custom-button";
 import Link from "next/link";
 import { UploadDialog } from "@components/layout/upload-dialog";
-import React, { FC } from "react";
+import React from "react";
+import { FieldConfig } from "@/src/types/intefaces";
+import { getNestedValue } from "@utils/functios-utils";
+import { RelatorioButton, RelatorioButtonRef } from "@components/utils/relatorio-button";
 
 type Item = { [key: string]: any };
 
 interface ItemListProps<T> {
     items: T[];
-    fields: { label: string; value: string }[];
+    fields: FieldConfig[];
     onItemClick: (item: T) => void;
     titulo: string;
-    novoRota?: string;
-    importar?: boolean;
-    cadastrar?: boolean;
+    rotaCadastro?: string;
+    isCadastrar?: boolean;
+    isImportar?: boolean;
+    isGerarRelatorio?: boolean;
     onFileUpload?: (file: File) => void;
     itemsPerPage?: number;
+    renderActions?: (item: T) => React.ReactNode;
 }
-
-const getNestedValue = (obj: any, path: string) => {
-    return path.split('.').reduce((acc, part) => acc && acc[part], obj);
-};
 
 export const CustomListGrid = <T extends Item>({
     items,
     fields,
     onItemClick,
     titulo,
-    novoRota,
-    importar,
-    cadastrar,
+    rotaCadastro,
+    isCadastrar,
+    isImportar,
+    isGerarRelatorio,
     onFileUpload,
     itemsPerPage = 8,
+    renderActions,
 }: ItemListProps<T>) => {
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const [openUpload, setOpenUpload] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
+    const relatorioRef = useRef<RelatorioButtonRef>(null);
 
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
@@ -43,8 +47,11 @@ export const CustomListGrid = <T extends Item>({
 
     const totalPages = Math.ceil(items.length / itemsPerPage);
 
-    const renderFieldValue = (item: T, fieldValue: string) => {
-        const value = getNestedValue(item, fieldValue);
+    const renderFieldValue = (item: T, field: FieldConfig) => {
+        if (field.render) {
+            return field.render(item);
+        }
+        const value = getNestedValue(item, field.value);
         return value ?? 'N/A';
     };
 
@@ -66,15 +73,49 @@ export const CustomListGrid = <T extends Item>({
                 <h2 className="text-xl font-bold">{titulo}</h2>
                 <div className="space-x-2">
 
-                    {cadastrar && (
+                    {renderActions && (
                         <>
-                            <CustomButton asChild variant="outline" className="bg-cyan-900 text-white p-2 rounded w-28">
-                                <Link href={novoRota ?? '/'}>Cadastrar</Link>
-                            </CustomButton>
-
+                            {renderActions && (
+                                <>
+                                    {renderActions(items[selectedIndex ?? 0])}
+                                </>
+                            )}
                         </>
                     )}
-                    {importar && onFileUpload && (
+
+                    {isGerarRelatorio && (
+                        <>
+                            <CustomButton
+                                onClick={() => {
+                                    if (selectedIndex !== null) {
+                                        relatorioRef.current?.gerarRelatorio();
+                                    }
+                                }}
+                                variant="outline"
+                                className="bg-amber-800 text-white p-2 rounded w-28">
+                                Gerar Relatório
+                            </CustomButton>
+
+                            {selectedIndex !== null && (
+                                <RelatorioButton
+                                    ref={relatorioRef}
+                                    pedidoData={items[selectedIndex]}
+                                    templateName="pedido-relatorio"
+                                />
+                            )}
+                        </>
+                    )}
+
+                    {isCadastrar && (
+                        <>
+                            <CustomButton asChild variant="outline"
+                                className="bg-cyan-900 text-white p-2 rounded w-28">
+                                <Link href={rotaCadastro ?? '/'}>Cadastrar</Link>
+                            </CustomButton>
+                        </>
+                    )}
+
+                    {isImportar && onFileUpload && (
                         <>
                             <CustomButton onClick={() => setOpenUpload(true)}
                                 variant="outline" className="bg-amber-700 text-white p-2 rounded w-28">
@@ -87,46 +128,52 @@ export const CustomListGrid = <T extends Item>({
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:auto-cols-fr lg:grid-flow-col gap-4 overflow-x-auto">
-                {fields.map(({ label, value }) => (
-                    <div key={value} className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
+            <div className="grid ml-2 p-1"
+                style={{ gridTemplateColumns: fields.map(f => f.width ?? 'minmax(120px, 1fr)').join(' ') }}>
+                {fields.map(({ label, value }, idx) => (
+                    <div key={value} className={`text-xs font-semibold text-gray-600 uppercase tracking-wide
+                     ${idx !== 0 ? 'border-l border-gray-300 pl-2' : ''}`}>
                         {label}
                     </div>
                 ))}
             </div>
 
-            {currentItems.map((item, index) => (
-                <div
-                    key={index}
-                    onClick={() => {
-                        setSelectedIndex(index);
-                        onItemClick(item);
-                    }}
-                    className={`cursor-pointer border rounded-md shadow-sm p-3 transition 
-                        ${selectedIndex === index
-                            ? "bg-blue-100 border-blue-500 ring-2 ring-blue-500"
-                            : "bg-white border-gray-300 hover:ring-2 hover:ring-blue-500"
-                        }`}>
-                    <div
-                        className="grid gap-4 overflow-x-auto"
-                        style={{ gridTemplateColumns: `repeat(${fields.length}, minmax(120px, 1fr))` }}>
+            {currentItems.map((item, index) => {
+                const globalIndex = startIndex + index;
 
-                        {fields.map(({ label, value }) => (
-                            <div key={value} className="text-gray-700 text-sm">
-                                {renderFieldValue(item, value)}
-                            </div>
-                        ))}
+                return (
+                    <div key={index}
+                        onClick={() => {
+                            setSelectedIndex(globalIndex);
+                            onItemClick(item);
+                        }}
+                        className={`cursor-pointer border rounded-md shadow-sm p-3 transition 
+                ${selectedIndex === globalIndex
+                                ? "bg-blue-100 border-blue-500 ring-2 ring-blue-500"
+                                : "bg-white border-gray-300 hover:ring-2 hover:ring-blue-500"
+                            }`}>
+
+                        <div className="grid"
+                            style={{ gridTemplateColumns: fields.map(f => f.width ?? 'minmax(120px, 1fr)').join(' ') }}>
+                            {fields.map((field, idx) => (
+                                <div key={field.value}
+                                    className={`text-gray-700 ${field.fontSize === 'xs' ? 'text-xs' : 'text-sm'} p-1 ${idx !== 0 ? 'border-l border-gray-200 pl-2' : ''}`}
+                                >
+                                    {renderFieldValue(item, field)}
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                </div>
-            ))}
+                );
+            })}
+
 
             {/* Paginacao */}
             <div className="flex justify-between items-center mt-4">
                 <CustomButton
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
-                    className="bg-gray-500 text-white p-2 rounded w-28"
-                >
+                    className="bg-gray-500 text-white p-2 rounded w-28">
                     Anterior
                 </CustomButton>
                 <span className="text-sm">
@@ -135,8 +182,7 @@ export const CustomListGrid = <T extends Item>({
                 <CustomButton
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
-                    className="bg-gray-500 text-white p-2 rounded w-28"
-                >
+                    className="bg-gray-500 text-white p-2 rounded w-28">
                     Próxima
                 </CustomButton>
             </div>

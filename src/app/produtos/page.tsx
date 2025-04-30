@@ -1,6 +1,48 @@
-export default function Page() {
+"use client";
+
+import { Produto } from "@apimodel/payload/intefaces";
+import { CustomListGrid } from "@components/collections/custom-list-grid";
+import { internalService } from "@services/internal-service";
+import { getNestedValue } from "@utils/functios-utils";
+import { useEffect, useState } from "react";
+
+export default function ProdutosGridSelector() {
+    const [produtos, setProdutos] = useState<Array<Produto>>([]);
+    const [selectedProduto, setSelectedProduto] = useState<Produto | undefined>(undefined);
+
+    useEffect(() => {
+        internalService.produto.listar().then((res) => res && setProdutos(res));
+    }, []);
+
+    const handleItemClick = (item: Produto) => {
+        setSelectedProduto(item);
+    };
+
+    const fields = [
+        { label: 'ID', value: 'produtoId', width: '60px' },
+        { label: 'Código', value: 'codigo', width: '100px' },
+        { label: 'Descrição', value: 'descricao', width: '570px', fontSize: 'xs' as 'xs' },
+        { label: 'Fornecedor', value: 'fornecedor.nome', width: '380px', fontSize: 'xs' as 'xs' },
+        {
+            label: 'Preço',
+            value: 'preco',
+            width: '100px',
+            render: (item: Produto) => {
+                const valor = getNestedValue(item, 'preco') ?? 0;
+                return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
+            }
+        },
+    ];
+
     return (
-        <div>
+        <div className="p-6">
+            <CustomListGrid
+                items={produtos}
+                fields={fields}
+                onItemClick={handleItemClick}
+                titulo="Produtos"
+                isCadastrar={true}
+            />
         </div>
     )
 }

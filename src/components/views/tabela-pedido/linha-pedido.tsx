@@ -1,4 +1,4 @@
-import { LinhaTabela } from '@/types/linha-table';
+import { LinhaTabela } from '@/src/types/intefaces';
 import { Fornecedor } from '@apimodel/payload/intefaces';
 import CustomSelector from '@components/collections/custom-selector';
 import { uiStyles } from '@lib/ui-styles';

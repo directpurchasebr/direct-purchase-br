@@ -3,16 +3,18 @@
 import { Fornecedor, Pessoa, ProdutosExcel, Status } from "@apimodel/payload/intefaces";
 import { CustomListGrid } from "@components/collections/custom-list-grid";
 import PessoaModal from "@components/views/pessoa/pessoal-modal";
-import { CustomButton } from "@components/layout/custom-button";
+import { CustomButton } from "@components/utils/custom-button";
 import { internalService } from "@services/internal-service";
 import { useEffect, useState } from "react";
 import { FullScreenLoader } from "@components/utils/full-screen-loader";
 import { SuccessDialog } from "@components/utils/success-dialog";
+import { mask } from 'remask';
+import { getNestedValue } from "@utils/functios-utils";
 
 export default function FornecedorGridSelector() {
     const [status, setStatus] = useState<Status | null>(null);
     const [fornecedores, setFornecedores] = useState<Array<Fornecedor>>([]);
-    const [selectedPessoa, setSelectedPessoa] = useState<Pessoa | undefined>(undefined);
+    const [selectedPessoa, setSelectedPessoa] = useState<Pessoa | null | undefined>(undefined);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -20,15 +22,34 @@ export default function FornecedorGridSelector() {
     }, []);
 
     const handleItemClick = (item: Pessoa) => {
-        console.log('Item selecionado:', item);
         setSelectedPessoa(item);
     };
 
+    const handleCloseForm = () => {
+        setSelectedPessoa(null);
+    };
+
+
     const fields = [
-        { label: 'ID', value: 'fornecedorId' },
-        { label: 'Codigo', value: 'codigo' },
-        { label: 'Nome', value: 'nome' },
-        { label: 'CNPJ', value: 'cnpj' },
+        { label: 'ID', value: 'fornecedorId', width: '60px' },
+        { label: 'Código', value: 'codigo', width: '200px' },
+        { label: 'Nome', value: 'nome', width: '400px' },
+        {
+            label: 'CNPJ/CPF',
+            value: 'cnpj',
+            width: '200px',
+            render: (item: Fornecedor) => {
+                const cnpj = getNestedValue(item, 'cnpj');
+                const cpf = getNestedValue(item, 'cpf');
+                const rawValue = cnpj || cpf || '';
+
+                const maskedValue = cnpj
+                    ? mask(rawValue, ['99.999.999/9999-99'])
+                    : mask(rawValue, ['999.999.999-99']);
+
+                return <span className="font-bold text-green-600">{maskedValue}</span>;
+            }
+        },
     ];
 
     const handleFileUpload = async (file: File) => {
@@ -55,7 +76,6 @@ export default function FornecedorGridSelector() {
         formData.append('fornecedorId', fornecedor.fornecedorId.toString());
         formData.append('file', file);
 
-
         try {
             await internalService.produto.importar(formData).then((res) => res && setStatus(res));
         } catch (error) {
@@ -63,7 +83,6 @@ export default function FornecedorGridSelector() {
         } finally {
             setIsLoading(false)
         }
-
     };
 
     return (
@@ -76,19 +95,22 @@ export default function FornecedorGridSelector() {
                 fields={fields}
                 onItemClick={handleItemClick}
                 titulo="Fornecedores"
-                novoRota="/fornecedores/cadastrar"
-                importar={true}
-                cadastrar={true}
+                rotaCadastro="/fornecedores/cadastrar"
+                isImportar={true}
+                isCadastrar={true}
                 onFileUpload={handleFileUpload}
-            />
-
-            <PessoaModal
-                trigger={
-                    <CustomButton variant="outline" className="bg-blue-500 text-white p-2 rounded mt-4 md:grid-cols-3 gap-4 w-28">
-                        Editar
-                    </CustomButton>
-                }
-                initialData={selectedPessoa}
+                renderActions={(selectedPessoa) => (
+                    <PessoaModal
+                        trigger={
+                            <CustomButton
+                                variant="outline"
+                                className="bg-blue-500 text-white p-2 rounded w-28">
+                                Editar
+                            </CustomButton>
+                        }
+                        initialData={selectedPessoa}
+                    />
+                )}
             />
 
             {status && (<SuccessDialog message={status.mensagem} />)}
