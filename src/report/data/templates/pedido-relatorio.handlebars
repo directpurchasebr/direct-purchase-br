@@ -1,41 +1,118 @@
-<div style="font-family: Arial, sans-serif; padding: 20px;">
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <title>Pedido {{codigoPedido}}</title>
 
-    <h1 style="text-align: center; color: #333;">Pedido {{codigoPedido}}</h1>
+    <style>
+        @page {
+            size: A4 landscape;
+            margin: 20mm;
+        }
 
-    <p style="font-size: 16px; margin-top: 20px;">
-        <strong>Cliente:</strong> {{cliente}}
-    </p>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            color: #333;
+        }
 
-    <table cellpadding="8" cellspacing="0"
-        style="width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px;">
-        <thead style="background-color: #f0f0f0;">
-            <tr>
-                <th style="border: 1px solid #ccc;">Fornecedor</th>
-                <th style="border: 1px solid #ccc;">Código</th>
-                <th style="border: 1px solid #ccc;">Produto</th>
-                <th style="border: 1px solid #ccc;">Quantidade</th>
-                <th style="border: 1px solid #ccc;">Unidade</th>
-                <th style="border: 1px solid #ccc;">Preço</th>
-                <th style="border: 1px solid #ccc;">Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each produtos}}
-            <tr style="background-color: {{#if @odd}}#f9f9f9{{else}}#ffffff{{/if}};">
-                <td style="border: 1px solid #ddd;">{{descricaoFornecedor}}</td>
-                <td style="border: 1px solid #ddd;">{{codigo}}</td>
-                <td style="border: 1px solid #ddd;">{{descricaoProduto}}</td>
-                <td style="border: 1px solid #ddd; text-align: center;">{{quantidade}}</td>
-                <td style="border: 1px solid #ddd; text-align: center;">{{unidade}}</td>
-                <td style="border: 1px solid #ddd; text-align: right;">R$ {{preco}}</td>
-                <td style="border: 1px solid #ddd; text-align: right;">R$ {{precoTotal}}</td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
+        h1 {
+            text-align: center;
+        }
 
-    <h2 style="text-align: right; margin-top: 20px; color: #333;">
-        Total Geral: <span style="font-weight: bold;">R$ {{valorTotal}}</span>
-    </h2>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 14px;
+        }
 
-</div>
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        td.text-right {
+            text-align: right;
+        }
+
+        td.text-center {
+            text-align: center;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        h2 {
+            text-align: right;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div style="font-family: Arial, sans-serif; padding: 20px;">
+        <h1 style="text-align: center; color: #333;">Pedido {{codigoPedido}}</h1>
+
+        <p style="font-size: 16px; margin-top: 20px;">
+            <strong>Cliente:</strong> {{cliente}}
+        </p>
+
+        <table cellpadding="8" cellspacing="0"
+            style="width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px;">
+            <thead style="background-color: #f0f0f0;">
+                <tr>
+                    <th style="border: 1px solid #ccc; width: 20%;">Fornecedor</th>
+                    <th style="border: 1px solid #ccc; width: 5%;">Cod</th>
+                    <th style="border: 1px solid #ccc; width: 43%;">Produto</th>
+                    <th style="border: 1px solid #ccc; width: 5%;">Qtd</th>
+                    <th style="border: 1px solid #ccc; width: 5%;">UN</th>
+                    <th style="border: 1px solid #ccc; width: 10%;">Preço</th>
+                    <th style="border: 1px solid #ccc; width: 12%;">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each produtos}}
+                <tr style="background-color: {{#if @odd}}#f9f9f9{{else}}#ffffff{{/if}};">
+                    <td style="border: 1px solid #ddd;">{{descricaoFornecedor}}</td>
+                    <td style="border: 1px solid #ddd;">{{codigo}}</td>
+                    <td style="border: 1px solid #ddd;">{{descricaoProduto}}</td>
+                    <td style="border: 1px solid #ddd; text-align: center;">{{quantidade}}</td>
+                    <td style="border: 1px solid #ddd; text-align: center;">{{unidade}}</td>
+                    <td style="border: 1px solid #ddd; text-align: right;">
+                        R$ <span class="format-number">{{preco}}</span>
+                    </td>
+                    <td style="border: 1px solid #ddd; text-align: right;">
+                        R$ <span class="format-number">{{precoTotal}}</span>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
+        <h2 style="text-align: right; margin-top: 20px; color: #333;">
+            Total Geral: <span style="font-weight: bold;">R$ <span class="format-number">{{valorTotal}}</span></span>
+        </h2>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.format-number').forEach(el => {
+                const raw = el.textContent.replace(/[^\d.-]/g, '');
+                const value = parseFloat(raw);
+                if (!isNaN(value)) {
+                    el.textContent = value.toLocaleString('pt-BR', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

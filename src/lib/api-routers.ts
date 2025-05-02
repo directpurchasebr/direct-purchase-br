@@ -24,5 +24,6 @@ export const apiRoutes = {
     pedido: {
         pedidos: "/pedido/listar",
         salvar: "/pedido/salvar",
+        buscar: "/pedido/buscar",
     },
 };

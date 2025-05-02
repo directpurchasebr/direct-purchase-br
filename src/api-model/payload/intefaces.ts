@@ -22,7 +22,6 @@ export interface Perfil {
     descricao: string;
 }
 
-
 export interface Produto {
     produtoId: number;
     codigo: string;
@@ -42,9 +41,17 @@ export interface Comprador extends Pessoa {
     compradorId: number;
 }
 
+
+export interface ConsultaPedido {
+    codigoPedido: string;
+    dataPedido: string;
+    compradorId: number;
+}
+
 export interface Pedido {
     pedidoId: number;
     codigoPedido: string;
+    dataPedido: string;
     comprador: Comprador;
     produtos: Array<PedidoProduto>;
     valorTotal: number;
@@ -106,6 +113,6 @@ export interface PessoaBanco {
 }
 
 export interface ProdutosExcel {
-	fornecedorId: number;
-	 file: File;
+    fornecedorId: number;
+    file: File;
 }

@@ -23,5 +23,6 @@ export const internalRoutes = {
   pedido: {
     listar: "/api/pedido/listar",
     salvar: "/api/pedido/salvar",
+    buscar: "/api/pedido/buscar",
   },
 };

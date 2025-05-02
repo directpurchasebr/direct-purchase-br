@@ -5,10 +5,12 @@ import { CustomListGrid } from "@components/collections/custom-list-grid";
 import { internalService } from "@services/internal-service";
 import { getNestedValue } from "@utils/functios-utils";
 import { useEffect, useState } from "react";
+import { ProdutoFilter } from "./produto-filter";
 
 export default function ProdutosGridSelector() {
     const [produtos, setProdutos] = useState<Array<Produto>>([]);
     const [selectedProduto, setSelectedProduto] = useState<Produto | undefined>(undefined);
+    const [descricaoFiltro, setDescricaoFiltro] = useState<string>("");
 
     useEffect(() => {
         internalService.produto.listar().then((res) => res && setProdutos(res));
@@ -16,6 +18,15 @@ export default function ProdutosGridSelector() {
 
     const handleItemClick = (item: Produto) => {
         setSelectedProduto(item);
+    };
+
+    const consultaProdutos = async () => {
+        try {
+            const res = await internalService.produto.buscar(descricaoFiltro);
+            if (res) setProdutos(res);
+        } catch (err) {
+            console.error("Erro ao buscar produtos:", err);
+        }
     };
 
     const fields = [
@@ -36,12 +47,19 @@ export default function ProdutosGridSelector() {
 
     return (
         <div className="p-6">
+            <ProdutoFilter
+                descricao={descricaoFiltro}
+                setDescricao={setDescricaoFiltro}
+                onPesquisar={consultaProdutos}
+            />
+
             <CustomListGrid
                 items={produtos}
                 fields={fields}
                 onItemClick={handleItemClick}
                 titulo="Produtos"
                 isCadastrar={true}
+                itemsPerPage={5}
             />
         </div>
     )

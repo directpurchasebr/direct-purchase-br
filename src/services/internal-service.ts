@@ -1,5 +1,5 @@
 
-import { Comprador, Fornecedor, Pedido, Perfil, Produto, Status, Usuario } from "@apimodel/payload/intefaces";
+import { Comprador, ConsultaPedido, Fornecedor, Pedido, Perfil, Produto, Status, Usuario } from "@apimodel/payload/intefaces";
 import { internalRoutes } from "@lib/internal-routes";
 
 async function fetchInternal<T>(
@@ -85,6 +85,10 @@ export const internalService = {
 
         salvar: async (body: Pedido) => {
             return await fetchInternal<Status>(internalRoutes.pedido.salvar, 'POST', body);
+        },
+
+        buscar: async (body: ConsultaPedido) => {
+            return await fetchInternal<Array<Pedido>>(internalRoutes.pedido.buscar, 'POST', body);
         },
     },
 

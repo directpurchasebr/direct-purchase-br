@@ -5,18 +5,22 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 
 interface Props {
-    internalError: string;
+  internalError: string;
+  error: Error;
 }
 
-
-export default function ErrorPage({ internalError }: Props) {
+export default function ErrorPage({ error, internalError }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const code = searchParams.get('code') || internalError ||'500';
+  const code = searchParams.get('code') || internalError || '500';
 
   useEffect(() => {
-    console.error(`Erro ${code} detectado`);
+    if (error.name === 'TokenExpired') {
+      router.replace('/login') // redireciona para login
+    } else {
+      console.error(`Erro ${code} detectado`);
+    }
   }, [code]);
 
   return (

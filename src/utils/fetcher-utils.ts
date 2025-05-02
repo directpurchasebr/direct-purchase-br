@@ -37,7 +37,7 @@ export default async function fetcherUtils<T>(
     if (!response.ok) {
         const error = isJson ? await response.json() : await response.text();
         if (error === 'Token expirado') {
-            throw new Error('TOKEN_EXPIRED');
+            throw new Error('TokenExpired');
         }
         throw new Error(error);
     }
