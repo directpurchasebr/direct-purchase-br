@@ -11,7 +11,7 @@ const authOptions = {
         signOut: "/login",
         error: "/error?code=404",
     },
-    session: { strategy: 'jwt'  },
+    session: { strategy: 'jwt' as SessionStrategy, },
     callbacks: {
         // @ts-ignore
         async jwt({ token, user }) {
@@ -27,10 +27,9 @@ const authOptions = {
             session.user = token.user as User;
             return session;
         },
-        // authorized({ token }: { token: any }) {
-        //     console.log("MIDDLEWARE TOKEN:", token); // Isso vai aparecer no terminal
-        //     return !!token?.sub;
-        // }
+        authorized({ token }: { token: any }) {
+            return !!token?.sub;
+        }
     },
     providers: [
         CredentialsProvider({

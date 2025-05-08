@@ -99,7 +99,7 @@ export default function PedodosGridSelector() {
                 onItemClick={handleItemClick}
                 titulo="Pedidos"
                 isGerarRelatorio={true}
-                itemsPerPage={7}
+                itemsPerPage={10}
             />
         </div>
     );

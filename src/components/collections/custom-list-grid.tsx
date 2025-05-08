@@ -33,7 +33,7 @@ export const CustomListGrid = <T extends Item>({
     isImportar,
     isGerarRelatorio,
     onFileUpload,
-    itemsPerPage = 8,
+    itemsPerPage = 10,
     renderActions,
 }: ItemListProps<T>) => {
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);

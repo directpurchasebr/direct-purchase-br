@@ -6,6 +6,8 @@ import { internalService } from "@services/internal-service";
 import { getNestedValue } from "@utils/functios-utils";
 import { useEffect, useState } from "react";
 import { ProdutoFilter } from "./produto-filter";
+import ProdutoModal from "@components/views/produto/produto-modal";
+import { CustomButton } from "@components/utils/custom-button";
 
 export default function ProdutosGridSelector() {
     const [produtos, setProdutos] = useState<Array<Produto>>([]);
@@ -59,8 +61,21 @@ export default function ProdutosGridSelector() {
                 onItemClick={handleItemClick}
                 titulo="Produtos"
                 isCadastrar={true}
-                itemsPerPage={5}
+                itemsPerPage={10}
+                renderActions={(selectedPessoa) => (
+                    <ProdutoModal
+                        trigger={
+                            <CustomButton
+                                variant="outline"
+                                className="bg-blue-500 text-white p-2 rounded w-28">
+                                Editar
+                            </CustomButton>
+                        }
+                        initialData={selectedPessoa}
+                    />
+                )}
             />
+
         </div>
     )
 }

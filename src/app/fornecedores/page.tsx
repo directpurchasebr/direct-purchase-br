@@ -77,7 +77,7 @@ export default function FornecedorGridSelector() {
         formData.append('file', file);
 
         try {
-            await internalService.produto.importar(formData).then((res) => res && setStatus(res));
+            await internalService.fornecedor.importar(formData).then((res) => res && setStatus(res));
         } catch (error) {
             console.error('Erro ao enviar arquivo:', error);
         } finally {

@@ -89,7 +89,7 @@ export default function TabelaPedidos() {
                 setStatus(res);
 
                 setDataRelatorio({
-                    cliente: clienteSelecionado?.nome || '',
+                    descricaoComprador: clienteSelecionado?.nome || '',
                     valorTotal: totalGeral,
                     codigoPedido: res.body?.codigoPedido || '',
                     produtos: linhas.map(linha => ({

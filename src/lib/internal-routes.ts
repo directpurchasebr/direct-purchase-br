@@ -5,10 +5,10 @@ export const internalRoutes = {
   produto: {
     listar: "/api/produto/listar",
     buscar: (descricao: string) => `/api/produto/buscar/${descricao}`,
-    importar: '/api/produto/importar'
   },
   fornecedor: {
     listar: "/api/fornecedor/listar",
+    importar: '/api/fornecedor/importar',
   },
   comprador: {
     listar: "/api/comprador/listar",

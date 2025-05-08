@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8" />
     <title>Pedido {{codigoPedido}}</title>
@@ -27,7 +28,8 @@
             font-size: 14px;
         }
 
-        th, td {
+        th,
+        td {
             border: 1px solid #ccc;
             padding: 8px;
             text-align: left;
@@ -55,14 +57,18 @@
         }
     </style>
 </head>
+
 <body>
     <div style="font-family: Arial, sans-serif; padding: 20px;">
-        <h1 style="text-align: center; color: #333;">Pedido {{codigoPedido}}</h1>
-
         <p style="font-size: 16px; margin-top: 20px;">
-            <strong>Cliente:</strong> {{cliente}}
+            <strong>Pedido:</strong> {{codigoPedido}}
         </p>
-
+        <p style="font-size: 16px; margin-top: 20px;">
+            <strong>Comprador:</strong> {{descricaoComprador}}
+        </p>
+        <p id="data-pedido" data-value="{{dataPedido}}" style="font-size: 16px; margin-top: 20px;">
+            <strong>Data do Pedido:</strong> {{dataPedido}}
+        </p>
         <table cellpadding="8" cellspacing="0"
             style="width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px;">
             <thead style="background-color: #f0f0f0;">
@@ -95,9 +101,11 @@
             </tbody>
         </table>
 
-        <h2 style="text-align: right; margin-top: 20px; color: #333;">
-            Total Geral: <span style="font-weight: bold;">R$ <span class="format-number">{{valorTotal}}</span></span>
-        </h2>
+        <p style="text-align: right; margin-top: 20px; color: #333;">
+            Total Geral: <span style="font-weight: bold;">R$
+                <span class="format-number">{{valorTotal}}</span>
+            </span>
+        </p>
     </div>
 
     <script>
@@ -113,6 +121,21 @@
                 }
             });
         });
+
+        const dataEl = document.querySelector('#data-pedido');
+        if (dataEl) {
+            const rawDate = dataEl.dataset.value;
+            const date = new Date(rawDate);
+            if (!isNaN(date)) {
+                const dia = String(date.getDate()).padStart(2, '0');
+                const mes = String(date.getMonth() + 1).padStart(2, '0');
+                const ano = date.getFullYear();
+                const horas = String(date.getHours()).padStart(2, '0');
+                const minutos = String(date.getMinutes()).padStart(2, '0');
+                dataEl.innerHTML = `<strong>Data do Pedido: </strong> ${dia}/${mes}/${ano} ${horas}:${minutos}`;
+            }
+        }
     </script>
 </body>
+
 </html>

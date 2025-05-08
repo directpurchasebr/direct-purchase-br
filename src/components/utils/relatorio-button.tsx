@@ -44,8 +44,8 @@ export const RelatorioButton = forwardRef<RelatorioButtonRef, RelatorioButtonPro
         return (
             <>
                 {isDialogOpen && pdfUrl && (
-                    <dialog open className="fixed w-[90%] h-[90%] inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-                        <div className="bg-white max-w-5xl w-[90%] h-[90%] rounded shadow-lg flex flex-col overflow-hidden">
+                    <dialog open className="fixed w-[100%] h-[100%] inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+                        <div className="bg-white max-w-5xl w-[100%] h-[100%] rounded shadow-lg flex flex-col overflow-hidden">
                             <div className="flex justify-end p-2">
                                 <button
                                     onClick={() => {

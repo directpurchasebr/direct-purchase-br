@@ -5,7 +5,7 @@ import { Status } from "@apimodel/payload/intefaces";
 
 export async function POST(request: NextRequest) {
     const data = await request.formData();
-    const status: Status | null | never[] = await coreService.produto.import(data);
+    const status: Status | null | never[] = await coreService.fornecedor.import(data);
     if (!status) {
         return NextResponse.json({ error: 'Erro ao importar excel' });
     }

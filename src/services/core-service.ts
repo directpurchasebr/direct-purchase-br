@@ -52,6 +52,11 @@ export const coreService = {
             const data = await fetchWithToken<Array<Fornecedor>>(apiRoutes.fornecedor.fornecedores, token);
             return data ?? [];
         },
+
+        import: async (body: any, token?: string) => {
+            const data = await fetchWithToken<Status>(apiRoutes.fornecedor.importar, token, 'POST', body, false);
+            return data ?? [];
+        },
     },
 
     produto: {
@@ -62,11 +67,6 @@ export const coreService = {
 
         search: async (desc: string, token?: string) => {
             const data = await fetchWithToken<Array<Produto>>(apiRoutes.produtos.search(desc), token);
-            return data ?? [];
-        },
-
-        import: async (body: any, token?: string) => {
-            const data = await fetchWithToken<Status>(apiRoutes.produtos.importar, token, 'POST', body, false);
             return data ?? [];
         },
     },

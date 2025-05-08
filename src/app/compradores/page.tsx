@@ -1,6 +1,6 @@
 "use client";
 
-import { Comprador, Pessoa } from "@apimodel/payload/intefaces";
+import { Comprador, Pessoa, Status } from "@apimodel/payload/intefaces";
 import { CustomListGrid } from "@components/collections/custom-list-grid";
 import PessoaModal from "@components/views/pessoa/pessoal-modal";
 import { CustomButton } from "@components/utils/custom-button";
@@ -12,6 +12,8 @@ import { getNestedValue } from "@utils/functios-utils";
 export default function CompradorGridSelector() {
     const [compradores, setCompradores] = useState<Array<Comprador>>([]);
     const [selectedPessoa, setSelectedPessoa] = useState<Pessoa | undefined>(undefined);
+    const [isLoading, setIsLoading] = useState(false);
+    const [status, setStatus] = useState<Status | null>(null);
 
     useEffect(() => {
         internalService.comprador.listar().then((res) => res && setCompradores(res));
@@ -52,16 +54,21 @@ export default function CompradorGridSelector() {
                 titulo="Compradores"
                 rotaCadastro="/compradores/cadastrar"
                 isCadastrar={true}
+                renderActions={(selectedPessoa) => (
+                    <PessoaModal
+                        trigger={
+                            <CustomButton
+                                variant="outline"
+                                className="bg-blue-500 text-white p-2 rounded w-28">
+                                Editar
+                            </CustomButton>
+                        }
+                        initialData={selectedPessoa}
+                    />
+                )}
             />
+            {/* {status && (<SuccessDialog message={status.mensagem} />)} */}
 
-            <PessoaModal
-                trigger={
-                    <CustomButton variant="outline" className="bg-blue-500 text-white p-2 rounded mt-4 md:grid-cols-3 gap-4 w-28">
-                        Editar
-                    </CustomButton>
-                }
-                initialData={selectedPessoa}
-            />
         </div>
     )
 }

@@ -2,6 +2,7 @@
 
 import { Comprador } from "@apimodel/payload/intefaces";
 import CustomSelector from "@components/collections/custom-selector";
+import { uiStyles } from "@lib/ui-styles";
 import React, { Dispatch, SetStateAction } from "react";
 
 interface Fornecedor {
@@ -29,20 +30,20 @@ export const PedidoFiltros: React.FC<PedidoFiltrosProps> = ({
     onPesquisar
 }) => {
     return (
-        <div className="flex flex-wrap gap-4 mb-4 items-end">
-            <div className="flex flex-col">
-                <label className="text-sm font-medium">Código</label>
+        <div className="flex flex-wrap items-end gap-4 mb-4">
+            <div className="flex flex-col w-48">
+                <label className={uiStyles.forms.label}>Código</label>
                 <input
+                    name="codigo"
                     type="text"
                     value={codigo}
                     onChange={(e) => setCodigo(e.target.value)}
-                    className="border p-2 rounded w-60"
+                    className={uiStyles.forms.input}
                 />
             </div>
 
             <div className="flex flex-col w-60">
-                <label className="text-sm font-medium">Cliente</label>
-
+                <label className={uiStyles.forms.label}>Cliente</label>
                 <CustomSelector<Comprador>
                     value={comprador}
                     onChange={(value) => value !== null && setComprador(value)}
@@ -52,22 +53,27 @@ export const PedidoFiltros: React.FC<PedidoFiltrosProps> = ({
                     initText="Selecione um cliente"
                 />
             </div>
-            <div className="flex flex-col">
-                <label className="text-sm font-medium">Data do Pedido</label>
+
+            <div className="flex flex-col w-48">
+                <label className={uiStyles.forms.label}>Data do Pedido</label>
                 <input
+                    name="dataPedido"
                     type="date"
                     value={dataPedido}
                     onChange={(e) => setDataPedido(e.target.value)}
-                    className="border p-2 rounded w-60"
+                    className={uiStyles.forms.input}
                 />
             </div>
-            <button
-                onClick={onPesquisar}
-                className="bg-blue-600 text-white px-4 py-2 rounded"
-            >
-                Pesquisar
-            </button>
 
+            <div className="flex">
+                <button
+                    onClick={onPesquisar}
+                    className="bg-blue-600 text-white px-4 py-2 rounded h-10 mt-auto"
+                >
+                    Pesquisar
+                </button>
+            </div>
         </div>
+
     );
 };
