@@ -1,8 +1,8 @@
-import { Pedido } from "@apimodel/payload/intefaces";
-import { coreService } from "@services/core-service";
-import { NextRequest, NextResponse } from "next/server";
+import { withErrorHandling } from '@/utils/api-handler'
+import { NextRequest, NextResponse } from 'next/server'
+import { coreService } from '@/services/core-service'
 
-export async function GET(request: NextRequest) {
-    const pedidos: Array<Pedido> = await coreService.pedido.listar();
-    return NextResponse.json(pedidos);
-}
+export const GET = withErrorHandling(async (request: NextRequest) => {
+    const pedidos = await coreService.pedido.listar()
+    return NextResponse.json(pedidos)
+});

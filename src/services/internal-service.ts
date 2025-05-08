@@ -1,6 +1,7 @@
 
 import { Comprador, ConsultaPedido, Fornecedor, Pedido, Perfil, Produto, Status, Usuario } from "@apimodel/payload/intefaces";
 import { internalRoutes } from "@lib/internal-routes";
+import { signOut } from "next-auth/react";
 
 async function fetchInternal<T>(
     route: string,
@@ -18,6 +19,14 @@ async function fetchInternal<T>(
     };
 
     const response = await fetch(route, options);
+
+    if (response.status === 401) {
+        const data = await response.json()
+        if (data?.error === 'TokenExpired') {
+            signOut({ callbackUrl: '/' })
+        }
+    }
+
     if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Erro ao processar a requisição.');

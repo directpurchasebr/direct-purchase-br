@@ -1,26 +1,18 @@
 import { withAuth } from "next-auth/middleware";
-import { NextResponse } from "next/server"
 
 export default withAuth({
     pages: {
         signIn: '/login',
+        signOut: "/login",
     },
     callbacks: {
-        authorized: ({ token }) => {
-            // se o token existir, está autenticado
-            return !!token
-        },
+        authorized: ({ token }) => !!token,
     },
 });
 
 export const config = {
     matcher: [
-        "/dashboard/:path*",
-        "/usuario/:path*",
-        "/fornecedores/:path*",
-        "/produtos/:path*",
-        "/pedidos/:path*",
-        "/contato/:path*",
-        "/novopedido/:path*",
+        // ignora api/auth, arquivos estáticos, etc.
+        "/((?!api/auth|_next/static|_next/image|favicon.ico).*)",
     ],
-}
+};
