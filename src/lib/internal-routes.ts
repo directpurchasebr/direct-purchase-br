@@ -5,13 +5,16 @@ export const internalRoutes = {
   produto: {
     listar: "/api/produto/listar",
     buscar: (descricao: string) => `/api/produto/buscar/${descricao}`,
+    salvar: "/api/produto/salvar",
   },
   fornecedor: {
     listar: "/api/fornecedor/listar",
     importar: '/api/fornecedor/importar',
+    salvar: "/api/fornecedor/salvar",
   },
   comprador: {
     listar: "/api/comprador/listar",
+    salvar: "/api/comprador/salvar",
   },
   usuario: {
     salvar: "/api/usuario/salvar",

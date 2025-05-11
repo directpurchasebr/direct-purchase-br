@@ -85,6 +85,31 @@ export default function FornecedorGridSelector() {
         }
     };
 
+    const pessoaToFornecedor = (pessoa: Pessoa): Fornecedor => {
+        return {
+            fornecedorId: 0,
+            layoutExcel: '',
+            pessoaId: pessoa.pessoaId,
+            negocioId: pessoa.negocioId,
+            codigo: pessoa.codigo,
+            nome: pessoa.nome,
+            nomeFantasia: pessoa.nomeFantasia,
+            cpf: pessoa.cpf,
+            cnpj: pessoa.cnpj,
+            inscricaoEstadual: pessoa.inscricaoEstadual,
+            inscricaoMunicipal: pessoa.inscricaoMunicipal,
+            telefone: pessoa.telefone,
+            email: pessoa.email,
+            site: pessoa.site,
+            responsavel: pessoa.responsavel,
+            telefoneResponsavel: pessoa.telefoneResponsavel,
+            observacoes: pessoa.observacoes,
+            enderecos: pessoa.enderecos,
+            bancos: pessoa.bancos,
+        };
+    };
+
+
     return (
         <div className="p-6">
 
@@ -108,6 +133,10 @@ export default function FornecedorGridSelector() {
                                 Editar
                             </CustomButton>
                         }
+                        onSave={(selectedPessoa) => {
+                            const fornecedor = pessoaToFornecedor(selectedPessoa);
+                            internalService.fornecedor.salvar(fornecedor).then((res) => res && setStatus(res));
+                        }}
                         initialData={selectedPessoa}
                     />
                 )}

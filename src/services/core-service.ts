@@ -45,6 +45,11 @@ export const coreService = {
             const data = await fetchWithToken<Array<Comprador>>(apiRoutes.comprador.compradores, token);
             return data ?? [];
         },
+
+        salvar: async (body: Comprador, token?: string) => {
+            const data = await fetchWithToken<Status>(apiRoutes.comprador.salvar, token, 'POST', body);
+            return data ?? [];
+        },
     },
 
     fornecedor: {
@@ -57,6 +62,11 @@ export const coreService = {
             const data = await fetchWithToken<Status>(apiRoutes.fornecedor.importar, token, 'POST', body, false);
             return data ?? [];
         },
+
+        salvar: async (body: Fornecedor, token?: string) => {
+            const data = await fetchWithToken<Status>(apiRoutes.fornecedor.salvar, token, 'POST', body);
+            return data ?? [];
+        },
     },
 
     produto: {
@@ -67,6 +77,11 @@ export const coreService = {
 
         search: async (desc: string, token?: string) => {
             const data = await fetchWithToken<Array<Produto>>(apiRoutes.produtos.search(desc), token);
+            return data ?? [];
+        },
+
+        salvar: async (body: Produto, token?: string) => {
+            const data = await fetchWithToken<Status>(apiRoutes.produtos.salvar, token, 'POST', body);
             return data ?? [];
         },
     },

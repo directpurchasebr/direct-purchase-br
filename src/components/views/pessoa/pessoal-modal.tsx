@@ -6,13 +6,13 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Pessoa } from '@apimodel/payload/intefaces';
 import PessoaForm from './pessoa-form';
 
-
 type Props = {
     trigger: ReactNode;
     initialData?: Pessoa;
+    onSave: (pessoa: Pessoa) => void;
 };
 
-export default function PessoaModal({ trigger, initialData }: Props) {
+export default function PessoaModal({ trigger, initialData, onSave }: Props) {
     const [open, setOpen] = useState(false);
 
     return (
@@ -27,7 +27,10 @@ export default function PessoaModal({ trigger, initialData }: Props) {
                 <VisuallyHidden>
                     <DialogTitle>Pessoa Modal</DialogTitle>
                 </VisuallyHidden>
-                <PessoaForm initialData={initialData} onClose={() => setOpen(false)} />
+                <PessoaForm
+                    onSave={(pessoa: Pessoa) => onSave(pessoa)}
+                    initialData={initialData}
+                    onClose={() => setOpen(false)} />
             </DialogContent>
         </Dialog>
     );

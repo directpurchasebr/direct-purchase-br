@@ -31,9 +31,10 @@ const initialPessoa: Pessoa = {
 type PessoaFormProps = {
     initialData?: Pessoa;
     onClose?: () => void;
+    onSave: (pessoa: Pessoa) => void;
 };
 
-export default function PessoaForm({ initialData, onClose }: PessoaFormProps) {
+export default function PessoaForm({ initialData, onClose, onSave }: PessoaFormProps) {
     const [form, setForm] = useState<Pessoa>(initialData ?? initialPessoa);
 
     const fields = [
@@ -104,7 +105,7 @@ export default function PessoaForm({ initialData, onClose }: PessoaFormProps) {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('Enviando pessoa:', form);
+        onSave(form);
         onClose?.();
     };
 

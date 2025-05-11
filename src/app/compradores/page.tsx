@@ -45,6 +45,29 @@ export default function CompradorGridSelector() {
         },
     ];
 
+    const pessoaToComprador = (pessoa: Pessoa): Comprador => {
+        return {
+            compradorId: 0,
+            pessoaId: pessoa.pessoaId,
+            negocioId: pessoa.negocioId,
+            codigo: pessoa.codigo,
+            nome: pessoa.nome,
+            nomeFantasia: pessoa.nomeFantasia,
+            cpf: pessoa.cpf,
+            cnpj: pessoa.cnpj,
+            inscricaoEstadual: pessoa.inscricaoEstadual,
+            inscricaoMunicipal: pessoa.inscricaoMunicipal,
+            telefone: pessoa.telefone,
+            email: pessoa.email,
+            site: pessoa.site,
+            responsavel: pessoa.responsavel,
+            telefoneResponsavel: pessoa.telefoneResponsavel,
+            observacoes: pessoa.observacoes,
+            enderecos: pessoa.enderecos,
+            bancos: pessoa.bancos,
+        };
+    };
+
     return (
         <div className="p-6">
             <CustomListGrid
@@ -63,6 +86,10 @@ export default function CompradorGridSelector() {
                                 Editar
                             </CustomButton>
                         }
+                        onSave={(selectedPessoa) => {
+                            const comprador = pessoaToComprador(selectedPessoa);
+                            internalService.comprador.salvar(comprador).then((res) => res && setStatus(res));
+                        }}
                         initialData={selectedPessoa}
                     />
                 )}

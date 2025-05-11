@@ -26,6 +26,7 @@ export interface Produto {
     produtoId: number;
     codigo: string;
     descricao: string;
+    descOriginal: string;
     marca: string;
     unidade: string;
     preco: number;

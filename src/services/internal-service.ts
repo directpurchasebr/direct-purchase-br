@@ -47,12 +47,25 @@ export const internalService = {
         listar: async () => {
             return await fetchInternal<Array<Comprador>>(internalRoutes.comprador.listar);
         },
+
+        salvar: async (body: Comprador) => {
+            return await fetchInternal<Status>(internalRoutes.comprador.salvar, 'POST', body);
+        },
     },
 
     fornecedor: {
         listar: async () => {
             return await fetchInternal<Array<Fornecedor>>(internalRoutes.fornecedor.listar);
-        }
+        },
+
+        importar: async (body: any) => {
+            return await fetchInternal<Status>(internalRoutes.fornecedor.importar, 'POST', body);
+        },
+
+        salvar: async (body: Fornecedor) => {
+            return await fetchInternal<Status>(internalRoutes.fornecedor.salvar, 'POST', body);
+        },
+
     },
 
     produto: {
@@ -61,13 +74,13 @@ export const internalService = {
             return await fetchInternal<Array<Produto>>(internalRoutes.produto.buscar(encodeURIComponent(desc)));
         },
 
-        importar: async (body: any) => {
-            return await fetchInternal<Status>(internalRoutes.produto.importar, 'POST', body);
-        },
-
         listar: async () => {
             return await fetchInternal<Array<Produto>>(internalRoutes.produto.listar);
-        }
+        },
+
+        salvar: async (body: Produto) => {
+            return await fetchInternal<Status>(internalRoutes.produto.salvar, 'POST', body);
+        },
     },
 
     usuario: {

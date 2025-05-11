@@ -6,13 +6,16 @@ export const apiRoutes = {
     produtos: {
         produtos: "/produto/listar",
         search: (descricao: string) => `/produto/buscar/${descricao}`,
+        salvar: "/produto/salvar",
     },
     fornecedor: {
         fornecedores: "/fornecedor/listar",
         importar: '/fornecedor/importaExcel',
+        salvar: "/fornecedor/salvar",
     },
     comprador: {
         compradores: "/comprador/listar",
+        salvar: "/comprador/salvar",
     },
     usuario: {
         salvar: "/usuario/salvar",

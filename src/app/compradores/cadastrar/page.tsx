@@ -1,6 +1,6 @@
 "use client";
 
-import { Fornecedor, Pessoa, Status } from "@apimodel/payload/intefaces";
+import { Comprador, Fornecedor, Pessoa, Status } from "@apimodel/payload/intefaces";
 import PessoaForm from "@components/views/pessoa/pessoa-form";
 import { internalService } from "@services/internal-service";
 import { useState } from "react";
@@ -32,9 +32,8 @@ export default function CadastrarFornecedor() {
         <div className="py-12 px-4 flex flex-col items-center justify-center translate-x-44">
             <PessoaForm
                 onSave={(pessoa) => {
-                    const fornecedor: Fornecedor = {
-                        fornecedorId: 0,
-                        layoutExcel: '',
+                    const comprador: Comprador = {
+                        compradorId: 0,
                         pessoaId: pessoa.pessoaId,
                         negocioId: pessoa.negocioId,
                         codigo: pessoa.codigo,
@@ -54,7 +53,7 @@ export default function CadastrarFornecedor() {
                         bancos: pessoa.bancos,
                     };
 
-                    internalService.fornecedor.salvar(fornecedor).then((res) => res && setStatus(res));
+                    internalService.comprador.salvar(comprador).then((res) => res && setStatus(res));
                 }}
                 initialData={initialPessoa}
             />

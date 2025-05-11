@@ -1,8 +1,9 @@
 "use client";
 
-import { Fornecedor, Produto } from "@apimodel/payload/intefaces";
+import { Fornecedor, Produto, Status } from "@apimodel/payload/intefaces";
 import { useState } from "react";
 import { CustomButton } from "@components/utils/custom-button";
+import { internalService } from "@services/internal-service";
 
 const inputClass =
     'w-full px-3 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-700';
@@ -10,6 +11,7 @@ const labelClass = 'block mb-1 text-sm font-medium text-gray-700';
 
 const initialProduto: Produto = {
     produtoId: 0,
+    descOriginal: '',
     codigo: '',
     descricao: '',
     marca: '',
@@ -25,6 +27,7 @@ type ProdutoFormProps = {
 
 export default function ProdutoForm({ initialData, onClose }: ProdutoFormProps) {
     const [form, setForm] = useState<Produto>(initialData ?? initialProduto);
+    const [status, setStatus] = useState<Status | null>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -46,7 +49,7 @@ export default function ProdutoForm({ initialData, onClose }: ProdutoFormProps) 
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Enviando produto:", form);
+        internalService.produto.salvar(form).then((res) => res && setStatus(res));
         onClose?.();
     };
 
@@ -60,7 +63,7 @@ export default function ProdutoForm({ initialData, onClose }: ProdutoFormProps) 
                     </div>
                     <div>
                         <label className={labelClass}>Descrição</label>
-                        <input name="descricao" value={form.descricao} onChange={handleChange} className={inputClass} />
+                        <input name="descricao" value={form.descOriginal} onChange={handleChange} className={inputClass} />
                     </div>
                     <div>
                         <label className={labelClass}>Marca</label>
