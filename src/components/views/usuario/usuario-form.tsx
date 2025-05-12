@@ -6,6 +6,7 @@ import CustomSelector from '@components/collections/custom-selector';
 import { uiStyles } from '@lib/ui-styles';
 import { internalService } from '@services/internal-service';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 interface Props {
     user: Usuario;
@@ -63,7 +64,13 @@ export default function UsuarioForm({ user }: Props) {
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        internalService.usuario.salvar(formData).then((res) => res && setStatus(res));
+        
+        internalService.usuario.salvar(formData).then((res) => {
+            if (res) {
+                setStatus(res);
+                toast.success(res.mensagem);
+            }
+        });
     };
 
     return (

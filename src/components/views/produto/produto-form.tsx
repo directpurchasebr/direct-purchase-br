@@ -4,6 +4,7 @@ import { Fornecedor, Produto, Status } from "@apimodel/payload/intefaces";
 import { useState } from "react";
 import { CustomButton } from "@components/utils/custom-button";
 import { internalService } from "@services/internal-service";
+import { toast } from "sonner";
 
 const inputClass =
     'w-full px-3 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-700';
@@ -49,7 +50,13 @@ export default function ProdutoForm({ initialData, onClose }: ProdutoFormProps) 
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        internalService.produto.salvar(form).then((res) => res && setStatus(res));
+        internalService.produto.salvar(form).then((res) => {
+            if (res) {
+                setStatus(res);
+                toast.success(res.mensagem);
+            }
+        });
+
         onClose?.();
     };
 
@@ -67,7 +74,7 @@ export default function ProdutoForm({ initialData, onClose }: ProdutoFormProps) 
                     </div>
                     <div>
                         <label className={labelClass}>Marca</label>
-                        <input name="marca" value={form.marca} onChange={handleChange} className={inputClass} />
+                        <input name="marca" value={form.marca ?? ""} onChange={handleChange} className={inputClass} />
                     </div>
                     <div>
                         <label className={labelClass}>Unidade</label>
@@ -88,6 +95,7 @@ export default function ProdutoForm({ initialData, onClose }: ProdutoFormProps) 
                         Salvar
                     </CustomButton>
                 </div>
+
             </form>
         </div>
     );

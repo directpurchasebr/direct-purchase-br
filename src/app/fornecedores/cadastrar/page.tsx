@@ -4,10 +4,11 @@ import { Fornecedor, Pessoa, Status } from "@apimodel/payload/intefaces";
 import PessoaForm from "@components/views/pessoa/pessoa-form";
 import { internalService } from "@services/internal-service";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function CadastrarFornecedor() {
     const [status, setStatus] = useState<Status | null>(null);
-    
+
     const initialPessoa: Pessoa = {
         pessoaId: 0,
         negocioId: 0,
@@ -54,7 +55,13 @@ export default function CadastrarFornecedor() {
                         bancos: pessoa.bancos,
                     };
 
-                    internalService.fornecedor.salvar(fornecedor).then((res) => res && setStatus(res));
+                    internalService.fornecedor.salvar(fornecedor).then((res) => {
+                        if (res) {
+                            setStatus(res);
+                            toast.success(res.mensagem);
+                        }
+                    });
+
                 }}
                 initialData={initialPessoa}
             />

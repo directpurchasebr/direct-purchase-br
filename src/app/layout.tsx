@@ -5,6 +5,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Providers from "./providers";
 import Navbar from "@components/layout/navbar";
 import Container from "@components/layout/container";
+import { Toaster } from 'sonner';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
   return (
     <html lang="pt-br">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <Toaster richColors />
         <Providers>
           <Navbar />
           <div className="min-h-screen bg-gray-100">
