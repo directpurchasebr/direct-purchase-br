@@ -41,6 +41,10 @@ export const internalService = {
         logout: async (token?: string) => {
             return await fetchInternal<Status>(internalRoutes.auth.logout);
         },
+
+        validateToken: async (token?: string) => {
+            return await fetchInternal<Status>(internalRoutes.auth.validateToken);
+        },
     },
 
     comprador: {

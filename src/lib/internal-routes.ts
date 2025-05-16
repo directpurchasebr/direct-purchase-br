@@ -1,6 +1,7 @@
 export const internalRoutes = {
   auth: {
     logout: "/api/auth/logout",
+    validateToken: "/api/auth/validateToken",
   },
   produto: {
     listar: "/api/produto/listar",

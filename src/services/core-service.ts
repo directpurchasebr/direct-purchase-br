@@ -38,6 +38,11 @@ export const coreService = {
             const data = await fetchWithToken<Status>(apiRoutes.auth.logout, token);
             return data ?? [];
         },
+
+        validateToken: async (token?: string) => {
+            const data = await fetchWithToken<Status>(apiRoutes.auth.validateToken, token);
+            return data ?? [];
+        },
     },
 
     comprador: {

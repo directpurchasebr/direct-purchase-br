@@ -3,6 +3,9 @@
 import React, { useEffect } from 'react'
 import LinkButton from '@components/layout/link-button'
 import { UsuarioLogado } from '@apimodel/auth/interfaces';
+import { internalService } from '@services/internal-service';
+import { signOut } from 'next-auth/react';
+import { Status } from '@apimodel/payload/intefaces';
 
 interface Props {
     params: {
@@ -12,6 +15,21 @@ interface Props {
 
 export default function HomeApp({ params }: Props) {
     const { user } = params;
+
+    const handleValidateToken = async () => {
+        try {
+            const status = await internalService.auth.validateToken().then((res) => res && res) as Status;
+            if (status?.mensagem !== 'OK') {
+                signOut({ callbackUrl: "/login" });
+            }
+        } catch (error) {
+            signOut({ callbackUrl: "/login" });
+        }
+    };
+
+    // if (user.accessToken === null || user.accessToken === undefined) {
+        handleValidateToken();
+    // }
 
     useEffect(() => {
         localStorage.setItem('accessToken', user.accessToken);

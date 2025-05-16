@@ -14,7 +14,6 @@ export default function ConfigTrigger() {
     const user = session?.user as User;
     const naoPodeCriarNovoUsuario: boolean = !!user?.roles?.includes('USER');
 
-
     const handleLogout = async (e: FormEvent) => {
         e.preventDefault();
 

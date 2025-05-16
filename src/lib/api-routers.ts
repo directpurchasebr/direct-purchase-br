@@ -2,6 +2,7 @@ export const apiRoutes = {
     auth: {
         login: "/auth/login",
         logout: "/auth/logout",
+        validateToken: "/auth/validateToken",
     },
     produtos: {
         produtos: "/produto/listar",
