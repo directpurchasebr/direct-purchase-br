@@ -20,7 +20,6 @@ export default function TabelaPedidos() {
     const [isLoading, setIsLoading] = useState(false);
     const [fornecedores, setFornecedores] = useState<Array<Fornecedor>>([]);
     const [compradores, setCompradores] = useState<Array<Comprador>>([]);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [dataRelatorio, setDataRelatorio] = useState<any>([]);
     const relatorioRef = useRef<RelatorioButtonRef>(null);
 

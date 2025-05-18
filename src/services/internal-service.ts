@@ -6,7 +6,6 @@ import { signOut } from "next-auth/react";
 async function fetchInternal<T>(
     route: string,
     method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     body?: any
 ): Promise<T | undefined> {
 
@@ -63,7 +62,6 @@ export const internalService = {
             return await fetchInternal<Array<Fornecedor>>(internalRoutes.fornecedor.listar);
         },
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         importar: async (body: any) => {
             return await fetchInternal<Status>(internalRoutes.fornecedor.importar, 'POST', body);
         },

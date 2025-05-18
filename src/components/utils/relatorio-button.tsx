@@ -5,7 +5,6 @@ export interface RelatorioButtonRef {
 }
 
 interface RelatorioButtonProps {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     pedidoData: any;
     templateName: string;
     shouldReloadOnClose?: boolean;

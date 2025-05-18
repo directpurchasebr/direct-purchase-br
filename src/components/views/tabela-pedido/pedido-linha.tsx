@@ -2,12 +2,10 @@ import { KeyboardEvent, useRef } from 'react';
 
 interface Props {
     params: {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         field: any;
         className: string;
         classNameInput: string;
         typeField: string;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         event: any;
         editavel: boolean;
     };

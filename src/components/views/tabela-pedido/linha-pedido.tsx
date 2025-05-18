@@ -8,7 +8,6 @@ import PedidosLinhaDinheiro from './pedidos-linha-dinheiro';
 
 type Props = {
     linha: LinhaTabela;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onChange: (id: number, campo: keyof LinhaTabela, valor: any) => void;
     onChangeMulti: (id: number, dados: Partial<LinhaTabela>) => void;
     fornecedores: Array<Fornecedor>;
@@ -42,7 +41,6 @@ export default function LinhaPedido({ linha, onChange, onChangeMulti, fornecedor
                     typeField: 'text',
                     field: linha.codigo,
                     editavel: false,
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     event: (e: any) => onChange(linha.id, 'codigo', e.target.value),
                     className: uiStyles.tabelaPedido.classNameDefault,
                     classNameInput: uiStyles.tabelaPedido.classNameInputDefault,
@@ -54,7 +52,6 @@ export default function LinhaPedido({ linha, onChange, onChangeMulti, fornecedor
                     value={linha.produto?.descricao ?? ''}
                     className="w-full"
                     classNameInput={uiStyles.tabelaPedido.classNameInputProduto}
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     onSelect={(produtoSelecionado: any) => {
                         onChangeMulti(linha.id, {
                             fornecedor: produtoSelecionado.fornecedor,
@@ -73,7 +70,6 @@ export default function LinhaPedido({ linha, onChange, onChangeMulti, fornecedor
                     typeField: 'number',
                     field: linha.quantidade,
                     editavel: true,
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     event: (e: any) => {
                         const novaQtd = parseFloat(e.target.value);
                         onChange(linha.id, 'quantidade', novaQtd);
@@ -89,7 +85,6 @@ export default function LinhaPedido({ linha, onChange, onChangeMulti, fornecedor
                     typeField: 'text',
                     field: linha.unidade,
                     editavel: false,
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     event: (e: any) => onChange(linha.id, 'unidade', e.target.value),
                     className: uiStyles.tabelaPedido.classNameDefault,
                     classNameInput: uiStyles.tabelaPedido.classNameInputDefault,
@@ -100,7 +95,6 @@ export default function LinhaPedido({ linha, onChange, onChangeMulti, fornecedor
                 params={{
                     field: linha.preco,
                     editavel: true,
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     event: (e: any) => {
                         const novoPreco = e.target.value;
                         onChange(linha.id, 'preco', novoPreco);
@@ -116,7 +110,6 @@ export default function LinhaPedido({ linha, onChange, onChangeMulti, fornecedor
                     typeField: 'text',
                     field: formatarMoeda(linha.precoTotal),
                     editavel: false,
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     event: (e: any) => onChange(linha.id, 'precoTotal', Number(e.target.value)),
                     className: uiStyles.tabelaPedido.classNameDefault,
                     classNameInput: uiStyles.tabelaPedido.classNameInputDefault,

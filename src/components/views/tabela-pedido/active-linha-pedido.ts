@@ -28,7 +28,6 @@ export function useLinhasPedido() {
         setLinhas([...linhas, novaLinha]);
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const refreshLinha = (id: number, campo: keyof LinhaTabela, valor: any) => {
         setLinhas(prev => prev.map(l => l.id === id ? { ...l, [campo]: valor } : l));
     };

@@ -6,7 +6,6 @@ import { Produto } from "@apimodel/payload/intefaces";
 
 interface Props {
     value: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onSelect: (produto: any) => void;
     className: string;
     classNameInput: string;
@@ -84,7 +83,7 @@ export default function InputSearchProduto({ value, onSelect, className, classNa
                             ref={(el) => { itemRefs.current[index] = el }}
                             className={`px-2 py-1 cursor-pointer text-xs text-black ${index === highlightIndex ? 'bg-blue-200' : 'hover:bg-blue-100'
                                 }`}
-                              
+
                             onMouseEnter={() => setHighlightIndex(index)}
                             onClick={() => {
                                 onSelect(produto);
