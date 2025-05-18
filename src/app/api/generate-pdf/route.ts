@@ -27,6 +27,7 @@ export async function POST(request: NextRequest) {
                 'Content-Type': 'application/pdf',
             },
         });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
         console.error('Erro ao gerar PDF:', error.response?.data || error.message);
         return new Response('Erro ao gerar PDF', { status: 500 });

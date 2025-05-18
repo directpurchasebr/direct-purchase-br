@@ -6,6 +6,7 @@ interface Props {
         field: number;
         className: string;
         classNameInput: string;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         event: any;
         editavel: boolean;
     };

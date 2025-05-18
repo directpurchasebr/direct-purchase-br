@@ -13,7 +13,7 @@ interface Props {
 }
 
 export default function UsuarioForm({ user }: Props) {
-    const [usuario, setUsuario] = useState<Usuario | null>(null);
+    // const [usuario, setUsuario] = useState<Usuario | null>(null);
     const [status, setStatus] = useState<Status | null>(null);
     const [perfil, setPerfil] = useState<Array<Perfil>>([]);
     const [compradores, setCompradores] = useState<Array<Comprador>>([]);
@@ -37,13 +37,13 @@ export default function UsuarioForm({ user }: Props) {
         internalService.fornecedor.listar().then((res) => res && setFornecedores(res));
 
         if (user) {
-            setUsuario(user);
+
             setFormData({
                 nome: user.nome || '',
                 email: user.email || '',
                 login: user.login || '',
                 dataNascimento: user.dataNascimento || '',
-                perfil: user.perfil || '',
+                perfil: user.perfil || {} as Perfil,
                 senha: user.senha || '',
                 indEstoque: user.indEstoque || false,
                 fornecedores: user.fornecedores || [],
@@ -64,7 +64,7 @@ export default function UsuarioForm({ user }: Props) {
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        
+
         internalService.usuario.salvar(formData).then((res) => {
             if (res) {
                 setStatus(res);

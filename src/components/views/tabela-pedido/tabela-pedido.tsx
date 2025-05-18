@@ -20,6 +20,7 @@ export default function TabelaPedidos() {
     const [isLoading, setIsLoading] = useState(false);
     const [fornecedores, setFornecedores] = useState<Array<Fornecedor>>([]);
     const [compradores, setCompradores] = useState<Array<Comprador>>([]);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [dataRelatorio, setDataRelatorio] = useState<any>([]);
     const relatorioRef = useRef<RelatorioButtonRef>(null);
 
@@ -77,6 +78,7 @@ export default function TabelaPedidos() {
 
         try {
             if (typeof window === "undefined") {
+                // eslint-disable-next-line @typescript-eslint/no-require-imports
                 const Redis = require('ioredis');
                 const redis = new Redis();
 
@@ -143,6 +145,7 @@ export default function TabelaPedidos() {
                     </tr>
                 </thead>
                 <tbody>
+                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                     {linhas.map((linha: any) => (
                         <LinhaPedido
                             key={linha.id}

@@ -2,19 +2,16 @@
 
 import React, { useEffect } from 'react'
 import LinkButton from '@components/layout/link-button'
-import { UsuarioLogado } from '@apimodel/auth/interfaces';
 import { internalService } from '@services/internal-service';
 import { signOut } from 'next-auth/react';
 import { Status } from '@apimodel/payload/intefaces';
 
-interface Props {
-    params: {
-        user: UsuarioLogado;
-    };
-}
+type HomeProps = {
+    userName: string;
+    accessToken: string;
+};
 
-export default function HomeApp({ params }: Props) {
-    const { user } = params;
+export default function HomeApp({ userName, accessToken }: HomeProps) {
 
     const handleValidateToken = async () => {
         try {
@@ -23,22 +20,23 @@ export default function HomeApp({ params }: Props) {
                 signOut({ callbackUrl: "/login" });
             }
         } catch (error) {
+            console.error('Erro no logout:', error);
             signOut({ callbackUrl: "/login" });
         }
     };
 
     // if (user.accessToken === null || user.accessToken === undefined) {
-        handleValidateToken();
+    handleValidateToken();
     // }
 
     useEffect(() => {
-        localStorage.setItem('accessToken', user.accessToken);
+        localStorage.setItem('accessToken', accessToken);
     }, []);
 
     return (
         <div className="flex flex-col items-center justify-center px-6 py-20 text-center translate-x-80">
             <h1 className="text-5xl font-bold mb-4 text-gray-800">
-                Bem-vindo, {user.nome}
+                Bem-vindo, {userName}
             </h1>
             <p className="text-lg text-gray-600 mb-8">
                 Crie um novo pedido agora mesmo e agilize seu processo!

@@ -53,7 +53,7 @@ export default function ProdutoForm({ initialData, onClose }: ProdutoFormProps) 
         internalService.produto.salvar(form).then((res) => {
             if (res) {
                 setStatus(res);
-                toast.success(res.mensagem);
+                toast.success(status.mensagem);
             }
         });
 

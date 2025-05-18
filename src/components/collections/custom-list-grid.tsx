@@ -7,6 +7,7 @@ import { FieldConfig } from "@/src/types/intefaces";
 import { getNestedValue } from "@utils/functios-utils";
 import { RelatorioButton, RelatorioButtonRef } from "@components/utils/relatorio-button";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Item = { [key: string]: any };
 
 interface ItemListProps<T> {

@@ -12,7 +12,7 @@ import { getNestedValue } from "@utils/functios-utils";
 export default function CompradorGridSelector() {
     const [compradores, setCompradores] = useState<Array<Comprador>>([]);
     const [selectedPessoa, setSelectedPessoa] = useState<Pessoa | undefined>(undefined);
-    const [isLoading, setIsLoading] = useState(false);
+
     const [status, setStatus] = useState<Status | null>(null);
 
     useEffect(() => {
@@ -67,6 +67,8 @@ export default function CompradorGridSelector() {
             bancos: pessoa.bancos,
         };
     };
+
+    console.log(selectedPessoa, status);
 
     return (
         <div className="p-6">

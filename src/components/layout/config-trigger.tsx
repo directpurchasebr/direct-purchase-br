@@ -6,7 +6,7 @@ import { internalService } from '@services/internal-service';
 import { User } from 'next-auth';
 import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { FormEvent, useState } from 'react';
+import { FormEvent } from 'react';
 
 export default function ConfigTrigger() {
 

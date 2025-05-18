@@ -1,11 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { FolderPlus, IdentificationCard } from '@phosphor-icons/react';
+import { IdentificationCard } from '@phosphor-icons/react';
 
 export default function CadastroTrigger() {
     return (
-        <div className="relative group">  
+        <div className="relative group">
             <button className="flex items-center justify-center hover:text-yellow-500 transition-colors">
                 <IdentificationCard size={22} />
                 <span className="ml-1">Cadastros</span>

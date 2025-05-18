@@ -2,6 +2,7 @@ import axios from 'axios';
 
 interface JsReportData {
     templateContent: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data: any;
 }
 
@@ -30,6 +31,7 @@ export default async function generatePdf({ templateContent, data }: JsReportDat
             }
         );
         return response.data;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
         console.error('Erro ao gerar PDF com jsreport:', error.response?.data || error.message);
         throw new Error('Erro ao gerar PDF');

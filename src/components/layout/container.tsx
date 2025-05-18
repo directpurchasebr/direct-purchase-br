@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function Container(props: any) {
   const customClass = props.customClass === 'start'
     ? 'justify-start'

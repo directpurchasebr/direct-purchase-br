@@ -5,7 +5,7 @@ import { withErrorHandling } from "@utils/api-handler";
 
 export const POST = withErrorHandling(async (request: NextRequest) => {
     const data = await request.json();
-    const status: Status | null | never[] = await coreService.comprador.salvar(data);
+    const status = await coreService.comprador.salvar(data) as Status | null | never[];
     if (!status) {
         return NextResponse.json({ error: 'Comprador não encontrado' });
     }

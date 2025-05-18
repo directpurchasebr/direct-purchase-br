@@ -1,6 +1,6 @@
 "use client";
 
-import { Fornecedor, Pessoa, ProdutosExcel, Status } from "@apimodel/payload/intefaces";
+import { Fornecedor, Pessoa, Status } from "@apimodel/payload/intefaces";
 import { CustomListGrid } from "@components/collections/custom-list-grid";
 import PessoaModal from "@components/views/pessoa/pessoal-modal";
 import { CustomButton } from "@components/utils/custom-button";
@@ -24,11 +24,6 @@ export default function FornecedorGridSelector() {
     const handleItemClick = (item: Pessoa) => {
         setSelectedPessoa(item);
     };
-
-    const handleCloseForm = () => {
-        setSelectedPessoa(null);
-    };
-
 
     const fields = [
         { label: 'ID', value: 'fornecedorId', width: '60px' },
@@ -67,10 +62,10 @@ export default function FornecedorGridSelector() {
             return;
         }
 
-        const excel: ProdutosExcel = {
-            fornecedorId: fornecedor.fornecedorId,
-            file: file,
-        };
+        // const excel: ProdutosExcel = {
+        //     fornecedorId: fornecedor.fornecedorId,
+        //     file: file,
+        // };
 
         const formData = new FormData();
         formData.append('fornecedorId', fornecedor.fornecedorId.toString());

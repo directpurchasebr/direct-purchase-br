@@ -1,8 +1,8 @@
 import { getUserFromSession } from '@utils/session-utils';
-import HomeApp from '../home/page';
+import HomeApp from '../../components/views/home/page';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../api/auth/[...nextauth]/route';
 import { redirect } from 'next/navigation';
+import { authOptions } from '@lib/auth-options';
 
 export default async function Dashboard() {
     const session = await getServerSession(authOptions);
@@ -13,7 +13,7 @@ export default async function Dashboard() {
     }
     return (
         <div>
-            <HomeApp params={{ user: userSession }} />
+            <HomeApp userName={userSession.name} accessToken={userSession.accessToken} />
         </div>
     )
 }

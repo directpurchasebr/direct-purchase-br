@@ -1,16 +1,17 @@
-import { forwardRef, useImperativeHandle, useState } from "react";
+import React, { useImperativeHandle, useState } from "react";
 
 export interface RelatorioButtonRef {
     gerarRelatorio: () => void;
 }
 
 interface RelatorioButtonProps {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     pedidoData: any;
     templateName: string;
     shouldReloadOnClose?: boolean;
 }
 
-export const RelatorioButton = forwardRef<RelatorioButtonRef, RelatorioButtonProps>(
+export const RelatorioButton = React.forwardRef<RelatorioButtonRef, RelatorioButtonProps>(
     ({ pedidoData, templateName, shouldReloadOnClose }, ref) => {
         const [isDialogOpen, setIsDialogOpen] = useState(false);
         const [pdfUrl, setPdfUrl] = useState<string | null>(null);
@@ -73,3 +74,5 @@ export const RelatorioButton = forwardRef<RelatorioButtonRef, RelatorioButtonPro
         );
     }
 );
+
+RelatorioButton.displayName = "RelatorioButton";

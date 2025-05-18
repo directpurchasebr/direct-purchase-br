@@ -20,6 +20,7 @@ export default function ProdutosGridSelector() {
 
     const handleItemClick = (item: Produto) => {
         setSelectedProduto(item);
+        console.log(selectedProduto);
     };
 
     const consultaProdutos = async () => {
@@ -34,8 +35,8 @@ export default function ProdutosGridSelector() {
     const fields = [
         { label: 'ID', value: 'produtoId', width: '60px' },
         { label: 'Código', value: 'codigo', width: '100px' },
-        { label: 'Descrição', value: 'descricao', width: '570px', fontSize: 'xs' as 'xs' },
-        { label: 'Fornecedor', value: 'fornecedor.nome', width: '380px', fontSize: 'xs' as 'xs' },
+        { label: 'Descrição', value: 'descricao', width: '570px', fontSize: 'xs' },
+        { label: 'Fornecedor', value: 'fornecedor.nome', width: '380px', fontSize: 'xs' },
         {
             label: 'Preço',
             value: 'preco',

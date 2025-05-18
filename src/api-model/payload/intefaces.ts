@@ -2,6 +2,7 @@ export interface Status {
     status: boolean;
     mensagem: string;
     erro: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     body: any;
 }
 
@@ -41,7 +42,6 @@ export interface Fornecedor extends Pessoa {
 export interface Comprador extends Pessoa {
     compradorId: number;
 }
-
 
 export interface ConsultaPedido {
     codigoPedido: string;

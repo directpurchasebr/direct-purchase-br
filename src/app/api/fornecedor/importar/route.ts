@@ -6,7 +6,7 @@ import { withErrorHandling } from "@utils/api-handler";
 
 export const POST = withErrorHandling(async (request: NextRequest) => {
     const data = await request.formData();
-    const status: Status | null | never[] = await coreService.fornecedor.import(data);
+    const status = await coreService.fornecedor.import(data) as Status | null | never[];
     if (!status) {
         return NextResponse.json({ error: 'Erro ao importar excel' });
     }

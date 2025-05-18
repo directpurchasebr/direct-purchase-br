@@ -12,6 +12,7 @@ export default function LoginForm() {
     const router = useRouter();
 
     useEffect(() => {
+        console.log(session);
         if (status === 'authenticated') {
             router.push('/');
         }
@@ -19,7 +20,13 @@ export default function LoginForm() {
 
     useEffect(() => {
         let localId = localStorage.getItem("deviceId");
-        localId = crypto.randomUUID();
+        if (!localId) {
+            import('uuid').then((mod) => {
+                const newId = mod.v4();
+                localId = newId;
+            });
+        }
+
         localStorage.setItem("deviceId", localId);
 
         const device = {

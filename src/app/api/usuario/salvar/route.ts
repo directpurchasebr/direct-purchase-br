@@ -5,7 +5,7 @@ import { withErrorHandling } from "@utils/api-handler";
 
 export const POST = withErrorHandling(async (request: NextRequest) => {
     const data = await request.json();
-    const status: Status | null | never[] = await coreService.usuario.salvar(data);
+    const status = await coreService.usuario.salvar(data) as Status | null | never[];
     if (!status) {
         return NextResponse.json({ error: 'Usuário não encontrado' });
     }

@@ -1,5 +1,4 @@
 import { UsuarioLogado } from "@apimodel/auth/interfaces";
-import NextAuth from "next-auth";
 
 declare module 'next-auth' {
   interface Credentials {

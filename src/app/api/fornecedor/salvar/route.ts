@@ -5,7 +5,7 @@ import { withErrorHandling } from "@utils/api-handler";
 
 export const POST = withErrorHandling(async (request: NextRequest) => {
     const data = await request.json();
-    const status: Status | null | never[] = await coreService.fornecedor.salvar(data);
+    const status = await coreService.fornecedor.salvar(data) as Status | null | never[];
     if (!status) {
         return NextResponse.json({ error: 'Fornecedor não encontrado' });
     }

@@ -1,5 +1,6 @@
 export interface FetchOptions {
     method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     body?: any;
     headers?: HeadersInit;
 }
@@ -7,6 +8,7 @@ export interface FetchOptions {
 export default async function fetcherUtils<T>(
     url: string,
     method: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     body?: any | null,
     options?: RequestInit & { token?: string; sessionId?: string }
 ): Promise<T> {

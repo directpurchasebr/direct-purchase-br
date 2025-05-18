@@ -58,7 +58,7 @@ export default function CadastrarFornecedor() {
                     internalService.fornecedor.salvar(fornecedor).then((res) => {
                         if (res) {
                             setStatus(res);
-                            toast.success(res.mensagem);
+                            toast.success(status.mensagem);
                         }
                     });
 

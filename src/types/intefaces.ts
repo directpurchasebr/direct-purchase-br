@@ -14,7 +14,8 @@ export type LinhaTabela = {
 export interface FieldConfig {
     label: string;
     value: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     render?: (item: any) => React.ReactNode;
     width?: string;
-    fontSize?: 'sm' | 'xs';
+    fontSize?: string;
 }

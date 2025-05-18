@@ -10,7 +10,7 @@ import { PedidoFiltros } from "./pedido-filtros";
 export default function PedodosGridSelector() {
     const [pedidos, setPedidos] = useState<Array<Pedido>>([]);
     const [selectedPedido, setSelectedPedido] = useState<Pedido | undefined>(undefined);
-    const [compradores, setCompradores] = useState<any[]>([]);
+    const [compradores, setCompradores] = useState<Comprador[]>([]);
     const [codigo, setCodigo] = useState('');
     const [comprador, setComprador] = useState<Comprador | null>(null);
     const [dataPedido, setDataPedido] = useState('');
@@ -22,6 +22,7 @@ export default function PedodosGridSelector() {
 
     const handleItemClick = (item: Pedido) => {
         setSelectedPedido(item);
+        console.log(selectedPedido);
     };
 
     const consultaPedidos = async () => {
@@ -38,7 +39,6 @@ export default function PedodosGridSelector() {
             console.error("Erro ao buscar pedidos:", err);
         }
     };
-
 
     const limparFiltros = () => {
         setCodigo('');

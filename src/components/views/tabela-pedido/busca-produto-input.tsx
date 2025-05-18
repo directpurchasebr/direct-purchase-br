@@ -6,6 +6,7 @@ import { Produto } from "@apimodel/payload/intefaces";
 
 interface Props {
     value: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onSelect: (produto: any) => void;
     className: string;
     classNameInput: string;

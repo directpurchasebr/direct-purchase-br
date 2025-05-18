@@ -10,6 +10,7 @@ async function fetchWithToken<T>(
     route: string,
     token?: string,
     method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     body?: any,
     isAuth: boolean = false,
 ): Promise<T | null> {
@@ -63,6 +64,7 @@ export const coreService = {
             return data ?? [];
         },
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         import: async (body: any, token?: string) => {
             const data = await fetchWithToken<Status>(apiRoutes.fornecedor.importar, token, 'POST', body, false);
             return data ?? [];

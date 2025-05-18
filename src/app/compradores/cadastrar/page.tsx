@@ -1,12 +1,12 @@
 "use client";
 
-import { Comprador, Fornecedor, Pessoa, Status } from "@apimodel/payload/intefaces";
+import { Comprador, Pessoa, Status } from "@apimodel/payload/intefaces";
 import PessoaForm from "@components/views/pessoa/pessoa-form";
 import { internalService } from "@services/internal-service";
 import { useState } from "react";
 import { toast } from "sonner";
 
-export default function CadastrarFornecedor() {
+export default function CadastrarComprador() {
     const [status, setStatus] = useState<Status | null>(null);
 
     const initialPessoa: Pessoa = {
@@ -57,7 +57,7 @@ export default function CadastrarFornecedor() {
                     internalService.comprador.salvar(comprador).then((res) => {
                         if (res) {
                             setStatus(res);
-                            toast.success(res.mensagem);
+                            toast.success(status.mensagem);
                         }
                     });
 

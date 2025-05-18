@@ -5,11 +5,6 @@ import CustomSelector from "@components/collections/custom-selector";
 import { uiStyles } from "@lib/ui-styles";
 import React, { Dispatch, SetStateAction } from "react";
 
-interface Fornecedor {
-    id: string;
-    nome: string;
-}
-
 interface PedidoFiltrosProps {
     codigo: string;
     setCodigo: React.Dispatch<React.SetStateAction<string>>;

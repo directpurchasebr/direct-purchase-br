@@ -119,6 +119,7 @@ export default function PessoaForm({ initialData, onClose, onSave }: PessoaFormP
                             <label className={labelClass}>{label}</label>
                             <input
                                 name={value}
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                 value={(form as any)[value] ?? ""}
                                 onChange={handleChange}
                                 className={inputClass}
@@ -146,6 +147,7 @@ export default function PessoaForm({ initialData, onClose, onSave }: PessoaFormP
                                     <label className={labelClass}>{label}</label>
                                     <input
                                         name={value}
+                                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                         value={(endereco as any)[value]}
                                         onChange={(e) => handleEnderecoChange(idx, value as keyof PessoaEndereco, e.target.value)}
                                         className={inputClass}
@@ -176,6 +178,7 @@ export default function PessoaForm({ initialData, onClose, onSave }: PessoaFormP
                                     <label className={labelClass}>{label}</label>
                                     <input
                                         name={value}
+                                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                         value={(banco as any)[value]}
                                         onChange={(e) => handleBancoChange(idx, value as keyof PessoaBanco, e.target.value)}
                                         className={inputClass}

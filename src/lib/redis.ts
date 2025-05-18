@@ -1,4 +1,8 @@
 import Redis from "ioredis";
 
-const redis = new Redis(); // localhost:6379 por padrão
+if (!process.env.REDIS_URL) {
+    throw new Error("REDIS_URL não definida no .env.local");
+}
+
+const redis = new Redis(process.env.REDIS_URL);
 export default redis;

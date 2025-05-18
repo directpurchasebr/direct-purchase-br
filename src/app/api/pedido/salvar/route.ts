@@ -5,7 +5,7 @@ import { withErrorHandling } from "@utils/api-handler";
 
 export const POST = withErrorHandling(async (request: NextRequest) => {
     const data = await request.json();
-    const status: Status | null | never[] = await coreService.pedido.salvar(data);
+    const status = await await coreService.pedido.salvar(data) as Status | null | never[];
     if (!status) {
         return NextResponse.json({ error: 'Pedido não encontrado' });
     }
