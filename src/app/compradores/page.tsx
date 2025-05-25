@@ -8,11 +8,11 @@ import { internalService } from "@services/internal-service";
 import { useEffect, useState } from "react";
 import { mask } from 'remask';
 import { getNestedValue } from "@utils/functios-utils";
+import { SuccessDialog } from "@components/utils/success-dialog";
 
 export default function CompradorGridSelector() {
     const [compradores, setCompradores] = useState<Array<Comprador>>([]);
     const [selectedPessoa, setSelectedPessoa] = useState<Pessoa | undefined>(undefined);
-
     const [status, setStatus] = useState<Status | null>(null);
 
     useEffect(() => {
@@ -21,6 +21,7 @@ export default function CompradorGridSelector() {
 
     const handleItemClick = (item: Pessoa) => {
         setSelectedPessoa(item);
+        console.log(selectedPessoa);
     };
 
     const fields = [
@@ -68,8 +69,6 @@ export default function CompradorGridSelector() {
         };
     };
 
-    console.log(selectedPessoa, status);
-
     return (
         <div className="p-6">
             <CustomListGrid
@@ -96,7 +95,8 @@ export default function CompradorGridSelector() {
                     />
                 )}
             />
-            {/* {status && (<SuccessDialog message={status.mensagem} />)} */}
+
+            {status && (<SuccessDialog message={status.mensagem} />)}
 
         </div>
     )

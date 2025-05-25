@@ -121,7 +121,7 @@ export default function PessoaForm({ initialData, onClose, onSave }: PessoaFormP
                                 name={value}
                                 value={(form as any)[value] ?? ""}
                                 onChange={handleChange}
-                                className={inputClass}
+                                className={inputClass + ' uppercase'}
                             />
                         </div>
                     ))}

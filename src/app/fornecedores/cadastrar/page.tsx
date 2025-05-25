@@ -1,13 +1,13 @@
 "use client";
 
-import { Fornecedor, Pessoa, Status } from "@apimodel/payload/intefaces";
+import { Fornecedor, Pessoa } from "@apimodel/payload/intefaces";
 import PessoaForm from "@components/views/pessoa/pessoa-form";
 import { internalService } from "@services/internal-service";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 export default function CadastrarFornecedor() {
-    const [status, setStatus] = useState<Status | null>(null);
+    const router = useRouter();
 
     const initialPessoa: Pessoa = {
         pessoaId: 0,
@@ -57,8 +57,10 @@ export default function CadastrarFornecedor() {
 
                     internalService.fornecedor.salvar(fornecedor).then((res) => {
                         if (res) {
-                            setStatus(res);
-                            toast.success(status.mensagem);
+                            toast.success(res.mensagem);
+                            if (res.status) {
+                                router.push('/fornecedores');
+                            }
                         }
                     });
 

@@ -6,7 +6,6 @@ export const uiStyles = {
         classNameInputProduto: 'w-full px-2 py-1 rounded border border-gray-300 bg-white text-black text-xs shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-400 truncate',
         classNameProduto: 'border border-gray-400 px-1 py-0.5 w-[400px]',
         classNameFornecedor: 'border border-gray-400 px-1 py-0.5 w-[150px]',
-
         classNameTotal: 'text-right font-bold border border-gray-400 px-1 py-0.5 bg-gray-100', // <--- Novo aqui
         classNameTotalValor: 'font-bold border border-gray-400 px-1 py-0.5 bg-gray-100', 
     },
