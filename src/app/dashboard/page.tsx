@@ -13,7 +13,7 @@ export default async function Dashboard() {
     }
     return (
         <div>
-            <HomeApp userName={userSession.name} accessToken={userSession.accessToken} />
+            <HomeApp userName={userSession.nome} accessToken={userSession.accessToken} />
         </div>
     )
 }
