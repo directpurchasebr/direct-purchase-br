@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { mask } from 'remask';
 import { getNestedValue } from "@utils/functios-utils";
 import { SuccessDialog } from "@components/utils/success-dialog";
+import { toast } from "sonner";
 
 export default function CompradorGridSelector() {
     const [compradores, setCompradores] = useState<Array<Comprador>>([]);
@@ -89,7 +90,10 @@ export default function CompradorGridSelector() {
                         }
                         onSave={(selectedPessoa) => {
                             const comprador = pessoaToComprador(selectedPessoa);
-                            internalService.comprador.salvar(comprador).then((res) => res && setStatus(res));
+
+                            internalService.comprador.salvar(comprador).then((res) => {
+                                if (res) toast.success(res.mensagem);
+                            });
                         }}
                         initialData={selectedPessoa}
                     />

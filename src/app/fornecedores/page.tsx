@@ -10,6 +10,7 @@ import { FullScreenLoader } from "@components/utils/full-screen-loader";
 import { SuccessDialog } from "@components/utils/success-dialog";
 import { mask } from 'remask';
 import { getNestedValue } from "@utils/functios-utils";
+import { toast } from "sonner";
 
 export default function FornecedorGridSelector() {
     const [status, setStatus] = useState<Status | null>(null);
@@ -104,7 +105,6 @@ export default function FornecedorGridSelector() {
         };
     };
 
-
     return (
         <div className="p-6">
 
@@ -130,7 +130,9 @@ export default function FornecedorGridSelector() {
                         }
                         onSave={(selectedPessoa) => {
                             const fornecedor = pessoaToFornecedor(selectedPessoa);
-                            internalService.fornecedor.salvar(fornecedor).then((res) => res && setStatus(res));
+                            internalService.fornecedor.salvar(fornecedor).then((res) => {
+                                if (res) toast.success(res.mensagem);
+                            });
                         }}
                         initialData={selectedPessoa}
                     />

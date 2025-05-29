@@ -44,12 +44,12 @@ export default function ConfigTrigger() {
                     </Link>
                 )}
 
-                <Link href="/pagamento" className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                {/* <Link href="/pagamento" className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                     Pagamento
-                </Link>
+                </Link> */}
+
                 <button onClick={handleLogout}
-                    className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
-                >
+                    className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2">
                     <SignOut size={22} />
                     <span>Sair</span>
                 </button>
