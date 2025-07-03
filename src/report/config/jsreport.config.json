@@ -3,11 +3,29 @@
         "port": 5488
     },
     "store": {
-        "provider": "fs",
-        "options": {
-            "path": "./src/report/data/templates/*"
-        }
+        "provider": "memory"
     },
     "templateEngine": "handlebars",
-    "recipe": "chrome-pdf"
+    "recipe": "chrome-pdf",
+    "chrome": {
+        "launchOptions": {
+            "args": [
+                "--no-sandbox",
+                "--disable-dev-shm-usage",
+                "--disable-gpu"
+            ]
+        }
+    },
+    "studio": {
+        "enabled": false
+    },
+    "extensions": {
+        "scripts": {
+            "timeout": 5000
+        }
+    },
+    "tasks": {
+        "strategy": "http-server",
+        "timeout": 60000
+    }
 }

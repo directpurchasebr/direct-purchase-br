@@ -28,12 +28,6 @@ export default function TabelaPedidos() {
         internalService.comprador.listar().then((res) => res && setCompradores(res));
     }, []);
 
-    useEffect(() => {
-        if (dataRelatorio && relatorioRef.current) {
-            relatorioRef.current.gerarRelatorio();
-        }
-    }, [dataRelatorio]);
-
     const totalGeral = linhas.reduce((acc, linha) => acc + (linha.precoTotal || 0), 0);
 
     const formatarMoeda = (valor: number) =>
@@ -44,7 +38,7 @@ export default function TabelaPedidos() {
         e.preventDefault();
 
         if (clienteSelecionado && !clienteSelecionado.compradorId) {
-            setIsLoading(false)
+
             setStatus({
                 status: false,
                 mensagem: "Nenhuma pessoa selecionada!",
@@ -85,6 +79,9 @@ export default function TabelaPedidos() {
                 await redis.set("pedidoId:" + sessionId, JSON.stringify(pedido));
             }
 
+            setIsLoading(true);
+
+
             const res = await internalService.pedido.salvar(pedido);
             if (res) {
                 setStatus(res);
@@ -103,17 +100,20 @@ export default function TabelaPedidos() {
                         precoTotal: linha.precoTotal,
                     })),
                 });
+
+                await new Promise((resolve) => setTimeout(resolve, 0));
+                relatorioRef.current?.gerarRelatorio();
             }
 
         } catch (error) {
             console.error('Erro ao salvar pedido:', error);
         } finally {
-            setIsLoading(false)
+            setIsLoading(false);
         }
     };
 
     return (
-        <div className="p-4 font-mono text-sm">
+        <div className="p-4 font-mono text-sm w-full overflow-auto">
 
             {isLoading && <FullScreenLoader message="Salvando Pedido..." />}
 

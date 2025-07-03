@@ -81,7 +81,7 @@ export default function InputSearchProduto({ value, onSelect, className, classNa
                         <li
                             key={index}
                             ref={(el) => { itemRefs.current[index] = el }}
-                            className={`px-2 py-1 cursor-pointer text-xs text-black ${index === highlightIndex ? 'bg-blue-200' : 'hover:bg-blue-100'
+                            className={`px-2 py-1 cursor-pointer text-sm text-black ${index === highlightIndex ? 'bg-blue-200' : 'hover:bg-blue-100'
                                 }`}
 
                             onMouseEnter={() => setHighlightIndex(index)}

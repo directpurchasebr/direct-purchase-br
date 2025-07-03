@@ -6,6 +6,7 @@ import React from "react";
 import { FieldConfig } from "@/src/types/intefaces";
 import { getNestedValue } from "@utils/functios-utils";
 import { RelatorioButton, RelatorioButtonRef } from "@components/utils/relatorio-button";
+import { FullScreenLoader } from "@components/utils/full-screen-loader";
 
 type Item = { [key: string]: any };
 
@@ -46,6 +47,7 @@ export const CustomListGrid = <T extends Item>({
     const currentItems = items.slice(startIndex, endIndex);
 
     const totalPages = Math.ceil(items.length / itemsPerPage);
+    const [isLoading, setIsLoading] = useState(false);
 
     const renderFieldValue = (item: T, field: FieldConfig) => {
         if (field.render) {
@@ -69,6 +71,9 @@ export const CustomListGrid = <T extends Item>({
 
     return (
         <div className="space-y-3">
+
+            {isLoading && <FullScreenLoader message="Gerando relatório..." />}
+
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-bold">{titulo}</h2>
                 <div className="space-x-2">
@@ -92,8 +97,10 @@ export const CustomListGrid = <T extends Item>({
                                     }
                                 }}
                                 variant="outline"
-                                className="bg-amber-800 text-white p-2 rounded w-28">
-                                Gerar Relatório
+                                className="bg-amber-800 text-white p-2 rounded w-28"
+                                disabled={isLoading}
+                            >
+                                {isLoading ? 'Gerando...' : 'Gerar Relatório'}
                             </CustomButton>
 
                             {selectedIndex !== null && (
@@ -101,6 +108,10 @@ export const CustomListGrid = <T extends Item>({
                                     ref={relatorioRef}
                                     pedidoData={items[selectedIndex]}
                                     templateName="pedido-relatorio"
+                                    onStatusChange={(status) => {
+                                        if (status === 'loading') setIsLoading(true);
+                                        else setIsLoading(false);
+                                    }}
                                 />
                             )}
                         </>
