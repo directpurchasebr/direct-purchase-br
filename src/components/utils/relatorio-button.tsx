@@ -18,7 +18,7 @@ export const RelatorioButton = React.forwardRef<RelatorioButtonRef, RelatorioBut
 
         const gerarRelatorio = async () => {
             try {
-                onStatusChange?.('loading'); 
+                onStatusChange?.('loading');
                 const res = await fetch('/api/generate-pdf', {
                     method: 'POST',
                     body: JSON.stringify({
@@ -34,7 +34,7 @@ export const RelatorioButton = React.forwardRef<RelatorioButtonRef, RelatorioBut
                 const url = URL.createObjectURL(blob);
                 setPdfUrl(url);
                 setIsDialogOpen(true);
-                 onStatusChange?.('done');
+                onStatusChange?.('done');
             } catch (error) {
                 console.error("Erro ao gerar relatório:", error);
                 onStatusChange?.('error');

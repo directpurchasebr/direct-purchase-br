@@ -28,6 +28,12 @@ export default function TabelaPedidos() {
         internalService.comprador.listar().then((res) => res && setCompradores(res));
     }, []);
 
+    useEffect(() => {
+        if (status && dataRelatorio && relatorioRef.current) {
+            relatorioRef.current.gerarRelatorio();
+        }
+    }, [status, dataRelatorio]);
+
     const totalGeral = linhas.reduce((acc, linha) => acc + (linha.precoTotal || 0), 0);
 
     const formatarMoeda = (valor: number) =>
@@ -101,14 +107,13 @@ export default function TabelaPedidos() {
                     })),
                 });
 
-                await new Promise((resolve) => setTimeout(resolve, 0));
-                relatorioRef.current?.gerarRelatorio();
             }
 
         } catch (error) {
             console.error('Erro ao salvar pedido:', error);
-        } finally {
             setIsLoading(false);
+        } finally {
+            setTimeout(() => setIsLoading(false), 1000);
         }
     };
 
