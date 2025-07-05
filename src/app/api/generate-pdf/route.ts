@@ -1,34 +1,46 @@
 import { NextRequest } from 'next/server';
+import puppeteer from 'puppeteer';
+import handlebars from 'handlebars';
 import fs from 'fs';
 import path from 'path';
-import generatePdf from '@utils/jsReport-utils';
+import { NextResponse } from 'next/server';
 
-export async function POST(request: NextRequest) {
+export async function POST(req: NextRequest) {
     try {
-        const { templateName, data } = await request.json();
-        if (!templateName) {
-            return new Response('Nome do template é necessário', { status: 400 });
-        }
+        const { templateName, data } = await req.json();
 
-        const templatePath = path.join(process.cwd(), 'src', 'report', 'data', 'templates', `${templateName}.handlebars`);
-        if (!fs.existsSync(templatePath)) {
-            return new Response('Template não encontrado', { status: 404 });
-        }
+        const templatePath = path.resolve(process.cwd(), 'src/report/data/templates', `${templateName}.handlebars`);
+        const templateSource = fs.readFileSync(templatePath, 'utf-8');
 
-        const templateContent = fs.readFileSync(templatePath, 'utf-8');
-        const jsreportResponse = await generatePdf({
-            templateContent,
-            data,
+        // Compilar com Handlebars
+        const template = handlebars.compile(templateSource);
+        const html = template(data);
+
+        // Gerar PDF com Puppeteer
+        const browser = await puppeteer.launch({
+            args: ['--no-sandbox', '--disable-setuid-sandbox']
+        });
+        const page = await browser.newPage();
+        await page.setContent(html, { waitUntil: 'networkidle0' });
+
+        const pdfBuffer = await page.pdf({
+            format: 'A4',
+            landscape: true,
+            printBackground: true,
+            margin: { top: '20mm', bottom: '20mm', left: '20mm', right: '20mm' }
         });
 
-        return new Response(jsreportResponse, {
+        await browser.close();
+
+        return new NextResponse(pdfBuffer, {
             status: 200,
             headers: {
                 'Content-Type': 'application/pdf',
-            },
+                'Content-Disposition': 'inline; filename=relatorio.pdf'
+            }
         });
-    } catch (error: any) {
-        console.error('Erro ao gerar PDF:', error.response?.data || error.message);
-        return new Response('Erro ao gerar PDF', { status: 500 });
+    } catch (error) {
+        console.error('[PDF ERROR]', error);
+        return NextResponse.json({ error: 'Erro ao gerar PDF' }, { status: 500 });
     }
 }

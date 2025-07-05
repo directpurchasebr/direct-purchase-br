@@ -1,6 +1,6 @@
 "use client";
 
-import { Produto } from "@apimodel/payload/intefaces";
+import { Fornecedor, Produto } from "@apimodel/payload/intefaces";
 import { CustomListGrid } from "@components/collections/custom-list-grid";
 import { internalService } from "@services/internal-service";
 import { getNestedValue } from "@utils/functios-utils";
@@ -13,9 +13,12 @@ export default function ProdutosGridSelector() {
     const [produtos, setProdutos] = useState<Array<Produto>>([]);
     const [selectedProduto, setSelectedProduto] = useState<Produto | undefined>(undefined);
     const [descricaoFiltro, setDescricaoFiltro] = useState<string>("");
+    const [fornecedores, setFornecedores] = useState<Fornecedor[]>([]);
+    const [fornecedor, setFornecedor] = useState<Fornecedor | null>(null);
 
     useEffect(() => {
         internalService.produto.listar().then((res) => res && setProdutos(res));
+        internalService.fornecedor.listar().then((res) => res && setFornecedores(res));
     }, []);
 
     const handleItemClick = (item: Produto) => {
@@ -25,6 +28,15 @@ export default function ProdutosGridSelector() {
 
     const consultaProdutos = async () => {
         try {
+
+            // fornecedorId: fornecedor?.fornecedorId ?? null,
+
+            //  const consultaPedido = {
+            //                 codigoPedido: codigo.trim() === '' ? null : codigo,
+            //                 dataPedido: dataPedido.trim() === '' ? null : dataPedido,
+            //                 compradorId: comprador?.compradorId ?? null,
+            //             } as ConsultaPedido;
+
             const res = await internalService.produto.buscar(descricaoFiltro);
             if (res) setProdutos(res);
         } catch (err) {
@@ -53,6 +65,9 @@ export default function ProdutosGridSelector() {
             <ProdutoFilter
                 descricao={descricaoFiltro}
                 setDescricao={setDescricaoFiltro}
+                fornecedor={fornecedor ?? {} as Fornecedor}
+                setFornecedor={setFornecedor}
+                fornecedores={fornecedores}
                 onPesquisar={consultaProdutos}
             />
 
