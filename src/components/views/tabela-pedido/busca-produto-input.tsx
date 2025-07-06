@@ -42,7 +42,7 @@ export default function InputSearchProduto({ value, onSelect, className, classNa
                 return;
             }
 
-            internalService.produto.buscar(inputValue).then((res) => {
+            internalService.produto.buscarPorDescricao(inputValue).then((res) => {
                 if (res) {
                     setResultados(res);
                     setHighlightIndex(0);
