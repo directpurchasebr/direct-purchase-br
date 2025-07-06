@@ -21,17 +21,15 @@ export function ProdutoFilter({
     fornecedores,
     onPesquisar }: ProdutoFilterProps) {
     return (
-        <div className="flex items-end gap-3 mb-4">
-            <div className="flex flex-col">
-                <label htmlFor="descricao" className="text-sm font-medium">
-                    Filtrar por Descrição:
-                </label>
+        <div className="flex flex-wrap items-end gap-4 mb-4" >
+            <div className="flex flex-col w-96">
+                <label className={uiStyles.forms.label}>Descrição</label>
                 <input
                     id="descricao"
                     type="text"
                     value={descricao}
-                    onChange={(e) => setDescricao(e.target.value)}
-                    className="border border-gray-300 rounded px-2 py-1 text-sm w-96"
+                    onChange={(e) => setDescricao(e.target.value.toUpperCase())}
+                    className={uiStyles.forms.input}
                     placeholder="Digite parte da descrição..."
                 />
             </div>
@@ -54,6 +52,6 @@ export function ProdutoFilter({
             >
                 Pesquisar
             </CustomButton>
-        </div>
+        </div >
     );
 }

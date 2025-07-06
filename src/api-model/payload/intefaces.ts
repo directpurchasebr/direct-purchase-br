@@ -48,6 +48,11 @@ export interface ConsultaPedido {
     compradorId: number;
 }
 
+export interface ConsultaProduto {
+    descricao: string;
+    fornecedorId: number;
+}
+
 export interface Pedido {
     pedidoId: number;
     codigoPedido: string;

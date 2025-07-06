@@ -1,6 +1,6 @@
 
 import fetcherUtils from '@utils/fetcher-utils';
-import { Comprador, ConsultaPedido, Fornecedor, Pedido, Perfil, Produto, Status, Usuario } from '@apimodel/payload/intefaces';
+import { Comprador, ConsultaPedido, ConsultaProduto, Fornecedor, Pedido, Perfil, Produto, Status, Usuario } from '@apimodel/payload/intefaces';
 import { getUserFromSession } from '@utils/session-utils';
 import { apiRoutes } from '@lib/api-routers';
 import { UsuarioLogado } from '@apimodel/auth/interfaces';
@@ -76,17 +76,22 @@ export const coreService = {
 
     produto: {
         listar: async (token?: string) => {
-            const data = await fetchWithToken<Array<Produto>>(apiRoutes.produtos.produtos, token);
+            const data = await fetchWithToken<Array<Produto>>(apiRoutes.produto.produtos, token);
             return data ?? [];
         },
 
         search: async (desc: string, token?: string) => {
-            const data = await fetchWithToken<Array<Produto>>(apiRoutes.produtos.search(desc), token);
+            const data = await fetchWithToken<Array<Produto>>(apiRoutes.produto.search(desc), token);
+            return data ?? [];
+        },
+
+        buscar: async (body: ConsultaProduto, token?: string) => {
+            const data = await fetchWithToken<Array<Produto>>(apiRoutes.produto.buscar, token, 'POST', body);
             return data ?? [];
         },
 
         salvar: async (body: Produto, token?: string) => {
-            const data = await fetchWithToken<Status>(apiRoutes.produtos.salvar, token, 'POST', body);
+            const data = await fetchWithToken<Status>(apiRoutes.produto.salvar, token, 'POST', body);
             return data ?? [];
         },
     },

@@ -1,6 +1,6 @@
 "use client";
 
-import { Fornecedor, Produto } from "@apimodel/payload/intefaces";
+import { ConsultaProduto, Fornecedor, Produto } from "@apimodel/payload/intefaces";
 import { CustomListGrid } from "@components/collections/custom-list-grid";
 import { internalService } from "@services/internal-service";
 import { getNestedValue } from "@utils/functios-utils";
@@ -28,17 +28,14 @@ export default function ProdutosGridSelector() {
 
     const consultaProdutos = async () => {
         try {
+            const consultaProduto = {
+                descricao: descricaoFiltro.trim() === '' ? null : descricaoFiltro,
+                fornecedorId: fornecedor?.fornecedorId ?? null,
+            } as ConsultaProduto;
 
-            // fornecedorId: fornecedor?.fornecedorId ?? null,
-
-            //  const consultaPedido = {
-            //                 codigoPedido: codigo.trim() === '' ? null : codigo,
-            //                 dataPedido: dataPedido.trim() === '' ? null : dataPedido,
-            //                 compradorId: comprador?.compradorId ?? null,
-            //             } as ConsultaPedido;
-
-            const res = await internalService.produto.buscar(descricaoFiltro);
+            const res = await internalService.produto.buscar(consultaProduto);
             if (res) setProdutos(res);
+            
         } catch (err) {
             console.error("Erro ao buscar produtos:", err);
         }

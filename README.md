@@ -8,6 +8,7 @@ Frontend moderno em **Next.js** para o sistema de compras diretas. Oferece uma i
 - **React 19**
 - **TailwindCSS** + DaisyUI
 - **TypeScript**
+- **Puppeteer** (relatórios)
 - **NextAuth.js** (autenticação)
 - **Phosphor Icons**
 - **TanStack Table v8** (tabelas dinâmicas)
@@ -18,7 +19,7 @@ Frontend moderno em **Next.js** para o sistema de compras diretas. Oferece uma i
 - Integração com NextAuth.js
 - Uso de `useSession()` para verificação de login
 - `signOut()` redireciona para `/login`
-- Controle de visibilidade de rotas e ações com base em perfil (`roles`)
+- Controle de visibilidade de rotas e ações com base em perfil (`rules`)
 
 ## 🧭 Navegação
 
@@ -90,15 +91,14 @@ Este projeto consome a Direct Purchase API, que expõe endpoints seguros com JWT
 
 # 🐳 Dependências do Projeto
 
-Este projeto depende do **Redis** 🛢️ e do **JSReport** 📊, que podem ser executados localmente através do Docker.
+Este projeto depende do **Redis** 🛢️, que pode ser executado localmente através do Docker.
 
 ## Rodando Redis 🛢️ e o JsReport 📊 com Docker 🐳
 
 1. Primeiro, verifique se o Docker está instalado e em funcionamento.
 
-2. Para rodar o Redis e o JsReport, utilize o seguinte comando:
+2. Para rodar o Redis, utilize o seguinte comando:
 
   ```bash
    docker run --name redis -p 6379:6379 -d redis
-   docker run --name jsreport -p 5488:5488 -d jsreport/jsreport
   ```

@@ -1,5 +1,5 @@
 
-import { Comprador, ConsultaPedido, Fornecedor, Pedido, Perfil, Produto, Status, Usuario } from "@apimodel/payload/intefaces";
+import { Comprador, ConsultaPedido, ConsultaProduto, Fornecedor, Pedido, Perfil, Produto, Status, Usuario } from "@apimodel/payload/intefaces";
 import { internalRoutes } from "@lib/internal-routes";
 import { signOut } from "next-auth/react";
 
@@ -73,9 +73,13 @@ export const internalService = {
     },
 
     produto: {
-        buscar: async (desc: string) => {
+        buscarPorDescricao: async (desc: string) => {
             if (desc.trim().length === 0) return;
-            return await fetchInternal<Array<Produto>>(internalRoutes.produto.buscar(encodeURIComponent(desc)));
+            return await fetchInternal<Array<Produto>>(internalRoutes.produto.buscarPorDescricao(encodeURIComponent(desc)));
+        },
+
+        buscar: async (body: ConsultaProduto) => {
+            return await fetchInternal<Array<Produto>>(internalRoutes.produto.buscar, 'POST', body);
         },
 
         listar: async () => {

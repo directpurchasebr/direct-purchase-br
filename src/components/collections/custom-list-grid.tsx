@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CustomButton } from "@components/utils/custom-button";
 import Link from "next/link";
 import { UploadDialog } from "@components/layout/upload-dialog";
@@ -48,6 +48,10 @@ export const CustomListGrid = <T extends Item>({
 
     const totalPages = Math.ceil(items.length / itemsPerPage);
     const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [items]);
 
     const renderFieldValue = (item: T, field: FieldConfig) => {
         if (field.render) {

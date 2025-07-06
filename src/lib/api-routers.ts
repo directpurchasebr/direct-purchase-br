@@ -4,9 +4,10 @@ export const apiRoutes = {
         logout: "/auth/logout",
         validateToken: "/auth/validateToken",
     },
-    produtos: {
+    produto: {
         produtos: "/produto/listar",
         search: (descricao: string) => `/produto/buscar/${descricao}`,
+        buscar: "/produto/buscar",
         salvar: "/produto/salvar",
     },
     fornecedor: {

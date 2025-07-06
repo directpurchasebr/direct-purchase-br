@@ -5,7 +5,8 @@ export const internalRoutes = {
   },
   produto: {
     listar: "/api/produto/listar",
-    buscar: (descricao: string) => `/api/produto/buscar/${descricao}`,
+    buscarPorDescricao: (descricao: string) => `/api/produto/buscar/${descricao}`,
+    buscar: "/api/produto/buscar",
     salvar: "/api/produto/salvar",
   },
   fornecedor: {
