@@ -103,7 +103,7 @@ export default function TabelaPedidos() {
 
             }
 
-            await new Promise(resolve => setTimeout(resolve, 8000));
+            await new Promise(resolve => setTimeout(resolve, 5000));
             if (relatorioRef.current) {
                 relatorioRef.current.gerarRelatorio();
             }
@@ -112,7 +112,7 @@ export default function TabelaPedidos() {
             console.error('Erro ao salvar pedido:', error);
             setIsLoading(false);
         } finally {
-            setTimeout(() => setIsLoading(false), 1000);
+            setTimeout(() => setIsLoading(false), 5000);
         }
     };
 

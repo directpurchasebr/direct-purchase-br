@@ -9,6 +9,7 @@ export default function LoginForm() {
     const [deviceId, setDeviceId] = useState<string | null>(null);
     const [deviceInfo, setDeviceJson] = useState<string | null>(null);
     const { data: session, status } = useSession();
+    const [appVersion, setAppVersion] = useState<string | null>(null);
     const router = useRouter();
 
     useEffect(() => {
@@ -19,6 +20,12 @@ export default function LoginForm() {
     }, [status, router]);
 
     useEffect(() => {
+
+        fetch("/api/version")
+            .then(res => res.json())
+            .then(data => setAppVersion(data.version))
+            .catch(() => setAppVersion("desconhecida"));
+
         let localId = localStorage.getItem("deviceId");
         if (!localId) {
             import('uuid').then((mod) => {
@@ -93,6 +100,10 @@ export default function LoginForm() {
                     Login
                 </button>
             </form>
+
+            {appVersion && (
+                <p className="text-sm text-gray-400 mt-4">v{appVersion}</p>
+            )}
         </div>
     );
 }
