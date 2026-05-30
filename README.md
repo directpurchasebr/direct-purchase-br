@@ -97,15 +97,71 @@ which exposes secure JWT-protected endpoints.
 
 # 🐳 Project Dependencies
 
-This project depends on **Redis** 🛢️, which can be run
-locally via Docker.
+This project depends on **Redis** 🛢️, **jsreport** 📄, and the **Direct Purchase API** ☕, all of which can be run via Docker.
 
-## Running Redis 🛢️ with Docker 🐳
+> All containers should be attached to the same Docker network: `easymerge-network`.
+> Create it once with: `docker network create easymerge-network`
 
-1. First, make sure Docker is installed and running.
+---
 
-2. To run Redis, use the following command:
+## 🛢️ Redis
 
 ```bash
-docker run --name redis -p 6379:6379 -d redis
+docker run \
+  --name redis \
+  --cpus="0.05" --memory="64m" --memory-swap="64m" \
+  --network easymerge-network \
+  -p 6379:6379 \
+  -d redis
+```
+
+---
+
+## 📄 jsreport
+
+```bash
+docker run \
+  --name jsreport \
+  --cpus="0.1" --memory="256m" \
+  --network easymerge-network \
+  -p 5488:5488 \
+  -e extensions_authentication_cookieSession_secret=secret \
+  -e extensions_authentication_admin_username=user \
+  -e extensions_authentication_admin_password=pass \
+  -d jsreport/jsreport
+```
+
+---
+
+## ☕ Direct Purchase API
+
+```bash
+docker run \
+  --name direct-purchase-api \
+  --cpus="0.6" --memory="512m" \
+  --network easymerge-network \
+  -p 8080:8080 \
+  -v /files/application-prod.yml:/application.yml \
+  -d directpurchasebr/direct-purchase-api \
+  java -jar /app.jar --spring.config.location=file:/application.yml
+```
+
+---
+
+## 🖥️ Direct Purchase Frontend
+
+```bash
+docker run \
+  --name direct-purchase-front \
+  --network easymerge-network \
+  -p 80:3000 \
+  -e NEXTAUTH_URL=DNS \
+  -e NEXTAUTH_SECRET=secret \
+  -e BACKEND_URL=http://direct-purchase-api:8080/api-easymerge \
+  -e NEXT_PUBLIC_API_URL=http://direct-purchase-api:8080/api-easymerge \
+  -e JSREPORT_URL=http://jsreport:5488 \
+  -e JSREPORT_USERNAME=user \
+  -e JSREPORT_PASSWORD="pass" \
+  -e REDIS_URL=redis://redis:6379 \
+  -d directpurchasebr/direct-purchase-front
 ```
