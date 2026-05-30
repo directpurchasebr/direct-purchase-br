@@ -31,6 +31,9 @@ export default function Navbar() {
                             <Link href="/dashboard" className="hover:text-yellow-500 transition-colors">Home</Link>
                         </li>
                         <li>
+                            <Link href="/pedidosfornecedor" className="hover:text-yellow-500 transition-colors">Pedidos Detalhado</Link>
+                        </li>
+                        <li>
                             <Link href="/pedidos" className="hover:text-yellow-500 transition-colors">Pedidos</Link>
                         </li>
                         <li>

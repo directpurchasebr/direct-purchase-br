@@ -28,7 +28,9 @@ export const apiRoutes = {
     },
     pedido: {
         pedidos: "/pedido/listar",
+        pedidosFornecedor: "/pedido/listarPedidosFornecedor",
         salvar: "/pedido/salvar",
         buscar: "/pedido/buscar",
+        buscarFornecedor: "/pedido/consultarPedidosFornecedor",
     },
 };

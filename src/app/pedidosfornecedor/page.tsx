@@ -1,26 +1,27 @@
 "use client";
 
-import { Comprador, ConsultaPedido, Pedido } from "@apimodel/payload/intefaces";
+import { Comprador, ConsultaPedido, Pedido, PedidoFornecedor } from "@apimodel/payload/intefaces";
+import { PedidoFiltros } from "@app/pedidos/pedido-filtros";
 import { CustomListGrid } from "@components/collections/custom-list-grid";
 import { internalService } from "@services/internal-service";
 import { getNestedValue } from "@utils/functios-utils";
 import { useEffect, useState } from "react";
-import { PedidoFiltros } from "./pedido-filtros";
+
 
 export default function PedodosGridSelector() {
-    const [pedidos, setPedidos] = useState<Array<Pedido>>([]);
-    const [selectedPedido, setSelectedPedido] = useState<Pedido | undefined>(undefined);
+    const [pedidos, setPedidos] = useState<Array<PedidoFornecedor>>([]);
+    const [selectedPedido, setSelectedPedido] = useState<PedidoFornecedor | undefined>(undefined);
     const [compradores, setCompradores] = useState<Comprador[]>([]);
     const [codigo, setCodigo] = useState('');
     const [comprador, setComprador] = useState<Comprador | null>(null);
     const [dataPedido, setDataPedido] = useState('');
 
     useEffect(() => {
-        internalService.pedido.listar().then((res) => res && setPedidos(res));
+        internalService.pedido.listarFornecedor().then((res) => res && setPedidos(res));
         internalService.comprador.listar().then((res) => res && setCompradores(res));
     }, []);
 
-    const handleItemClick = (item: Pedido) => {
+    const handleItemClick = (item: PedidoFornecedor) => {
         setSelectedPedido(item);
         console.log(selectedPedido);
     };
@@ -33,7 +34,7 @@ export default function PedodosGridSelector() {
                 compradorId: comprador?.compradorId ?? null,
             } as ConsultaPedido;
 
-            const res = await internalService.pedido.buscar(consultaPedido);
+            const res = await internalService.pedido.consultarFornecedor(consultaPedido);
             if (res) setPedidos(res);
         } catch (err) {
             console.error("Erro ao buscar pedidos:", err);
@@ -99,7 +100,7 @@ export default function PedodosGridSelector() {
                 onItemClick={handleItemClick}
                 titulo="Pedidos"
                 isGerarRelatorio={true}
-                templateName="pedido-relatorio"
+                templateName="pedido-fornecedor-relatorio"
                 itemsPerPage={10}
             />
         </div>

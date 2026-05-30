@@ -27,7 +27,9 @@ export const internalRoutes = {
   },
   pedido: {
     listar: "/api/pedido/listar",
+    listarFornecedor: "/api/pedido/listarFornecedor",
     salvar: "/api/pedido/salvar",
     buscar: "/api/pedido/buscar",
+    consultarFornecedor: "/api/pedido/buscarFornecedor",
   },
 };

@@ -1,62 +1,66 @@
 # 🛍️ Direct Purchase - Frontend
 
-Frontend moderno em **Next.js** para o sistema de compras diretas. Oferece uma interface responsiva, segura e integrada com autenticação via NextAuth e backend com JWT.
+Modern frontend built with **Next.js** for the direct purchase system.
+Provides a responsive, secure interface with NextAuth authentication
+and JWT-based backend integration.
 
-## 🧰 Stack Principal
+## 🧰 Main Stack
 
 - **Next.js 15**
 - **React 19**
 - **TailwindCSS** + DaisyUI
 - **TypeScript**
-- **Puppeteer** (relatórios)
-- **NextAuth.js** (autenticação)
+- **Puppeteer** (reports)
+- **NextAuth.js** (authentication)
 - **Phosphor Icons**
-- **TanStack Table v8** (tabelas dinâmicas)
-- **http-proxy-middleware** (proxy para API backend)
+- **TanStack Table v8** (dynamic tables)
+- **http-proxy-middleware** (API proxy)
 
-## 🔐 Autenticação
+## 🔐 Authentication
 
-- Integração com NextAuth.js
-- Uso de `useSession()` para verificação de login
-- `signOut()` redireciona para `/login`
-- Controle de visibilidade de rotas e ações com base em perfil (`rules`)
+- NextAuth.js integration
+- `useSession()` for login verification
+- `signOut()` redirects to `/login`
+- Route and action visibility control based on user profile (`rules`)
 
-## 🧭 Navegação
+## 🧭 Navigation
 
-Componentes chave:
+Key components:
 
-- `Navbar`: Menu principal com acesso rápido a páginas, novo pedido e configurações do usuário
-- `ConfigTrigger`: Dropdown com opções como "Conta", "Criar Novo Usuário" (somente ADMIN) e "Sair"
-- `Container`: Wrapper padrão com controle de layout flexível
+- `Navbar`: Main menu with quick access to pages, new order and user settings
+- `ConfigTrigger`: Dropdown with options like "Account", "Create New User" 
+  (ADMIN only) and "Sign Out"
+- `Container`: Default wrapper with flexible layout control
 
-### 🧪 Estrutura de páginas (exemplos)
+### 🧪 Page Structure (examples)
 
-| Rota | Descrição |
-|------|-----------|
-| `/login` | Tela de autenticação |
-| `/dashboard` | Painel principal pós-login |
-| `/novopedido` | Cadastro de novo pedido |
-| `/pedidos` | Listagem de pedidos |
-| `/produtos` | Listagem de produtos |
-| `/fornecedores` | Listagem de fornecedores |
-| `/usuario` | Detalhes da conta do usuário |
-| `/usuario/novo` | Cadastro de novo usuário |
-| `/pagamento` | Tela de pagamento |
+| Route | Description |
+|-------|-------------|
+| `/login` | Authentication screen |
+| `/dashboard` | Main panel after login |
+| `/novopedido` | New order registration |
+| `/pedidos` | Order listing |
+| `/produtos` | Product listing |
+| `/fornecedores` | Supplier listing |
+| `/usuario` | User account details |
+| `/usuario/novo` | New user registration |
+| `/pagamento` | Payment screen |
 
 ## 🧑‍💻 Scripts
 
 ```bash
-# Instalar dependências
+# Install dependencies
 npm install
 
-# Rodar em modo dev
+# Run in dev mode
 npm run dev
 
-# Build de produção
+# Production build
 npm run build
 ```
 
-📁 Estrutura de Arquivos Principais
+## 📁 Main File Structure
+
 ```bash
 /components
   ├── navbar.jsx
@@ -86,19 +90,22 @@ npm run build
   └── ...
 ```
 
-🔗 Backend
-Este projeto consome a Direct Purchase API, que expõe endpoints seguros com JWT.
+## 🔗 Backend
 
-# 🐳 Dependências do Projeto
+This project consumes the Direct Purchase API,
+which exposes secure JWT-protected endpoints.
 
-Este projeto depende do **Redis** 🛢️, que pode ser executado localmente através do Docker.
+# 🐳 Project Dependencies
 
-## Rodando Redis 🛢️ com Docker 🐳
+This project depends on **Redis** 🛢️, which can be run
+locally via Docker.
 
-1. Primeiro, verifique se o Docker está instalado e em funcionamento.
+## Running Redis 🛢️ with Docker 🐳
 
-2. Para rodar o Redis, utilize o seguinte comando:
+1. First, make sure Docker is installed and running.
 
-  ```bash
-   docker run --name redis -p 6379:6379 -d redis
-  ```
+2. To run Redis, use the following command:
+
+```bash
+docker run --name redis -p 6379:6379 -d redis
+```

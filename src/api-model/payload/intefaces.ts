@@ -64,6 +64,19 @@ export interface Pedido {
     status: string;
 }
 
+export interface PedidoFornecedor {
+    pedidoId: number;
+    codigoPedido: string;
+    dataPedido: string;
+    comprador: Comprador;
+    pedidosFornecedor: {
+        [fornecedor: string]: Array<PedidoProduto>;
+    };
+    valorTotal: number;
+    observacao: string;
+    status: string;
+}
+
 export interface PedidoProduto {
     pedidoProdutoId: number;
     id: number;

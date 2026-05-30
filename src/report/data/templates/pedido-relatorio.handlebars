@@ -64,7 +64,7 @@
             <strong>Pedido:</strong> {{codigoPedido}}
         </p>
         <p style="font-size: 16px; margin-top: 20px;">
-            <strong>Comprador:</strong> {{descricaoComprador}}
+            <strong>Cliente:</strong> {{descricaoComprador}}
         </p>
         <p id="data-pedido" data-value="{{dataPedido}}" style="font-size: 16px; margin-top: 20px;">
             <strong>Data do Pedido:</strong> {{dataPedido}}
@@ -73,19 +73,17 @@
             style="width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px;">
             <thead style="background-color: #f0f0f0;">
                 <tr>
-                    <th style="border: 1px solid #ccc; width: 20%;">Fornecedor</th>
-                    <th style="border: 1px solid #ccc; width: 5%;">Cod</th>
-                    <th style="border: 1px solid #ccc; width: 43%;">Produto</th>
-                    <th style="border: 1px solid #ccc; width: 5%;">Qtd</th>
-                    <th style="border: 1px solid #ccc; width: 5%;">UN</th>
-                    <th style="border: 1px solid #ccc; width: 10%;">Preço</th>
-                    <th style="border: 1px solid #ccc; width: 12%;">Total</th>
+                    <th style="border: 1px solid #ccc; width: 6%;">Cod</th>
+                    <th style="border: 1px solid #ccc; width: 52%;">Produto</th>
+                    <th style="border: 1px solid #ccc; width: 6%;">Qtd</th>
+                    <th style="border: 1px solid #ccc; width: 6%;">UN</th>
+                    <th style="border: 1px solid #ccc; width: 14%;">Preço</th>
+                    <th style="border: 1px solid #ccc; width: 16%;">Total</th>
                 </tr>
             </thead>
             <tbody>
                 {{#each produtos}}
                 <tr style="background-color: {{#if @odd}}#f9f9f9{{else}}#ffffff{{/if}};">
-                    <td style="border: 1px solid #ddd;">{{descricaoFornecedor}}</td>
                     <td style="border: 1px solid #ddd;">{{codigo}}</td>
                     <td style="border: 1px solid #ddd;">{{descricaoProduto}}</td>
                     <td style="border: 1px solid #ddd; text-align: center;">{{quantidade}}</td>
@@ -94,7 +92,7 @@
                         R$ <span class="format-number">{{preco}}</span>
                     </td>
                     <td style="border: 1px solid #ddd; text-align: right;">
-                        R$ <span class="format-number">{{precoTotal}}</span>
+                        R$ <span class="format-number preco-total">{{precoTotal}}</span>
                     </td>
                 </tr>
                 {{/each}}
@@ -103,13 +101,14 @@
 
         <p style="text-align: right; margin-top: 20px; color: #333;">
             Total Geral: <span style="font-weight: bold;">R$
-                <span class="format-number">{{valorTotal}}</span>
+                <span class="format-number total-geral">{{valorTotal}}</span>
             </span>
         </p>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // Formatar números
             document.querySelectorAll('.format-number').forEach(el => {
                 const raw = el.textContent.replace(/[^\d.-]/g, '');
                 const value = parseFloat(raw);
@@ -120,21 +119,34 @@
                     });
                 }
             });
-        });
 
-        const dataEl = document.querySelector('#data-pedido');
-        if (dataEl) {
-            const rawDate = dataEl.dataset.value;
-            const date = new Date(rawDate);
-            if (!isNaN(date)) {
-                const dia = String(date.getDate()).padStart(2, '0');
-                const mes = String(date.getMonth() + 1).padStart(2, '0');
-                const ano = date.getFullYear();
-                const horas = String(date.getHours()).padStart(2, '0');
-                const minutos = String(date.getMinutes()).padStart(2, '0');
-                dataEl.innerHTML = `<strong>Data do Pedido: </strong> ${dia}/${mes}/${ano} ${horas}:${minutos}`;
+            // Calcular total geral
+            let soma = 0;
+            document.querySelectorAll('.preco-total').forEach(el => {
+                const valor = parseFloat(el.textContent.replace(/\./g, '').replace(',', '.'));
+                if (!isNaN(valor)) soma += valor;
+            });
+            const totalEl = document.querySelector('.total-geral');
+            if (totalEl) {
+                totalEl.textContent = soma.toLocaleString('pt-BR', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
             }
-        }
+
+            // Formatar data
+            const dataEl = document.querySelector('#data-pedido');
+            if (dataEl) {
+                const rawDate = dataEl.dataset.value;
+                const date = new Date(rawDate);
+                if (!isNaN(date)) {
+                    const dia = String(date.getDate()).padStart(2, '0');
+                    const mes = String(date.getMonth() + 1).padStart(2, '0');
+                    const ano = date.getFullYear();
+                    dataEl.innerHTML = `<strong>Data do Pedido: </strong> ${dia}/${mes}/${ano}`;
+                }
+            }
+        });
     </script>
 </body>
 

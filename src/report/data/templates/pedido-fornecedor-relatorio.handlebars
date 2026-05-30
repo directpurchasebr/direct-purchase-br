@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Pedido {{codigoPedido}}</title>
+    <style>
+        @page {
+            size: A4 landscape;
+            margin: 20mm;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        td.text-right {
+            text-align: right;
+        }
+
+        td.text-center {
+            text-align: center;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        h2 {
+            text-align: right;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    {{#each pedidosFornecedor}}
+    <div style="page-break-after: always;">
+        <p style="font-size: 16px; margin-top: 20px;">
+            <strong>Pedido:</strong> {{../codigoPedido}}
+        </p>
+        <p id="data-pedido-{{@index}}" data-value="{{../dataPedido}}" style="font-size: 16px; margin-top: 20px;">
+            <strong>Data do Pedido:</strong> {{../dataPedido}}
+        </p>
+        <p style="font-size: 16px; margin-top: 20px;">
+            <strong>Cliente:</strong> {{@key}}
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Cód</th>
+                    <th>Produto</th>
+                    <th>Qtd</th>
+                    <th>UN</th>
+                    <th>Preço</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each this}}
+                <tr>
+                    <td>{{codigo}}</td>
+                    <td>{{descricaoProduto}}</td>
+                    <td class="text-center">{{quantidade}}</td>
+                    <td class="text-center">{{unidade}}</td>
+                    <td class="text-right">R$ <span class="format-number">{{preco}}</span></td>
+                    <td class="text-right">R$ <span class="format-number preco-total">{{precoTotal}}</span></td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
+        <p style="text-align: right; margin-top: 20px;">
+            <strong>Total Geral:</strong> R$
+            <span class="format-number total-geral">{{../valorTotal}}</span>
+        </p>
+    </div>
+    {{/each}}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Formatar todos os números
+            document.querySelectorAll('.format-number').forEach(el => {
+                const raw = el.textContent.replace(/[^\d.-]/g, '');
+                const value = parseFloat(raw);
+                if (!isNaN(value)) {
+                    el.textContent = value.toLocaleString('pt-BR', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                }
+            });
+
+            // Calcular o total de cada pedidoFornecedor
+            document.querySelectorAll('div[style*="page-break-after"]').forEach(div => {
+                let soma = 0;
+                div.querySelectorAll('.preco-total').forEach(el => {
+                    const valor = parseFloat(el.textContent.replace(/\./g, '').replace(',', '.'));
+                    if (!isNaN(valor)) soma += valor;
+                });
+                const totalEl = div.querySelector('.total-geral');
+                if (totalEl) {
+                    totalEl.textContent = soma.toLocaleString('pt-BR', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                }
+            });
+
+            // Ajustar datas
+            document.querySelectorAll('[id^="data-pedido"]').forEach(dataEl => {
+                const rawDate = dataEl.dataset.value;
+                const date = new Date(rawDate);
+                if (!isNaN(date)) {
+                    const dia = String(date.getDate()).padStart(2, '0');
+                    const mes = String(date.getMonth() + 1).padStart(2, '0');
+                    const ano = date.getFullYear();
+                    dataEl.innerHTML = `<strong>Data do Pedido: </strong> ${dia}/${mes}/${ano}`;
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

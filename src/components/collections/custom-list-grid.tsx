@@ -19,6 +19,7 @@ interface ItemListProps<T> {
     isCadastrar?: boolean;
     isImportar?: boolean;
     isGerarRelatorio?: boolean;
+    templateName?: string;
     onFileUpload?: (file: File) => void;
     itemsPerPage?: number;
     renderActions?: (item: T) => React.ReactNode;
@@ -33,6 +34,7 @@ export const CustomListGrid = <T extends Item>({
     isCadastrar,
     isImportar,
     isGerarRelatorio,
+    templateName,
     onFileUpload,
     itemsPerPage = 10,
     renderActions,
@@ -111,7 +113,7 @@ export const CustomListGrid = <T extends Item>({
                                 <RelatorioButton
                                     ref={relatorioRef}
                                     pedidoData={items[selectedIndex]}
-                                    templateName="pedido-relatorio"
+                                    templateName={templateName}
                                     onStatusChange={(status) => {
                                         if (status === 'loading') setIsLoading(true);
                                         else setIsLoading(false);
